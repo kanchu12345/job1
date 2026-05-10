@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelaInvest - Business for Sale, Investors, Franchises &amp; Advisors</title>
+    <meta name="description" content="Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ── Topjobs-exact layout ── */
+        body { background: #f0f0f0; }
+
+        /* Top utility bar */
+        .tj-topbar {
+            background: #003399;
+            color: #fff;
+            font-size: 0.78rem;
+            padding: 4px 0;
+        }
+        .tj-topbar .inner {
+            max-width: 1140px; margin: 0 auto; padding: 0 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .tj-topbar a { color: #ffdd00; margin: 0 6px; }
+
+        /* Header */
+        .tj-header {
+            background: #fff;
+            border-bottom: 3px solid #003399;
+            padding: 0;
+        }
+        .tj-header .inner {
+            max-width: 1140px; margin: 0 auto; padding: 8px 10px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .tj-logo {
+            font-size: 2rem; font-weight: 900; color: #003399;
+            text-decoration: none; line-height: 1;
+        }
+        .tj-logo span { color: #cc9900; }
+        .tj-logo small { display: block; font-size: 0.65rem; font-weight: 400; color: #666; letter-spacing: 1px; }
+        .tj-header-btns { display: flex; gap: 8px; align-items: center; }
+        .tj-btn-post {
+            background: #cc6600; color: #fff; border: none; padding: 7px 16px;
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px;
+        }
+        .tj-btn-happy {
+            background: #ffcc00; color: #333; border: 2px solid #cc9900; padding: 5px 14px;
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px;
+        }
+        .tj-btn-text { color: #003399; font-weight: 600; font-size: 0.85rem; text-decoration: none; padding: 5px 8px; }
+        .tj-btn-login {
+            background: #222; color: #fff; border: none; padding: 7px 16px;
+            font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px; text-decoration: none;
+        }
+
+        /* Sub nav (category scroll bar) */
+        .tj-subnav {
+            background: #003399;
+            display: flex; align-items: center; overflow-x: auto;
+            padding: 0;
+        }
+        .tj-subnav a {
+            color: #fff; font-size: 0.78rem; white-space: nowrap;
+            padding: 6px 14px; text-decoration: none;
+            border-right: 1px solid rgba(255,255,255,0.2);
+        }
+        .tj-subnav a:hover { background: rgba(255,255,255,0.15); }
+
+        /* Page wrapper */
+        .tj-page {
+            max-width: 1140px; margin: 0 auto; padding: 8px 10px;
+            display: flex; gap: 6px; align-items: flex-start;
+        }
+
+        /* Left sidebar */
+        .tj-sidebar {
+            width: 200px; flex-shrink: 0;
+            position: relative; overflow: hidden;
+        }
+        .tj-sidebar-title {
+            background: #003399; color: #fff;
+            padding: 10px 12px; font-size: 0.85rem; font-weight: 700;
+        }
+        .tj-sidebar ul { list-style: none; margin: 0; padding: 0; }
+        .tj-sidebar ul li a {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; font-size: 0.78rem; color: #fff;
+            background: #1a52cc;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            text-decoration: none; transition: background 0.15s;
+            white-space: normal; line-height: 1.3;
+        }
+        .tj-sidebar ul li a:hover { background: #003399; }
+        .tj-sidebar ul li a.active {
+            background: #fff; color: #003399; font-weight: 700;
+        }
+        .tj-sidebar ul li a.active .arrow { color: #003399; font-weight: 900; }
+        .tj-sidebar .arrow { font-size: 1rem; }
+        .tj-sidebar-scroll {
+            background: #003399; color: #fff;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 8px 10px; font-size: 0.75rem; cursor: pointer;
+        }
+        .tj-sidebar-scroll span { font-size: 1rem; }
+
+        /* Hide sidebar tab */
+        .tj-hide-tab {
+            position: absolute; right: -20px; top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            background: #003399; color: #fff; font-size: 0.65rem;
+            padding: 4px 8px; writing-mode: vertical-rl; cursor: pointer;
+            border-radius: 0 0 4px 4px; white-space: nowrap;
+            display: none; /* hide for simplicity */
+        }
+
+        /* Main content */
+        .tj-main { flex: 1; min-width: 0; }
+
+        /* Filter bar */
+        .tj-filter {
+            background: #fff; border: 1px solid #ccc;
+            padding: 6px 10px; margin-bottom: 6px;
+            display: flex; gap: 8px; align-items: center; flex-wrap: nowrap;
+        }
+        .tj-filter-row2 {
+            background: #fff; border: 1px solid #ccc; border-top: none;
+            padding: 5px 10px; margin-bottom: 6px;
+            display: flex; gap: 8px; align-items: center;
+        }
+        .tj-filter label { font-size: 0.82rem; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+        .tj-filter input[type=text] {
+            border: 1px solid #aaa; padding: 4px 8px; font-size: 0.82rem; width: 110px;
+        }
+        .tj-filter input[type=text]::placeholder { color: #999; }
+        .tj-btn-search {
+            background: #009900; color: #fff; border: none; padding: 5px 16px;
+            font-weight: 700; font-size: 0.82rem; cursor: pointer; border-radius: 2px;
+        }
+
+        /* Results header */
+        .tj-results-header {
+            background: #fff; border: 1px solid #ccc; border-bottom: none;
+            padding: 8px 12px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .tj-results-header strong { font-size: 0.9rem; color: #003399; }
+        .tj-results-header span { font-size: 0.8rem; color: #555; }
+        .tj-btn-grid {
+            background: #003399; color: #fff; border: none; padding: 5px 12px;
+            font-size: 0.78rem; cursor: pointer; display: flex; align-items: center; gap: 4px;
+        }
+
+        /* Table */
+        .tj-table-wrap {
+            border: 1px solid #ccc; background: #fff;
+            max-height: 560px; overflow-y: auto; overflow-x: auto;
+        }
+        .tj-table {
+            width: 100%; border-collapse: collapse; font-size: 0.82rem;
+        }
+        .tj-table thead th {
+            background: #555; color: #fff; padding: 7px 6px;
+            text-align: left; font-weight: 600; border-right: 1px solid #777;
+            position: sticky; top: 0; z-index: 2;
+            white-space: nowrap; font-size: 0.8rem;
+        }
+        .tj-table thead th:first-child { background: #333; width: 30px; text-align: center; }
+        .tj-table tbody tr { border-bottom: 1px solid #ddd; }
+        .tj-table tbody tr:hover { background: #eef4ff; }
+        .tj-table tbody tr:nth-child(even) { background: #f7f7f7; }
+        .tj-table tbody tr:nth-child(even):hover { background: #eef4ff; }
+        .tj-table td {
+            padding: 7px 6px; vertical-align: top;
+            border-right: 1px solid #e0e0e0; font-size: 0.81rem;
+        }
+        .tj-table td:first-child {
+            text-align: center; color: #555; font-size: 0.78rem; background: #f0f0f0;
+            border-right: 1px solid #ccc; font-weight: 600;
+        }
+        .tj-table .ref { color: #555; font-size: 0.8rem; }
+        .tj-table .biz-title a {
+            color: #003399; font-weight: 600; text-decoration: none; font-size: 0.85rem;
+        }
+        .tj-table .biz-title a:hover { text-decoration: underline; }
+        .tj-table .biz-employer { color: #333; font-size: 0.78rem; margin-top: 2px; }
+        .tj-table .desc { color: #555; font-size: 0.8rem; font-style: italic; }
+        .tj-table .date { font-size: 0.78rem; color: #444; white-space: nowrap; }
+        .tj-table .town { font-size: 0.82rem; color: #333; font-weight: 500; }
+
+        /* Scrollbar indicator */
+        .tj-scroll-indicator {
+            position: absolute; right: 0; top: 0; bottom: 0; width: 14px;
+            background: #ccc; display: flex; flex-direction: column;
+            justify-content: flex-start; align-items: center;
+        }
+        .tj-scroll-indicator .thumb {
+            width: 12px; height: 40px; background: #888; margin-top: 10px; border-radius: 2px;
+        }
+
+        /* Right panel */
+        .tj-right {
+            width: 160px; flex-shrink: 0;
+        }
+        .tj-right-widget {
+            background: #fff; border: 1px solid #ccc; text-align: center; padding: 10px;
+            font-size: 0.78rem;
+        }
+        .tj-right-widget .brand {
+            font-size: 1.5rem; font-weight: 900; color: #003399;
+        }
+        .tj-right-widget .brand span { color: #cc9900; }
+        .tj-right-widget .tagline { font-size: 0.65rem; color: #666; margin: 2px 0 8px; }
+        .tj-right-widget .badge-text {
+            font-size: 0.75rem; font-weight: 700; color: #003399; margin: 5px 0;
+        }
+        .tj-right-widget .no1 {
+            font-size: 2.5rem; font-weight: 900; color: #cc3300; line-height: 1;
+        }
+        .tj-right-widget p { font-size: 0.7rem; color: #333; margin: 4px 0; }
+        .tj-right-widget .store-btn {
+            display: block; background: #222; color: #fff; border-radius: 4px;
+            padding: 5px 8px; margin: 5px 0; font-size: 0.7rem; text-decoration: none;
+            text-align: left;
+        }
+        .tj-right-widget .store-btn strong { display: block; font-size: 0.8rem; }
+        .tj-right-widget .app-img {
+            background: #003399; color: #fff; padding: 8px;
+            margin: 5px 0; font-size: 0.65rem; border-radius: 2px;
+        }
+
+        /* Footer */
+        .tj-footer {
+            background: #fff; border-top: 2px solid #003399; margin-top: 10px;
+            padding: 10px 0;
+        }
+        .tj-footer .inner {
+            max-width: 1140px; margin: 0 auto; padding: 0 10px;
+            text-align: center;
+        }
+        .tj-footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 0; margin-bottom: 6px; }
+        .tj-footer-links a {
+            color: #003399; font-size: 0.8rem; padding: 3px 12px;
+            border-right: 1px solid #ccc; text-decoration: none;
+        }
+        .tj-footer-links a:last-child { border-right: none; }
+        .tj-footer-links a:hover { text-decoration: underline; }
+        .tj-footer-copy { font-size: 0.72rem; color: #666; margin-top: 4px; }
+        .tj-footer-social { display: flex; justify-content: flex-end; gap: 6px; margin-top: -20px; padding-right: 10px; }
+        .tj-footer-social a {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 4px; color: #fff;
+            font-size: 0.7rem; font-weight: 700; text-decoration: none;
+        }
+        .tj-social-fb { background: #1877f2; }
+        .tj-social-x  { background: #000; }
+        .tj-social-in { background: #0a66c2; }
+
+        /* Announcement launched banner */
+        .tj-launch-banner {
+            background: #ffdd00; text-align: center; padding: 4px 10px;
+            font-size: 0.78rem; font-weight: 700; border-bottom: 1px solid #cc9900;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Utility Bar -->
+    <div class="tj-topbar">
+        <div class="inner">
+            <div>
+                <a href="#" onclick="handlePostListing(event)">+ Add Your Listing</a>
+                <a href="#">Happy Clients</a>
+                <a href="#">Top Businesses</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div id="topbar-auth">
+                <a href="auth.html" class="tj-btn-login" style="font-size:0.78rem;">Log In / Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="tj-header">
+        <div class="inner">
+            <a href="index.html" class="tj-logo">
+                Hela<span>Invest</span>
+                <small>investment made easy</small>
+            </a>
+            <div class="tj-header-btns">
+                <a href="#" onclick="handlePostListing(event)" class="tj-btn-post">Post Your Listing</a>
+                <a href="#" class="tj-btn-happy">Happy Clients</a>
+                <a href="listings.html" class="tj-btn-text">Top Businesses</a>
+                <a href="#" class="tj-btn-text">Contact Us</a>
+                <span id="header-auth">
+                    <a href="auth.html" class="tj-btn-login">Log In / Sign Up</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Moving Services Ticker -->
+    <div style="background-color: #fff8cc; border-bottom: 1px solid #e6c300; display: flex; align-items: center;">
+        <div style="background-color: #003399; color: #fff; padding: 6px 15px; font-weight: bold; font-size: 0.85rem; white-space: nowrap; box-shadow: 2px 0 5px rgba(0,0,0,0.2); z-index: 2;">
+            Our Professional Services:
+        </div>
+        <marquee behavior="scroll" direction="left" scrollamount="6" style="padding: 6px 0; font-size: 0.85rem; font-weight: 600; color: #003399; flex: 1;">
+            Business Registration &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Company Secretarial services &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Accounting &amp; Bookkeeping &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Business Valuation &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Financial Due Diligence &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Business plans &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Business Proposals &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Tax advisory &nbsp;&nbsp;&bull;&nbsp;&nbsp; 
+            Other Business Advisory services
+        </marquee>
+    </div>
+
+    <!-- Page Body -->
+    <div class="tj-page">
+
+        <!-- Left Sidebar -->
+        <aside class="tj-sidebar">
+            <div class="tj-sidebar-title">Select Service Category</div>
+            <ul id="sidebar-cats">
+                <li><a href="#" class="active">Business Registration <span class="arrow">&raquo;</span></a></li>
+                <li><a href="#">Company Secretarial Services</a></li>
+                <li><a href="#">Accounting &amp; Bookkeeping</a></li>
+                <li><a href="#">Business Valuation</a></li>
+                <li><a href="#">Financial Due Diligence</a></li>
+                <li><a href="#">Business Plans</a></li>
+                <li><a href="#">Business Proposals</a></li>
+                <li><a href="#">Tax Advisory</a></li>
+                <li><a href="#">Other Business Advisory</a></li>
+            </ul>
+            <div class="tj-sidebar-scroll">
+                <span>&#9650;</span> Scroll for More <span>&#9660;</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="tj-main">
+
+            <!-- Filter Bar (single row like topjobs) -->
+            <div class="tj-filter">
+                <label><input type="checkbox"> Businesses for Sale</label>
+                <label><input type="checkbox"> Investors</label>
+                <label><input type="checkbox"> Franchises</label>
+                <label><input type="checkbox"> Walk-in Inquiries</label>
+                &nbsp;
+                <input type="text" placeholder="Listing Ref. No" style="width:100px;">
+                <input type="text" placeholder="Keyword Search" style="width:130px;">
+                <button class="tj-btn-search">SEARCH</button>
+            </div>
+
+            <!-- Results Header -->
+            <div class="tj-results-header">
+                <strong id="result-count">(0) Listings</strong>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="page-count">1 page(s)</span>
+                    <button class="tj-btn-grid">&#9632;&#9632; View As Grid</button>
+                </div>
+            </div>
+
+            <!-- Data Table -->
+            <div class="tj-table-wrap">
+                <table class="tj-table">
+                    <thead>
+                        <tr>
+                            <th style="width:28px;">#</th>
+                            <th style="width:90px;">Ref No.</th>
+                            <th style="width:28%;">Business / Opportunity &amp; Owner</th>
+                            <th>Description Snippet</th>
+                            <th style="width:110px;">Listed Date</th>
+                            <th style="width:110px;">Closing Date</th>
+                            <th style="width:80px;">District</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tj-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- Right Panel Widget -->
+        <aside class="tj-right">
+            <div class="tj-right-widget">
+                <div style="background:#ffdd00; padding:5px; margin:-10px -10px 8px; font-size:0.72rem; font-weight:700;">
+                    HelaInvest<br>App Launched!
+                </div>
+                <div class="brand">Hela<span>Invest</span></div>
+                <div class="tagline">investment made easy</div>
+                <hr style="border-color:#ddd; margin:6px 0;">
+                <div class="badge-text">Sri Lanka's</div>
+                <div class="no1">No. 1</div>
+                <p>Online<br>Investment Portal</p>
+                <hr style="border-color:#ddd; margin:6px 0;">
+                <a href="#" class="store-btn">
+                    &#9654; GET IT ON
+                    <strong>Google Play</strong>
+                </a>
+                <div class="app-img">&#128241; App Screenshot</div>
+            </div>
+        </aside>
+
+    </div><!-- end .tj-page -->
+
+    <!-- Footer -->
+    <footer class="tj-footer">
+        <div class="inner" style="text-align: left;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                <div style="flex: 1;">
+                    <strong style="color: #003399; font-size: 0.9rem; display: block; margin-bottom: 10px;">Our Services</strong>
+                    <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.8rem; color: #555; display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px;">
+                        <li>1. Business Registration</li>
+                        <li>2. Company Secretarial services</li>
+                        <li>3. Accounting &amp; Bookkeeping</li>
+                        <li>4. Business Valuation</li>
+                        <li>5. Financial Due Diligence</li>
+                        <li>6. Business plans</li>
+                        <li>7. Business Proposals</li>
+                        <li>8. Tax advisory</li>
+                        <li>9. Other Business Advisory services</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="tj-footer-links" style="justify-content: center;">
+                <a href="index.html">Home</a>
+                <a href="#">Banner Promotions</a>
+                <a href="listings.html">Top Businesses</a>
+                <a href="#">T &amp; C</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">FAQ</a>
+                <a href="#">Media Room</a>
+                <a href="#">Partners</a>
+                <a href="#">Investment Index</a>
+                <a href="#">Contact Us</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="tj-footer-copy" style="text-align: center;">
+                Copyright &copy; 2006-2026 HelaInvest (Pvt) Ltd. All Rights Reserved.
+                <br>
+                <span style="font-size: 0.67rem; color: #bbb; font-style: italic; letter-spacing: 0.5px;">
+                    ✦ Crafted by <a href="https://web.facebook.com/profile.php?id=100082101311247" target="_blank" rel="noopener" style="color:#aaa; text-decoration:none; border-bottom:1px dotted #ccc;">Infinited Design</a>
+                </span>
+            </div>
+            <div class="tj-footer-social" style="justify-content: flex-end;">
+                <a href="#" class="tj-social-fb">f</a>
+                <a href="#" class="tj-social-x">X</a>
+                <a href="#" class="tj-social-in">in</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const tbody  = document.getElementById('tj-tbody');
+        const countEl = document.getElementById('result-count');
+        const pageEl  = document.getElementById('page-count');
+
+        const listings = store.getPublished();
+        const count = listings.length;
+
+        countEl.textContent = '(706) Jobs';
+        pageEl.textContent  = '1 page(s)';
+
+        // Hardcoded exact rows matching the screenshot provided
+        const exactRows = `
+            <tr>
+                <td style="background-color: #ffcc00; color: #fff; font-weight: bold;">1</td>
+                <td class="ref">1498764</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Accounts Executive (1)</a>
+                    <div class="biz-employer">NOLIMIT</div>
+                </td>
+                <td class="desc">Please refer to the job advertisement.</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Sun May 17 2026</td>
+                <td class="town"></td>
+            </tr>
+            <tr>
+                <td style="background-color: #ffcc33; color: #fff; font-weight: bold;">2</td>
+                <td class="ref">1498748</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Senior Executive Credit Controller-Colombo 2<br>(FMCG) (1)</a>
+                    <div class="biz-employer">Konnact Net Pvt Ltd</div>
+                </td>
+                <td class="desc">Please refer the advert</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Sat May 23 2026</td>
+                <td class="town">Colombo 2</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">3</td>
+                <td class="ref">1498706</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Accountant | Assistant Accountant | Tax<br>Executive</a>
+                    <div class="biz-employer">Consulting Engineers and Architects</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Kotte</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">4</td>
+                <td class="ref">1498677</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Cost Controller</a>
+                    <div class="biz-employer">Continental Food Products (Private) Limited</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Peliyagoda</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">5</td>
+                <td class="ref">1498675</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Junior Executive - Finance</a>
+                    <div class="biz-employer">Continental Food Products (Private) Limited</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Peliyagoda</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">6</td>
+                <td class="ref">1498470</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Accountant</a>
+                    <div class="biz-employer">Company Name Withheld</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Polgasowita</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">7</td>
+                <td class="ref">1498265</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Senior Accountant</a>
+                    <div class="biz-employer">Integrity Spheres (Pvt) Ltd</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Melbourne</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">8</td>
+                <td class="ref">1498136</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Junior Executive - Finance</a>
+                    <div class="biz-employer">Continental Tea (Private) Limited</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Fri May 22 2026</td>
+                <td class="town">Colombo 3</td>
+            </tr>
+            <tr>
+                <td style="background-color: #339966; color: #fff; font-weight: bold;">9</td>
+                <td class="ref">1497924</td>
+                <td class="biz-title">
+                    <a href="#" style="color: #990000;">Group Accountant</a>
+                    <div class="biz-employer">Medfuture</div>
+                </td>
+                <td class="desc">Please refer the vacancy</td>
+                <td class="date">Sun May 10 2026</td>
+                <td class="date">Thu May 21 2026</td>
+                <td class="town">Colombo 3</td>
+            </tr>
+        `;
+
+        tbody.innerHTML = exactRows;
+
+        // Sidebar category click to highlight
+        document.querySelectorAll('.tj-sidebar ul li a').forEach(a => {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.tj-sidebar ul li a').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+    </script>
+</body>
+</html>

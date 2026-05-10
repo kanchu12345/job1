@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Business | HelaInvest</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            background: var(--bg-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            font-family: inherit;
+        }
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 1rem;
+        }
+        .stepper-item {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .stepper-item.active {
+            color: var(--accent-color);
+        }
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Utility Bar -->
+    <div class="tj-topbar">
+        <div class="inner">
+            <div>
+                <a href="#" onclick="handlePostListing(event)">+ Add Your Listing</a>
+                <a href="#">Happy Clients</a>
+                <a href="#">Top Businesses</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div id="topbar-auth">
+                <a href="auth.html" class="tj-btn-login" style="font-size:0.78rem;">Log In / Sign Up</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <div class="tj-header">
+        <div class="inner">
+            <a href="index.html" class="tj-logo">
+                Hela<span>Invest</span>
+                <small>investment made easy</small>
+            </a>
+            <div class="tj-header-btns">
+                <a href="#" onclick="handlePostListing(event)" class="tj-btn-post">Post Your Listing</a>
+                <a href="#" class="tj-btn-happy">Happy Clients</a>
+                <a href="listings.html" class="tj-btn-text">Top Businesses</a>
+                <a href="#" class="tj-btn-text">Contact Us</a>
+                <span id="header-auth">
+                    <a href="auth.html" class="tj-btn-login">Log In / Sign Up</a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="max-width: 900px; margin: 40px auto; padding: 0 15px;">
+        <div style="background: #fff; padding: 10px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <iframe 
+                src="https://docs.google.com/forms/d/e/1FAIpQLSd7esi3Ytvh0Ob5RpsIK0yyqF8PVlp64Qn1ax7gSJWiCUCY7w/viewform?embedded=true" 
+                width="100%" 
+                height="800" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0"
+                style="border: none;">
+                Loading…
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="tj-footer">
+        <div class="inner">
+            <div class="tj-footer-links">
+                <a href="index.html">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Careers</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact Us</a>
+            </div>
+            <div class="tj-footer-copy">
+                &copy; 2026 HelaInvest Platform. All Rights Reserved. 
+                <br>
+                <em style="color: #999; font-size: 0.65rem;">Infinited Design</em>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // No custom form JS needed anymore, using Google Form embedded.
+            // But we should verify authentication if required
+            const user = authStore.getCurrentUser();
+            if (!user) {
+                alert("You must be logged in to post a listing.");
+                window.location.href = 'auth.html';
+                return;
+            }
+            if (user.role !== 'publisher') {
+                alert("Only Job Publishers can post listings.");
+                window.location.href = 'index.html';
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
