@@ -111,6 +111,7 @@
             <div class="nav-item active" onclick="switchTab('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</div>
             <div class="nav-item" onclick="switchTab('proposals')"><i class="fas fa-file-invoice-dollar"></i> Manage Ads / Proposals</div>
             <div class="nav-item" onclick="switchTab('jobseekers')"><i class="fas fa-users"></i> Manage Job Seekers</div>
+            <div class="nav-item" onclick="switchTab('categories')"><i class="fas fa-list"></i> Manage Categories</div>
         </div>
         <div class="sidebar-footer">
             <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Live Site</a>
@@ -210,6 +211,31 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- TAB: Manage Categories -->
+            <div id="tab-categories" class="tab-pane">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <p style="color: #666; margin: 0;">Add or remove service categories shown in the sidebar dropdowns.</p>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="new-category-name" placeholder="New Category Name..." style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                        <button class="btn-primary" onclick="addCategory()"><i class="fas fa-plus"></i> Add Category</button>
+                    </div>
+                </div>
+                
+                <table class="adv-table">
+                    <thead>
+                        <tr>
+                            <th>Category Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categories-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
 
         </div>
     </div>
@@ -335,7 +361,8 @@
             const titles = {
                 'dashboard': 'Dashboard Overview',
                 'proposals': 'Manage Ads / Proposals',
-                'jobseekers': 'Manage Job Seekers & Users'
+                'jobseekers': 'Manage Job Seekers & Users',
+                'categories': 'Manage Service Categories'
             };
             document.getElementById('page-title').innerText = titles[tabId];
         }
@@ -354,6 +381,7 @@
         function loadData() {
             const listings = store.getAll().reverse();
             const users = authStore.getUsers().reverse();
+            const categories = categoryStore.getAll();
 
             // Stats
             document.getElementById('stat-total').innerText = listings.length;
@@ -363,6 +391,41 @@
 
             renderProposals(listings);
             renderUsers(users);
+            renderCategories(categories);
+        }
+
+        // --- Render Categories ---
+        function renderCategories(categories) {
+            const tbody = document.getElementById('categories-body');
+            if (categories.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">No categories found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = categories.map(c => `
+                <tr>
+                    <td style="font-weight:600;">${c.name}</td>
+                    <td style="width: 150px;">
+                        <button class="btn-action btn-reject" onclick="deleteCategory('${c.id}')"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        window.addCategory = function() {
+            const input = document.getElementById('new-category-name');
+            const name = input.value.trim();
+            if (!name) return alert("Please enter a category name");
+            categoryStore.save(name);
+            input.value = '';
+            loadData();
+        }
+
+        window.deleteCategory = function(id) {
+            if(confirm("Delete this category?")) {
+                categoryStore.delete(id);
+                loadData();
+            }
         }
 
         // --- Render Proposals (Smergers Detailed Format) ---

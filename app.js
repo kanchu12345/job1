@@ -221,3 +221,49 @@ document.addEventListener('DOMContentLoaded', () => {
   updateGlobalAuthUI();
 });
 
+// ----------------------------------------------------------------------------
+// Category Store (For Dynamic Service Categories)
+// ----------------------------------------------------------------------------
+class CategoryStore {
+  constructor() {
+    this.categoriesKey = 'hela_categories';
+    this.initSeedData();
+  }
+
+  initSeedData() {
+    if (!localStorage.getItem(this.categoriesKey)) {
+      const seedData = [
+        { id: '1', name: 'IT & Software', active: true },
+        { id: '2', name: 'Finance, Accounting & Audit', active: false },
+        { id: '3', name: 'Banking & Insurance', active: false },
+        { id: '4', name: 'Sales, Marketing & Business Dev.', active: false },
+        { id: '5', name: 'HR, Training & Recruitment', active: false },
+        { id: '6', name: 'Corporate Management / Strategy', active: false },
+        { id: '7', name: 'Office Admin & Secretarial', active: false },
+        { id: '8', name: 'Technical, Engineering & Industrial', active: false },
+        { id: '9', name: 'Hospitality, Tourism & Logistics', active: false },
+        { id: '10', name: 'Medical, Nursing & Legal', active: false }
+      ];
+      localStorage.setItem(this.categoriesKey, JSON.stringify(seedData));
+    }
+  }
+
+  getAll() {
+    return JSON.parse(localStorage.getItem(this.categoriesKey)) || [];
+  }
+
+  save(name) {
+    const categories = this.getAll();
+    categories.push({ id: Date.now().toString(), name, active: false });
+    localStorage.setItem(this.categoriesKey, JSON.stringify(categories));
+  }
+
+  delete(id) {
+    let categories = this.getAll();
+    categories = categories.filter(c => c.id !== id);
+    localStorage.setItem(this.categoriesKey, JSON.stringify(categories));
+  }
+}
+
+const categoryStore = new CategoryStore();
+

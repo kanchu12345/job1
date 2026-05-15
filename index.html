@@ -39,16 +39,7 @@
         <aside class="tj-sidebar">
             <div class="tj-sidebar-title">Select Service Category</div>
             <ul id="sidebar-cats">
-                <li><a href="#" class="active">IT &amp; Software <span class="arrow">&raquo;</span></a></li>
-                <li><a href="#">Finance, Accounting &amp; Audit</a></li>
-                <li><a href="#">Banking &amp; Insurance</a></li>
-                <li><a href="#">Sales, Marketing &amp; Business Dev.</a></li>
-                <li><a href="#">HR, Training &amp; Recruitment</a></li>
-                <li><a href="#">Corporate Management / Strategy</a></li>
-                <li><a href="#">Office Admin &amp; Secretarial</a></li>
-                <li><a href="#">Technical, Engineering &amp; Industrial</a></li>
-                <li><a href="#">Hospitality, Tourism &amp; Logistics</a></li>
-                <li><a href="#">Medical, Nursing &amp; Legal</a></li>
+                <!-- Populated by JS -->
             </ul>
             <div class="tj-sidebar-scroll">
                 <span>&#9650;</span> Scroll for More <span>&#9660;</span>
@@ -277,12 +268,25 @@
 
         tbody.innerHTML = exactRows;
 
+        // Render dynamic categories
+        const catsList = document.getElementById('sidebar-cats');
+        const allCats = categoryStore.getAll();
+        if(allCats.length > 0) {
+            catsList.innerHTML = allCats.map((c, idx) => `
+                <li><a href="#" class="${idx === 0 ? 'active' : ''}">${c.name} ${idx === 0 ? '<span class="arrow">&raquo;</span>' : ''}</a></li>
+            `).join('');
+        }
+
         // Sidebar category click to highlight
         document.querySelectorAll('.tj-sidebar ul li a').forEach(a => {
             a.addEventListener('click', function(e) {
                 e.preventDefault();
-                document.querySelectorAll('.tj-sidebar ul li a').forEach(x => x.classList.remove('active'));
+                document.querySelectorAll('.tj-sidebar ul li a').forEach(x => {
+                    x.classList.remove('active');
+                    if(x.querySelector('.arrow')) x.querySelector('.arrow').remove();
+                });
                 this.classList.add('active');
+                this.innerHTML += ' <span class="arrow">&raquo;</span>';
             });
         });
 
