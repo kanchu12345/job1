@@ -36,6 +36,15 @@
 
         <!-- Left Sidebar -->
         <aside class="tj-sidebar">
+            <!-- Sidebar Search Box -->
+            <div class="tj-sidebar-search">
+                <input type="text" id="sb-keyword" placeholder="Search by keywords" class="tj-sb-input" />
+                <div class="tj-sb-row2">
+                    <input type="text" id="sb-refno" placeholder="Search by Job Ref Number" class="tj-sb-input tj-sb-refno" />
+                    <button class="tj-sb-btn" onclick="doSidebarSearch()">SEARCH</button>
+                    <span class="tj-sb-info" title="Enter a keyword or job reference number to search">&#9432;</span>
+                </div>
+            </div>
             <div class="tj-sidebar-title">Select Service Category</div>
             <ul id="sidebar-cats">
                 <li><a href="#" class="active">IT &amp; Software <span class="arrow">&raquo;</span></a></li>
@@ -288,7 +297,26 @@
                 this.classList.add('active');
             });
         });
+
+        // Allow Enter key on search inputs
+        ['sb-keyword','sb-refno'].forEach(id => {
+            document.getElementById(id).addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') doSidebarSearch();
+            });
+        });
     });
+
+    function doSidebarSearch() {
+        const kw  = document.getElementById('sb-keyword').value.trim().toLowerCase();
+        const ref = document.getElementById('sb-refno').value.trim().toLowerCase();
+        const rows = document.querySelectorAll('#tj-tbody tr');
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            const kwMatch  = !kw  || text.includes(kw);
+            const refMatch = !ref || text.includes(ref);
+            row.style.display = (kwMatch && refMatch) ? '' : 'none';
+        });
+    }
     </script>
 </body>
 </html>
