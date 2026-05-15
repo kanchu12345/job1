@@ -629,21 +629,107 @@ a:hover {
 }
 
 /* ── Topjobs Specific Styles (Full Set) ── */
-.tj-topbar { background: #003399; color: #fff; font-size: 0.78rem; padding: 4px 0; }
-.tj-topbar .inner { max-width: 1140px; margin: 0 auto; padding: 0 10px; display: flex; justify-content: space-between; align-items: center; }
-.tj-topbar a { color: #ffdd00; margin: 0 6px; text-decoration: none; }
+/* Single-row header — logo | nav | login (matches reference image) */
+.tj-topbar { display: none; } /* Topbar removed — merged into header */
 
-.tj-header { background: #fff; border-bottom: 3px solid #003399; padding: 0; }
-.tj-header .inner { max-width: 1140px; margin: 0 auto; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; }
-.tj-logo { font-size: 2rem; font-weight: 900; color: #003399; text-decoration: none; line-height: 1; }
+.tj-header {
+  background: #fff;
+  border-bottom: 3px solid #003399;
+  padding: 0;
+  box-shadow: 0 1px 4px rgba(0,51,153,0.08);
+}
+.tj-header .inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Logo */
+.tj-logo {
+  font-size: 1.85rem;
+  font-weight: 900;
+  color: #003399;
+  text-decoration: none;
+  line-height: 1;
+  flex: 0 0 auto;
+}
 .tj-logo span { color: #cc9900; }
-.tj-logo small { display: block; font-size: 0.65rem; font-weight: 400; color: #666; letter-spacing: 1px; }
+.tj-logo small {
+  display: block;
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: #888;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+}
 
-.tj-header-btns { display: flex; gap: 8px; align-items: center; }
-.tj-btn-post { background: #cc6600; color: #fff; border: none; padding: 7px 16px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px; }
-.tj-btn-happy { background: #ffcc00; color: #333; border: 2px solid #cc9900; padding: 5px 14px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px; }
-.tj-btn-text { color: #003399; font-weight: 600; font-size: 0.85rem; text-decoration: none; padding: 5px 8px; }
-.tj-btn-login { background: #222; color: #fff; border: none; padding: 7px 16px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border-radius: 2px; text-decoration: none; }
+/* Nav buttons — centre group */
+.tj-header-btns {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex: 1;
+  margin-left: 18px;
+}
+
+.tj-btn-post {
+  background: #cc6600;
+  color: #fff;
+  border: none;
+  padding: 6px 15px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.tj-btn-post:hover { background: #b35900; color: #fff; }
+
+.tj-btn-happy {
+  background: #ffcc00;
+  color: #333;
+  border: 2px solid #cc9900;
+  padding: 4px 13px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: background 0.18s;
+}
+.tj-btn-happy:hover { background: #e6b800; color: #222; }
+
+.tj-btn-text {
+  color: #003399;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-decoration: none;
+  padding: 5px 8px;
+  transition: color 0.15s;
+}
+.tj-btn-text:hover { color: #cc6600; }
+
+/* Login button — far right */
+.tj-btn-login {
+  background: #cc9900;
+  color: #fff;
+  border: none;
+  padding: 7px 18px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  cursor: pointer;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.18s;
+  flex: 0 0 auto;
+}
+.tj-btn-login:hover { background: #b38600; color: #fff; }
 
 .tj-subnav { background: #003399; display: flex; align-items: center; overflow-x: auto; padding: 0; }
 .tj-subnav a { color: #fff; font-size: 0.78rem; white-space: nowrap; padding: 6px 14px; text-decoration: none; border-right: 1px solid rgba(255,255,255,0.2); }
