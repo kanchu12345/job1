@@ -112,6 +112,7 @@
             <div class="nav-item" onclick="switchTab('proposals')"><i class="fas fa-file-invoice-dollar"></i> Manage Ads / Proposals</div>
             <div class="nav-item" onclick="switchTab('jobseekers')"><i class="fas fa-users"></i> Manage Job Seekers</div>
             <div class="nav-item" onclick="switchTab('categories')"><i class="fas fa-list"></i> Manage Categories</div>
+            <div class="nav-item" onclick="switchTab('settings')"><i class="fas fa-cog"></i> Site Settings</div>
         </div>
         <div class="sidebar-footer">
             <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Live Site</a>
@@ -233,6 +234,39 @@
                         <!-- Populated by JS -->
                     </tbody>
                 </table>
+            </div>
+
+            <!-- TAB: Site Settings -->
+            <div id="tab-settings" class="tab-pane">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <p style="color: #666; margin: 0;">Manage pricing and instructional content displayed on the Publisher Landing Page.</p>
+                    <button class="btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Save Settings</button>
+                </div>
+                
+                <div style="background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.03);">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display:block; font-weight:600; margin-bottom:5px;">Ad Rate (LKR)</label>
+                            <input type="text" id="set-rate-lkr" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="display:block; font-weight:600; margin-bottom:5px;">Ad Duration (Days)</label>
+                            <input type="number" id="set-duration" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; font-weight:600; margin-bottom:5px;">International Rate (USD)</label>
+                        <input type="text" id="set-rate-usd" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; font-weight:600; margin-bottom:5px;">Rules & Conditions (One per line)</label>
+                        <textarea id="set-rules" rows="4" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box; font-family: inherit;"></textarea>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="display:block; font-weight:600; margin-bottom:5px;">Payment Instructions</label>
+                        <textarea id="set-payment" rows="4" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box; font-family: inherit;"></textarea>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -362,7 +396,8 @@
                 'dashboard': 'Dashboard Overview',
                 'proposals': 'Manage Ads / Proposals',
                 'jobseekers': 'Manage Job Seekers & Users',
-                'categories': 'Manage Service Categories'
+                'categories': 'Manage Service Categories',
+                'settings': 'Site Content Settings'
             };
             document.getElementById('page-title').innerText = titles[tabId];
         }
@@ -382,6 +417,7 @@
             const listings = store.getAll().reverse();
             const users = authStore.getUsers().reverse();
             const categories = categoryStore.getAll();
+            const settings = settingsStore.getSettings();
 
             // Stats
             document.getElementById('stat-total').innerText = listings.length;
@@ -392,6 +428,25 @@
             renderProposals(listings);
             renderUsers(users);
             renderCategories(categories);
+            
+            // Populate Settings Form
+            document.getElementById('set-rate-lkr').value = settings.adRateLKR || '';
+            document.getElementById('set-duration').value = settings.adDuration || '';
+            document.getElementById('set-rate-usd').value = settings.intlRateUSD || '';
+            document.getElementById('set-rules').value = settings.adRules || '';
+            document.getElementById('set-payment').value = settings.paymentInstructions || '';
+        }
+
+        window.saveSettings = function() {
+            const newSettings = {
+                adRateLKR: document.getElementById('set-rate-lkr').value,
+                adDuration: document.getElementById('set-duration').value,
+                intlRateUSD: document.getElementById('set-rate-usd').value,
+                adRules: document.getElementById('set-rules').value,
+                paymentInstructions: document.getElementById('set-payment').value
+            };
+            settingsStore.updateSettings(newSettings);
+            alert("Settings Saved Successfully!");
         }
 
         // --- Render Categories ---
