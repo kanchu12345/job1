@@ -3,419 +3,588 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listing Detail – HelaInvest</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Listing Detail | HelaInvest</title>
+    <!-- Use Inter font for clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* ── Detail Page Specific Styles ── */
-        .det-wrap {
-            max-width: 780px;
-            margin: 18px auto 30px;
-            padding: 0 12px;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background-color: #f1f3f6; /* Light gray background like topjobs modal */
+            font-family: 'Inter', Arial, sans-serif; 
+            color: #333; 
         }
 
-        /* Info bar (closing date + ref no) */
-        .det-infobar {
-            background: #f0f0f0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 9px 16px;
-            display: flex;
-            gap: 32px;
-            align-items: center;
-            font-size: 0.85rem;
-            margin-bottom: 18px;
-        }
-        .det-infobar .label { color: #555; font-weight: 600; margin-right: 4px; }
-        .det-infobar .val   { color: #222; font-weight: 700; }
-        .det-infobar .icon  { font-size: 1rem; margin-right: 6px; }
-
-        /* Top header bar with company name */
-        .det-company-bar {
+        /* Container exactly like TopJobs popup */
+        .ad-preview-screen {
+            max-width: 1100px;
+            margin: 20px auto;
             background: #fff;
-            border: 1px solid #ddd;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
             border-radius: 4px;
-            padding: 10px 18px;
+            padding-bottom: 40px;
+        }
+
+        /* --- Header Section --- */
+        .ad-header {
+            padding: 15px 20px;
+            border-bottom: 2px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 4px;
+            align-items: flex-start;
         }
-        .det-company-bar .co-name {
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #222;
-        }
-        .det-company-bar .co-loc {
-            font-size: 0.78rem;
-            color: #666;
-            margin-top: 2px;
-        }
-        .det-company-bar .co-flag { font-size: 1.3rem; }
 
-        /* Action buttons (share / print / flag) */
-        .det-actions {
+        .header-left {
             display: flex;
-            gap: 8px;
             align-items: center;
+            gap: 15px;
         }
-        .det-actions a, .det-actions button {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
+
+        /* Home Button */
+        .btn-home {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            width: 40px;
+            height: 40px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            color: #555;
             text-decoration: none;
-            color: #fff;
-            transition: opacity 0.15s;
+            font-size: 1.2rem;
+            transition: all 0.2s;
         }
-        .det-actions a:hover, .det-actions button:hover { opacity: 0.82; }
-        .btn-share  { background: #2d9e5f; }
-        .btn-print  { background: #8b1a1a; }
-        .btn-flag   { background: #4a90d9; }
+        .btn-home:hover { background-color: #e2e6ea; color: #333; }
 
-        /* Employment type badge */
-        .det-badge-row {
+        /* Company Logo Placeholder */
+        .ad-company-logo {
+            width: 80px;
+            height: 60px;
+            border: 1px solid #eee;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            justify-content: center;
+            padding: 5px;
+            background: #fff;
         }
-        .det-badge {
-            border: 2px solid #8b1a1a;
-            color: #8b1a1a;
-            font-size: 0.78rem;
+        .ad-company-logo img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .ad-company-logo .no-logo {
+            font-size: 0.7rem;
+            color: #aaa;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        /* Company Info */
+        .ad-company-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .ad-company-name {
+            font-size: 1.1rem;
             font-weight: 700;
-            padding: 4px 12px;
+            color: #000;
+            margin-bottom: 4px;
+        }
+        .ad-company-location {
+            font-size: 0.85rem;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .ad-company-location img { width: 18px; }
+
+        /* Header Right Details */
+        .header-right {
+            text-align: left;
+            background: #f9f9f9;
+            padding: 10px 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #444;
+        }
+        .header-right div {
+            margin-bottom: 5px;
+        }
+        .header-right div:last-child { margin-bottom: 0; }
+        .header-right i {
+            color: #666;
+            width: 16px;
+            text-align: center;
+            margin-right: 4px;
+        }
+
+        /* --- Action Bar --- */
+        .action-btn-panel {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e0e0e0;
+            background-color: #fafafa;
+        }
+        
+        .ad-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #555;
+            background: #e9ecef;
+            padding: 4px 10px;
             border-radius: 3px;
         }
 
-        /* Job title */
-        .det-title {
-            text-align: center;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: #333;
-            padding: 12px 0 16px;
-            border-top: 1px dashed #ccc;
-            border-bottom: 1px dashed #ccc;
-            margin-bottom: 0;
-        }
-
-        /* Description panel (yellow background like TopJobs) */
-        .det-body {
-            background: #fffde7;
-            border: 1.5px solid #ccc;
-            border-radius: 2px;
-            padding: 22px 24px;
-            font-size: 0.88rem;
-            line-height: 1.75;
-            color: #333;
-            min-height: 220px;
-            margin-top: 0;
-        }
-        .det-body h3 {
-            text-align: center;
-            color: #003399;
-            font-size: 0.92rem;
-            text-decoration: underline;
-            font-style: italic;
-            margin: 8px 0 14px;
-        }
-        .det-body p { margin: 8px 0; }
-        .det-body ul { padding-left: 20px; margin: 6px 0; }
-        .det-body ul li { margin: 4px 0; }
-
-        /* Employer info grid */
-        .det-meta-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.82rem;
-            margin-top: 16px;
-            background: #fff;
-            border: 1px solid #ddd;
-        }
-        .det-meta-table td {
-            padding: 7px 12px;
-            border-bottom: 1px solid #eee;
-            vertical-align: top;
-        }
-        .det-meta-table td:first-child {
-            font-weight: 700;
-            color: #003399;
-            width: 38%;
-            background: #f7f7f7;
-        }
-
-        /* Bottom actions */
-        .det-bottom-actions {
+        .action-btns {
             display: flex;
-            justify-content: center;
             gap: 10px;
-            margin: 20px 0 10px;
-            padding-top: 14px;
-            border-top: 1px dashed #ccc;
         }
-
-        /* Social share */
-        .det-social {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 14px;
-        }
-        .det-social a {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #ddd;
+        .btn-topjobs {
+            padding: 6px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 700;
+            gap: 6px;
             color: #fff;
             text-decoration: none;
-            transition: opacity 0.15s;
+            transition: opacity 0.2s;
         }
-        .det-social a:hover { opacity: 0.8; }
-        .soc-li { background: #0077b5; }
-        .soc-x  { background: #222; }
-        .soc-fb { background: #1877f2; }
-        .soc-wa { background: #25d366; }
-        .soc-tg { background: #2aabee; }
+        .btn-topjobs:hover { opacity: 0.9; }
+        .btn-success { background-color: #28a745; }
+        .btn-flag { background-color: #dc3545; padding: 6px 12px; }
 
-        /* Back link */
-        .det-back {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            color: #8b1a1a;
-            font-size: 0.82rem;
-            font-weight: 600;
-            text-decoration: none;
-            margin-bottom: 10px;
-            padding: 5px 0;
-        }
-        .det-back:hover { text-decoration: underline; }
-
-        /* Not found */
-        .det-notfound {
+        /* --- Job Title Header --- */
+        .job-title-header {
+            padding: 20px 20px 15px;
             text-align: center;
-            padding: 60px 20px;
-            color: #666;
         }
-        .det-notfound h2 { color: #8b1a1a; margin-bottom: 10px; }
+        .job-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #222;
+            margin: 0;
+        }
+
+        /* --- Advertisement Area --- */
+        .job-holder {
+            padding: 0 20px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        /* The specific box representing the actual Ad content */
+        .ad-content-box {
+            width: 100%;
+            max-width: 850px;
+            border: 3px solid #333; /* Typical TopJobs ad border */
+            background: #fff;
+            padding: 40px;
+            text-align: left;
+            position: relative;
+        }
+        
+        .ad-content-box::before {
+            content: "HELAINVEST LISTING ADVERTISEMENT";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #999;
+            letter-spacing: 1px;
+        }
+
+        /* Internal Ad Styling */
+        .ad-brand-text {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #003399;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .ad-brand-text span { color: #cc9900; }
+        
+        .ad-title-large {
+            font-size: 2.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #111;
+            line-height: 1.2;
+        }
+        
+        .ad-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+            border-top: 2px solid #eee;
+            border-bottom: 2px solid #eee;
+            padding: 20px 0;
+        }
+        
+        .ad-detail-item {
+            font-size: 0.95rem;
+        }
+        .ad-detail-item strong {
+            display: inline-block;
+            width: 150px;
+            color: #555;
+        }
+        .ad-detail-item span {
+            font-weight: 700;
+            color: #000;
+        }
+        .val-hl {
+            color: #003399 !important;
+            font-size: 1.1rem;
+        }
+
+        .ad-desc-area {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+
+        .ad-footer-contact {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #003399;
+            font-size: 0.9rem;
+        }
+        .ad-footer-contact strong { color: #000; }
+
+        /* --- Bottom Apply Box --- */
+        .apply-through-wrapper {
+            margin: 0 20px;
+            padding: 20px;
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 4px;
+            color: #0c5460;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .apply-info h4 {
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .apply-info ul {
+            padding-left: 20px;
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+        .apply-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        /* --- Footer Bottom Bar --- */
+        .bottom-bar {
+            margin: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- Quick Email Apply Form (Hidden by default) --- */
+        #ave-form-panel {
+            display: none;
+            margin: 0 20px 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background: #fff;
+            border-top: 3px solid #28a745;
+        }
+        #ave-form-panel.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+        
+        .ave-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .form-row { margin-bottom: 15px; }
+        .form-row label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #555; }
+        .form-row input, .form-row textarea {
+            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-family: inherit;
+        }
+        .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+
     </style>
 </head>
 <body>
 
-    <!-- ── Single-row Header ── -->
-    <div class="tj-header">
-        <div class="inner">
-            <a href="index.html" class="tj-logo">
-                Hela<span>Invest</span>
-                <small>investment made easy</small>
+    <div class="ad-preview-screen">
+        
+        <!-- TOP HEADER AREA -->
+        <div class="ad-header">
+            <div class="header-left">
+                <a href="index.html" class="btn-home" title="Go Home">
+                    <i class="fas fa-home"></i>
+                </a>
+                <div class="ad-company-logo">
+                    <!-- Topjobs shows logo here if available -->
+                    <div class="no-logo">HelaInvest<br>Portal</div>
+                </div>
+                <div class="ad-company-info">
+                    <div class="ad-company-name" id="employer-name">Loading...</div>
+                    <div class="ad-company-location">
+                        <i class="fas fa-map-marker-alt"></i> <span id="employer-location">Sri Lanka</span>
+                    </div>
+                </div>
+            </div>
+            <div class="header-right">
+                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">—</strong></div>
+                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">—</strong></div>
+            </div>
+        </div>
+
+        <!-- ACTION BAR -->
+        <div class="action-btn-panel">
+            <div class="ad-status" id="listing-type">Business Opportunity</div>
+            <div class="action-btns">
+                <button class="btn-topjobs btn-success" id="btn-toggle-apply">
+                    <i class="fas fa-share"></i> Enquire by Email
+                </button>
+                <button class="btn-topjobs btn-success" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+                <button class="btn-topjobs btn-flag">
+                    <i class="fas fa-flag"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- JOB TITLE -->
+        <div class="job-title-header">
+            <h1 class="job-title" id="job-title">Loading...</h1>
+        </div>
+
+        <!-- ADVERTISEMENT CONTENT (Replicating the printed image look using a bordered box) -->
+        <div class="job-holder">
+            <div class="ad-content-box" id="ad-content-box">
+                <div class="ad-brand-text">Hela<span>Invest</span></div>
+                <div class="ad-title-large" id="ad-large-title">Loading...</div>
+                
+                <div class="ad-details-grid">
+                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">—</span></div>
+                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">—</span></div>
+                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">—</span></div>
+                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">—</span></div>
+                </div>
+
+                <div class="ad-desc-area" id="ad-desc">
+                    Loading description...
+                </div>
+
+                <div class="ad-footer-contact" id="ad-contact-box">
+                    <strong>Direct Contact:</strong> <span id="ad-contact-name"></span><br>
+                    <strong>Email:</strong> <span id="ad-email"></span> | <strong>Phone:</strong> <span id="ad-phone"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- APPLY BY EMAIL FORM PANEL -->
+        <div id="ave-form-panel">
+            <div class="ave-title">Enquire by email</div>
+            <div style="display:flex; gap:20px;">
+                <div style="flex:1;">
+                    <div class="form-row">
+                        <label>Your Name: *</label>
+                        <input type="text" id="apply-name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-row">
+                        <label>Your Email: *</label>
+                        <input type="email" id="apply-email" placeholder="Enter your email address">
+                    </div>
+                    <div class="form-row">
+                        <label>Contact No: *</label>
+                        <input type="text" id="apply-phone" placeholder="Enter your contact number">
+                    </div>
+                </div>
+                <div style="flex:1;">
+                    <div class="form-row">
+                        <label>Message: *</label>
+                        <textarea id="apply-msg" rows="6" placeholder="Write your enquiry here..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn-topjobs btn-success" onclick="submitEnquiry()"><i class="fas fa-paper-plane"></i> Send Enquiry</button>
+                <button class="btn-topjobs" style="background:#dc3545;" onclick="toggleApplyForm()">Close</button>
+            </div>
+        </div>
+
+        <!-- TOPJOBS STYLE PROMO BOX -->
+        <div class="apply-through-wrapper">
+            <div class="apply-info">
+                <h4><i class="fas fa-info-circle"></i> Use HelaInvest Account for faster processing</h4>
+                <ul>
+                    <li>Save your investor profile</li>
+                    <li>Submit interest with one click</li>
+                    <li>Track your enquiries in one place</li>
+                </ul>
+            </div>
+            <div class="apply-btns">
+                <button class="btn-topjobs btn-warning"><i class="fas fa-user-plus"></i> Sign Up</button>
+                <button class="btn-topjobs btn-success"><i class="fas fa-sign-in-alt"></i> Login</button>
+            </div>
+        </div>
+
+        <div class="bottom-bar">
+            <div class="action-btns">
+                <button class="btn-topjobs btn-success" onclick="toggleApplyForm()">
+                    <i class="fas fa-share"></i> Enquire by Email
+                </button>
+                <button class="btn-topjobs btn-success" onclick="window.print()">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+            <a href="#" style="color:#666; text-decoration:none; font-size:0.85rem;" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+                <i class="fas fa-caret-up"></i> Scroll to Top
             </a>
-            <div class="tj-header-btns">
-                <a href="submit.html" class="tj-btn-post">Post Your Vacancy</a>
-                <a href="happy-customers.html" class="tj-btn-happy">Happy Customers</a>
-                <a href="top-employers.html" class="tj-btn-text">Top Employers</a>
-                <a href="contact.html" class="tj-btn-text">Contact Us</a>
-            </div>
-            <span id="header-auth">
-                <a href="auth.html" class="tj-btn-login">Log In / Sign Up</a>
-            </span>
-        </div>
-    </div>
-
-    <!-- ── Detail Content ── -->
-    <div class="det-wrap">
-
-        <a href="index.html" class="det-back">&#8592; Back to Listings</a>
-
-        <!-- Company bar -->
-        <div class="det-company-bar">
-            <div>
-                <div class="co-name" id="det-company">Loading…</div>
-                <div class="co-loc" id="det-location">Sri Lanka 🇱🇰</div>
-            </div>
-            <span class="co-flag">🇱🇰</span>
-        </div>
-
-        <!-- Closing date + Ref no bar -->
-        <div class="det-infobar">
-            <span>
-                <span class="icon">📅</span>
-                <span class="label">Closing Date:</span>
-                <span class="val" id="det-closing">—</span>
-            </span>
-            <span>
-                <span style="color:#8b1a1a; font-weight:700; margin-right:6px;">&#10148;</span>
-                <span class="label">Job Ref No:</span>
-                <span class="val" id="det-ref">—</span>
-            </span>
-        </div>
-
-        <!-- Badge row + top action buttons -->
-        <div class="det-badge-row">
-            <span class="det-badge" id="det-type">Full Time</span>
-            <div class="det-actions">
-                <a href="#" class="btn-share" title="Share" onclick="shareJob()">&#8680;</a>
-                <button class="btn-print" title="Print" onclick="window.print()">🖶</button>
-                <a href="#" class="btn-flag" title="Save">&#9873;</a>
-            </div>
-        </div>
-
-        <!-- Job title -->
-        <div class="det-title" id="det-title">Loading…</div>
-
-        <!-- Job body / description -->
-        <div class="det-body" id="det-body">
-            <p style="text-align:center; color:#888; font-style:italic;">Loading job details…</p>
-        </div>
-
-        <!-- Meta info table -->
-        <table class="det-meta-table" id="det-meta">
-            <tr><td>Employer</td><td id="m-employer">—</td></tr>
-            <tr><td>Location / District</td><td id="m-district">—</td></tr>
-            <tr><td>Listed Date</td><td id="m-listed">—</td></tr>
-            <tr><td>Closing Date</td><td id="m-closing">—</td></tr>
-            <tr><td>Job Reference No.</td><td id="m-ref">—</td></tr>
-            <tr><td>Employment Type</td><td id="m-type">—</td></tr>
-        </table>
-
-        <!-- Bottom action buttons -->
-        <div class="det-bottom-actions">
-            <a href="#" class="btn-share det-actions" style="width:auto;border-radius:4px;padding:8px 18px;gap:6px;font-size:0.82rem;font-weight:700;background:#2d9e5f;" onclick="shareJob()">&#8680; Share</a>
-            <button class="btn-print" style="width:auto;border-radius:4px;padding:8px 18px;font-size:0.82rem;font-weight:700;" onclick="window.print()">🖶 Print</button>
-            <a href="#" class="btn-flag" style="width:auto;border-radius:4px;padding:8px 18px;font-size:0.82rem;font-weight:700;">&#9873; Save</a>
-        </div>
-
-        <!-- Social share -->
-        <div class="det-social">
-            <a class="soc-li" href="#" title="LinkedIn">in</a>
-            <a class="soc-x"  href="#" title="X">X</a>
-            <a class="soc-fb" href="#" title="Facebook">f</a>
-            <a class="soc-wa" href="#" title="WhatsApp">&#128172;</a>
-            <a class="soc-tg" href="#" title="Telegram">&#9992;</a>
         </div>
 
     </div>
 
-    <!-- Footer -->
-    <footer class="tj-footer">
-        <div class="inner" style="text-align:left;">
-            <div class="tj-footer-links" style="justify-content:center;">
-                <a href="index.html">Home</a>
-                <a href="top-employers.html">Top Employers</a>
-                <a href="faq.html">FAQ</a>
-                <a href="contact.html">Contact Us</a>
-            </div>
-            <div class="tj-footer-copy" style="text-align:center;">
-                Copyright &copy; 2006–2026 HelaInvest (Pvt) Ltd. All Rights Reserved.
-            </div>
-        </div>
-    </footer>
-
+    <!-- Data Population Script -->
     <script src="app.js"></script>
     <script>
-    // ── Read query params ──────────────────────────────────────────────
-    const params  = new URLSearchParams(window.location.search);
-    const refNo   = params.get('ref');
-    const source  = params.get('src') || 'store'; // 'store' = localStorage listing
+        // Apply form toggle
+        const applyBtn = document.getElementById('btn-toggle-apply');
+        const applyForm = document.getElementById('ave-form-panel');
+        
+        function toggleApplyForm() {
+            applyForm.classList.toggle('active');
+            if(applyForm.classList.contains('active')) {
+                applyForm.scrollIntoView({behavior: 'smooth', block: 'center'});
+            }
+        }
+        applyBtn.addEventListener('click', toggleApplyForm);
 
-    // ── Try to find listing from localStorage via app.js store ─────────
-    function loadFromStore(ref) {
-        const all = (typeof store !== 'undefined') ? store.getPublished() : [];
-        return all.find(l => String(l.refNo || l.id) === String(ref)) || null;
-    }
-
-    // ── Try to find from hardcoded table data (fallback) ───────────────
-    const hardcoded = {
-        '1498764': { title:'Accounts Executive', employer:'NOLIMIT', district:'', listed:'Sun May 10 2026', closing:'Sun May 17 2026', type:'Full Time', desc:'<p>Please refer to the job advertisement for full details on this vacancy.</p><h3>How to Apply</h3><p>Send your CV to the employer directly.</p>' },
-        '1498748': { title:'Senior Executive Credit Controller – Colombo 2 (FMCG)', employer:'Konnact Net Pvt Ltd', district:'Colombo 2', listed:'Sun May 10 2026', closing:'Sat May 23 2026', type:'Full Time', desc:'<p>Please refer to the job advertisement for full details on this vacancy.</p>' },
-        '1498706': { title:'Accountant | Assistant Accountant | Tax Executive', employer:'Consulting Engineers and Architects', district:'Kotte', listed:'Sun May 10 2026', closing:'Fri May 22 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1498677': { title:'Cost Controller', employer:'Continental Food Products (Private) Limited', district:'Peliyagoda', listed:'Sun May 10 2026', closing:'Fri May 22 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1498675': { title:'Junior Executive – Finance', employer:'Continental Food Products (Private) Limited', district:'Peliyagoda', listed:'Sun May 10 2026', closing:'Fri May 22 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1498374': { title:'Head of Finance / CFO', employer:'Confidential', district:'Colombo', listed:'Sun May 10 2026', closing:'Fri May 22 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1497966': { title:'Finance Executive', employer:'Gamage Recruiters', district:'Colombo', listed:'Sun May 10 2026', closing:'Thu May 21 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1497928': { title:'Finance Manager', employer:'Fintek Solutions Lanka (Pvt) Ltd', district:'Colombo 3', listed:'Sun May 10 2026', closing:'Fri May 22 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-        '1497924': { title:'Group Accountant', employer:'Medfuture', district:'Colombo 3', listed:'Sun May 10 2026', closing:'Thu May 21 2026', type:'Full Time', desc:'<p>Please refer to the vacancy for full details.</p>' },
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-        let listing = refNo ? loadFromStore(refNo) : null;
-
-        // Fallback to hardcoded data
-        if (!listing && refNo && hardcoded[refNo]) {
-            listing = { ...hardcoded[refNo], refNo };
+        function submitEnquiry() {
+            alert("Enquiry sent successfully to the listing owner!");
+            toggleApplyForm();
         }
 
-        // Also try URL params directly (passed from index.html links)
-        if (!listing && params.get('title')) {
-            listing = {
-                refNo:    params.get('ref')     || '—',
-                title:    params.get('title')   || 'Job Vacancy',
-                employer: params.get('employer')|| 'HelaInvest Employer',
-                district: params.get('district')|| 'Sri Lanka',
-                listed:   params.get('listed')  || '—',
-                closing:  params.get('closing') || '—',
-                type:     params.get('type')    || 'Full Time',
-                desc:     params.get('desc')    || '<p>Please contact the employer for full details on this vacancy.</p>',
-            };
-        }
+        // Data Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const refParam = params.get('ref');
+            
+            // Standard ID logic
+            const id = params.get('id');
+            let listing = null;
+            
+            if (id && typeof store !== 'undefined') {
+                listing = store.getById(id);
+            }
 
-        if (!listing) {
-            document.querySelector('.det-wrap').innerHTML =
-                '<a href="index.html" class="det-back">&#8592; Back to Listings</a>' +
-                '<div class="det-notfound"><h2>Listing Not Found</h2><p>This vacancy may have expired or been removed.</p></div>';
-            return;
-        }
+            function setEl(sel, val) {
+                const el = document.getElementById(sel);
+                if (el) el.innerHTML = val || '—';
+            }
 
-        // Populate page
-        document.title = (listing.title || 'Job') + ' – HelaInvest';
-        document.getElementById('det-company').textContent  = listing.employer || 'HelaInvest Employer';
-        document.getElementById('det-location').textContent = (listing.district || 'Sri Lanka') + ' 🇱🇰';
-        document.getElementById('det-closing').textContent  = listing.closing  || '—';
-        document.getElementById('det-ref').textContent      = listing.refNo    || '—';
-        document.getElementById('det-title').textContent    = listing.title    || '—';
-        document.getElementById('det-type').textContent     = listing.type     || 'Full Time';
+            // If we have data from app.js store
+            if (listing && listing.status === 'published') {
+                const ref = 'HLI' + (1000000 + parseInt(listing.id || '1'));
+                
+                const closeDate = new Date();
+                closeDate.setDate(closeDate.getDate() + 30);
+                const closeDateStr = closeDate.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
 
-        // Description
-        const bodyEl = document.getElementById('det-body');
-        if (listing.desc && listing.desc.trim()) {
-            bodyEl.innerHTML = listing.desc;
-        } else {
-            bodyEl.innerHTML = `
-                <h3>${listing.title}</h3>
-                <p>We are looking for a qualified candidate to fill the position of <strong>${listing.title}</strong>
-                at <strong>${listing.employer}</strong>.</p>
-                <h3>How to Apply</h3>
-                <p>Please send your CV with a recent photograph and two non-related referees to the employer.</p>
-                <p style="text-align:right;">${listing.employer}</p>`;
-        }
+                // Header
+                setEl('employer-name', listing.businessName || listing.contactName);
+                setEl('employer-location', (listing.district || 'Sri Lanka') + ', Sri Lanka');
+                setEl('closing-date', closeDateStr);
+                setEl('ref-no', ref);
+                setEl('listing-type', listing.industry || 'Opportunity');
+                
+                // Titles
+                setEl('job-title', listing.businessName);
+                setEl('ad-large-title', listing.businessName);
 
-        // Meta table
-        document.getElementById('m-employer').textContent = listing.employer || '—';
-        document.getElementById('m-district').textContent = listing.district || 'Sri Lanka';
-        document.getElementById('m-listed').textContent   = listing.listed   || '—';
-        document.getElementById('m-closing').textContent  = listing.closing  || '—';
-        document.getElementById('m-ref').textContent      = listing.refNo    || '—';
-        document.getElementById('m-type').textContent     = listing.type     || 'Full Time';
-    });
+                // Ad Data
+                setEl('ad-industry', listing.industry);
+                setEl('ad-district', listing.district);
+                setEl('ad-invest', formatLKR(listing.investmentRequired));
+                setEl('ad-stage', listing.businessStage);
+                
+                let fullDesc = (listing.fullDescription || listing.shortDescription || 'Please refer to the listing details.').replace(/\n/g, '<br>');
+                if(listing.services && listing.services.length > 0) {
+                    fullDesc += '<br><br><strong>Services Requested:</strong><br>' + listing.services.join(', ');
+                }
+                setEl('ad-desc', fullDesc);
 
-    function shareJob() {
-        if (navigator.share) {
-            navigator.share({ title: document.title, url: window.location.href });
-        } else {
-            navigator.clipboard.writeText(window.location.href)
-                .then(() => alert('Link copied to clipboard!'));
-        }
-    }
+                setEl('ad-contact-name', listing.contactName);
+                setEl('ad-email', `<a href="mailto:${listing.email}" style="color:#003399;">${listing.email}</a>`);
+                setEl('ad-phone', listing.phone);
+
+                document.title = listing.businessName + ' | HelaInvest';
+            } 
+            // Fallback to URL params for demo links in index.html
+            else if (refParam) {
+                const title = params.get('title') || 'Listing Title';
+                const employer = params.get('employer') || 'Employer Name';
+                const district = params.get('district') || 'Colombo';
+                const closing = params.get('closing') || '22 May 2026';
+
+                setEl('employer-name', employer);
+                setEl('employer-location', district + ', Sri Lanka');
+                setEl('closing-date', closing.substring(0, 11)); // Clean up date
+                setEl('ref-no', refParam);
+                setEl('job-title', title.replace(/\+/g, ' '));
+                setEl('ad-large-title', title.replace(/\+/g, ' '));
+
+                setEl('ad-industry', 'Finance / Accounting'); // Mock
+                setEl('ad-district', district);
+                setEl('ad-invest', 'Negotiable');
+                setEl('ad-stage', 'Established');
+                setEl('ad-desc', 'Please refer to the detailed listing requirements as attached.<br><br>Ideal candidates or investors should reach out directly via the email enquiry form.');
+                
+                setEl('ad-contact-name', employer);
+                setEl('ad-email', `<a href="#" style="color:#003399;">info@${employer.toLowerCase().replace(/[^a-z]/g,'')}.lk</a>`);
+                setEl('ad-phone', '+94 11 200 0000');
+                
+                document.title = title.replace(/\+/g, ' ') + ' | HelaInvest';
+            } else {
+                setEl('job-title', 'Listing Not Found');
+                setEl('ad-large-title', 'No Data Provided');
+            }
+        });
     </script>
 </body>
 </html>
