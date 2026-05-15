@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Publisher Dashboard | HelaInvest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { background: #f1f3f6; font-family: 'Inter', sans-serif; color: #333; }
+        
+        .dash-container { max-width: 1000px; margin: 40px auto; padding: 0 15px; }
+        
+        .dash-header {
+            display: flex; justify-content: space-between; align-items: center;
+            background: #003399; color: #fff; padding: 20px 30px; border-radius: 8px 8px 0 0;
+        }
+        .dash-header h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+        
+        .dash-nav {
+            background: #fff; padding: 0 20px; border-bottom: 1px solid #ddd;
+            display: flex; gap: 20px;
+        }
+        .dash-tab {
+            padding: 15px 10px; cursor: pointer; font-weight: 600; color: #666;
+            border-bottom: 3px solid transparent; transition: 0.2s;
+        }
+        .dash-tab:hover { color: #003399; }
+        .dash-tab.active { color: #003399; border-bottom-color: #003399; }
+
+        .dash-body { background: #fff; padding: 30px; border-radius: 0 0 8px 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); min-height: 400px; }
+        .dash-section { display: none; }
+        .dash-section.active { display: block; animation: fadeIn 0.3s; }
+
+        /* Form Styles */
+        .post-form { max-width: 600px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: #444; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; }
+        .btn-submit { background: #003399; color: #fff; border: none; padding: 12px 24px; font-weight: 700; border-radius: 4px; cursor: pointer; font-size: 1rem; }
+        .btn-submit:hover { background: #002266; }
+
+        /* Table Styles */
+        .status-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .status-table th, .status-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .status-table th { background: #f9f9f9; font-weight: 700; color: #555; }
+        .badge { padding: 5px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+        .badge-pending { background: #fff3cd; color: #856404; }
+        .badge-review { background: #cce5ff; color: #004085; }
+        .badge-approved { background: #d4edda; color: #155724; }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 1000;
+        }
+        .modal-content {
+            background: #fff; padding: 30px; border-radius: 8px; max-width: 500px; width: 90%;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); text-align: center;
+        }
+        .modal-content h3 { color: #003399; margin-bottom: 15px; font-size: 1.4rem; }
+        .ref-code-box {
+            background: #f8f9fa; border: 2px dashed #003399; padding: 15px;
+            font-size: 1.5rem; font-weight: 900; color: #cc0000; margin: 20px 0; letter-spacing: 2px;
+        }
+        .modal-instructions { text-align: left; font-size: 0.9rem; line-height: 1.6; color: #444; margin-bottom: 20px; background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="tj-header">
+        <div class="inner">
+            <a href="index.html" class="tj-logo">
+                Hela<span>Invest</span>
+                <small>investment made easy</small>
+            </a>
+            <div class="tj-header-btns">
+                <span style="font-weight:600; color:#003399; margin-right:15px;" id="welcome-user">Welcome, Publisher</span>
+                <a href="#" onclick="logout()" class="tj-btn-text">Log Out</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dash-container">
+        <div class="dash-header">
+            <h2>Publisher Dashboard</h2>
+            <div class="dash-actions">
+                <button class="btn-submit" style="background:#ffdd00; color:#003399; padding:8px 16px;" onclick="switchTab('new-post')">
+                    <i class="fas fa-plus"></i> Post New Vacancy
+                </button>
+            </div>
+        </div>
+        
+        <div class="dash-nav">
+            <div class="dash-tab active" onclick="switchTab('my-posts')">My Postings & Status</div>
+            <div class="dash-tab" onclick="switchTab('new-post')">Post New Vacancy</div>
+        </div>
+
+        <div class="dash-body">
+            
+            <!-- SECTION 1: MY POSTINGS -->
+            <div id="my-posts" class="dash-section active">
+                <h3 style="margin-bottom:20px; color:#003399;">Track Your Advertisements</h3>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">View the current status of your submitted job postings.</p>
+                
+                <table class="status-table">
+                    <thead>
+                        <tr>
+                            <th>Ref Code</th>
+                            <th>Job Title</th>
+                            <th>Date Submitted</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="posts-table-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- SECTION 2: NEW POST FORM -->
+            <div id="new-post" class="dash-section">
+                <h3 style="margin-bottom:20px; color:#003399;">Upload Your Advertisement</h3>
+                <form id="ad-form" class="post-form">
+                    <div class="form-group">
+                        <label>Job Title / Vacancy Name *</label>
+                        <input type="text" id="ad-title" class="form-control" placeholder="e.g. Accounts Executive" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name *</label>
+                        <input type="text" id="ad-company" class="form-control" placeholder="e.g. NOLIMIT" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Upload Advertisement Image (JPG/PNG) *</label>
+                        <input type="file" id="ad-image" class="form-control" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Closing Date *</label>
+                        <input type="date" id="ad-closing" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Short Description (Optional)</label>
+                        <textarea id="ad-desc" class="form-control" rows="4" placeholder="Brief intro about the role..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit"><i class="fas fa-upload"></i> Submit for Approval</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Payment Instruction Modal -->
+    <div class="modal-overlay" id="payment-modal">
+        <div class="modal-content">
+            <h3><i class="fas fa-check-circle" style="color:#28a745;"></i> Ad Submitted Successfully!</h3>
+            <p>Your advertisement has been received. To proceed with the Admin Review, please complete your payment.</p>
+            
+            <div class="ref-code-box" id="generated-code">HLI-0000</div>
+            
+            <div class="modal-instructions">
+                <strong><i class="fas fa-exclamation-triangle"></i> Payment Verification Required:</strong><br><br>
+                1. Transfer the advertising fee (LKR 5,000) via Bank Deposit or Online Transfer.<br>
+                2. Bank: <strong>Commercial Bank</strong> | A/C: <strong>123456789</strong><br>
+                3. <strong>CRITICAL:</strong> You MUST include the exact code <strong style="color:#cc0000;" id="inst-code">HLI-0000</strong> in the "Remarks" or "Comment" section of your bank app transfer.<br>
+                4. Once the admin receives the money and checks the code, your ad status will change from "Payment Verification" to "Admin Review" and then "Approved".
+            </div>
+            
+            <button class="btn-submit" onclick="closeModal()">I Understand, View My Postings</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Check Authentication
+        const user = authStore.getCurrentUser();
+        if (!user || user.role !== 'publisher') {
+            window.location.href = 'auth.html';
+        } else {
+            document.getElementById('welcome-user').innerText = 'Welcome, ' + user.name;
+        }
+
+        function logout() {
+            authStore.logout();
+            window.location.href = 'auth.html';
+        }
+
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.dash-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.dash-section').forEach(s => s.classList.remove('active'));
+            
+            document.querySelector(`.dash-tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+            
+            if(tabId === 'my-posts') {
+                renderTable();
+            }
+        }
+
+        // Mock Storage for Publisher Ads
+        let myAds = JSON.parse(localStorage.getItem('myPublisherAds')) || [
+            { ref: 'HLI-9821', title: 'Senior Developer', date: '2026-05-10', status: 'approved' },
+            { ref: 'HLI-9844', title: 'Marketing Executive', date: '2026-05-12', status: 'review' }
+        ];
+
+        function renderTable() {
+            const tbody = document.getElementById('posts-table-body');
+            tbody.innerHTML = '';
+            
+            if (myAds.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#888;">No postings yet. Click "Post New Vacancy" to get started.</td></tr>';
+                return;
+            }
+
+            // Reverse to show newest first
+            [...myAds].reverse().forEach(ad => {
+                let badgeClass = '';
+                let statusText = '';
+                if (ad.status === 'pending_payment') { badgeClass = 'badge-pending'; statusText = 'Payment Verification'; }
+                else if (ad.status === 'review') { badgeClass = 'badge-review'; statusText = 'Admin Review'; }
+                else if (ad.status === 'approved') { badgeClass = 'badge-approved'; statusText = 'Approved / Started'; }
+
+                const row = `
+                    <tr>
+                        <td style="font-weight:700; color:#003399;">${ad.ref}</td>
+                        <td style="font-weight:600;">${ad.title}</td>
+                        <td>${ad.date}</td>
+                        <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                        <td>
+                            <button style="background:#eee; border:1px solid #ccc; padding:4px 8px; border-radius:3px; cursor:pointer;" onclick="alert('Viewing ad details...')">View</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Generate Random Code
+        function generateCode() {
+            return 'HLI-' + Math.floor(1000 + Math.random() * 9000);
+        }
+
+        // Handle Ad Submission
+        document.getElementById('ad-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('ad-title').value;
+            const uniqueCode = generateCode();
+            
+            const newAd = {
+                ref: uniqueCode,
+                title: title,
+                date: new Date().toISOString().split('T')[0],
+                status: 'pending_payment'
+            };
+            
+            myAds.push(newAd);
+            localStorage.setItem('myPublisherAds', JSON.stringify(myAds));
+            
+            // Show modal with payment instructions
+            document.getElementById('generated-code').innerText = uniqueCode;
+            document.getElementById('inst-code').innerText = uniqueCode;
+            document.getElementById('payment-modal').style.display = 'flex';
+            
+            // Reset form
+            this.reset();
+        });
+
+        function closeModal() {
+            document.getElementById('payment-modal').style.display = 'none';
+            switchTab('my-posts');
+        }
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+</html>

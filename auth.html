@@ -141,10 +141,14 @@
             <div id="register-section" class="auth-section">
                 <div class="error-msg" id="register-error"></div>
                 
+                <div style="text-align: center; margin-bottom: 20px; font-style: italic; color: #555; background: #eef2ff; padding: 15px; border-radius: 8px; border-left: 4px solid #003399;">
+                    "Investing in your future starts with the right connection. Join us to unlock your true potential."
+                </div>
+
                 <div class="role-selector">
                     <div class="role-card active" data-role="client" onclick="selectRole('client')">
-                        <strong>Normal Client</strong>
-                        <small>Job Seeker / Investor / Seeking Advisory</small>
+                        <strong>Job Seeker</strong>
+                        <small>Investor / Seeking Advisory</small>
                     </div>
                     <div class="role-card" data-role="publisher" onclick="selectRole('publisher')">
                         <strong>Job Publisher</strong>
@@ -227,7 +231,7 @@
             try {
                 const user = authStore.login(email, pass);
                 if (user.role === 'publisher') {
-                    window.location.href = 'submit.html';
+                    window.location.href = 'publisher-dashboard.html';
                 } else {
                     window.location.href = 'index.html';
                 }
@@ -249,7 +253,7 @@
                 const user = authStore.register(name, email, pass, selectedRole);
                 authStore.login(email, pass); // auto login
                 if (user.role === 'publisher') {
-                    window.location.href = 'submit.html';
+                    window.location.href = 'publisher-dashboard.html';
                 } else {
                     window.location.href = 'index.html';
                 }
@@ -283,7 +287,7 @@
                 localStorage.setItem(authStore.sessionKey, JSON.stringify(user));
                 
                 if (user.role === 'publisher') {
-                    window.location.href = 'submit.html';
+                    window.location.href = 'publisher-dashboard.html';
                 } else {
                     window.location.href = 'index.html';
                 }
@@ -305,7 +309,7 @@
                 mockBtn.addEventListener('click', () => {
                     const user = authStore.loginWithGoogle();
                     if (user.role === 'publisher') {
-                        window.location.href = 'submit.html';
+                        window.location.href = 'publisher-dashboard.html';
                     } else {
                         window.location.href = 'index.html';
                     }
