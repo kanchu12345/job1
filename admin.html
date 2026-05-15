@@ -217,21 +217,24 @@
                 const listing = store.getById(id);
                 if(!listing) return;
 
-                document.getElementById('modal-title').innerText = listing.businessName;
+                document.getElementById('modal-title').innerText = listing.businessName || 'Business Proposal';
                 
                 let servicesHTML = listing.services && listing.services.length > 0 
                     ? `<ul style="margin-left: 1.5rem; color: var(--accent-color);">
                         ${listing.services.map(s => `<li>${s}</li>`).join('')}
                        </ul>`
-                    : '<p>No services requested.</p>';
+                    : '<p>No specific services selected.</p>';
 
                 document.getElementById('modal-body').innerHTML = `
-                    <p><strong>Contact Name:</strong> ${listing.contactName}</p>
-                    <p><strong>Phone:</strong> ${listing.phone}</p>
-                    <p><strong>Email:</strong> ${listing.email}</p>
-                    <p><strong>Location:</strong> ${listing.district}</p>
+                    <p><strong>Ref Code:</strong> <span style="color:#cc0000; font-weight:bold;">${listing.refCode || 'N/A'}</span></p>
+                    <p><strong>Contact Name:</strong> ${listing.contactName || 'N/A'}</p>
+                    <p><strong>Phone:</strong> ${listing.phone || 'N/A'}</p>
+                    <p><strong>Email:</strong> ${listing.email || listing.publisherEmail || 'N/A'}</p>
+                    <p><strong>Location:</strong> ${listing.district || 'N/A'}</p>
+                    <p><strong>Industry:</strong> ${listing.industry || 'N/A'}</p>
                     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
-                    <p><strong>Short Desc:</strong> ${listing.shortDescription}</p>
+                    <p><strong>Short Desc:</strong> ${listing.shortDescription || 'Please see full attachment'}</p>
+                    <p><strong>Requested Investment / Value:</strong> ${formatLKR(listing.investmentRequired || 0)}</p>
                     <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
                     <h4 style="margin-bottom: 0.5rem;">Requested Professional Services:</h4>
                     ${servicesHTML}
@@ -245,7 +248,7 @@
                 
                 // Update stats
                 document.getElementById('stat-total').innerText = listings.length;
-                document.getElementById('stat-pending').innerText = listings.filter(l => l.status === 'pending').length;
+                document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
                 document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
                 document.getElementById('stat-rejected').innerText = listings.filter(l => l.status === 'rejected').length;
 
@@ -253,34 +256,62 @@
                 const tbody = document.getElementById('admin-tbody');
                 
                 if (listings.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No submissions found.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No submissions found.</td></tr>';
                     return;
                 }
+
+                // Update Table Header
+                document.querySelector('.admin-table thead tr').innerHTML = `
+                    <th>Ref Code</th>
+                    <th>Business Info</th>
+                    <th>Industry</th>
+                    <th>Requested (LKR)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                `;
 
                 tbody.innerHTML = listings.map(l => {
                     const date = new Date(l.submittedAt).toLocaleDateString();
                     
                     let actionButtons = '';
-                    if (l.status === 'pending') {
+                    let statusBadgeClass = `status-${l.status}`;
+                    let statusLabel = l.status.toUpperCase();
+
+                    if (l.status === 'pending_payment') {
+                        statusBadgeClass = 'status-pending';
+                        statusLabel = 'PAYMENT VERIFICATION';
+                        actionButtons = `
+                            <button class="action-btn" style="background:#ffc107; color:#333;" onclick="changeStatus('${l.id}', 'review')">Verify Payment</button>
+                            <button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
+                        `;
+                    } else if (l.status === 'pending' || l.status === 'review') {
+                        statusBadgeClass = 'status-pending';
+                        statusLabel = 'ADMIN REVIEW';
                         actionButtons = `
                             <button class="action-btn btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
                             <button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
                         `;
                     } else if (l.status === 'published') {
+                        statusBadgeClass = 'status-published';
+                        statusLabel = 'PUBLISHED';
                         actionButtons = `<button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
                     } else if (l.status === 'rejected') {
+                        statusBadgeClass = 'status-rejected';
+                        statusLabel = 'REJECTED';
                         actionButtons = `<button class="action-btn btn-approve" onclick="changeStatus('${l.id}', 'published')">Publish</button>`;
                     }
 
                     return `
                         <tr>
+                            <td style="font-weight:700; color:var(--accent-color);">${l.refCode || 'N/A'}</td>
                             <td>
-                                <strong>${l.businessName}</strong>
-                                <div style="font-size: 0.8rem; color: var(--accent-color); cursor: pointer; margin-top: 0.2rem;" onclick="viewDetails('${l.id}')">View Full Details</div>
+                                <strong>${l.businessName || 'Business Proposal'}</strong>
+                                <div style="font-size: 0.8rem; color: #0088cc; cursor: pointer; margin-top: 0.2rem; text-decoration: underline;" onclick="viewDetails('${l.id}')">View Full Details</div>
                             </td>
-                            <td>${l.industry}</td>
-                            <td>${formatLKR(l.investmentRequired)}</td>
-                            <td><span class="status-badge status-${l.status}">${l.status.toUpperCase()}</span></td>
+                            <td>${l.industry || 'N/A'}</td>
+                            <td>${formatLKR(l.investmentRequired || 0)}</td>
+                            <td><span class="status-badge ${statusBadgeClass}">${statusLabel}</span></td>
                             <td>${date}</td>
                             <td>
                                 ${actionButtons}

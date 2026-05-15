@@ -397,16 +397,15 @@
             }
         }
 
-        // Mock Storage for Publisher Ads
-        let myAds = JSON.parse(localStorage.getItem('myPublisherAds')) || [
-            { ref: 'HLI-9821', title: 'Senior Developer', date: '2026-05-10', status: 'approved' },
-            { ref: 'HLI-9844', title: 'Marketing Executive', date: '2026-05-12', status: 'review' }
-        ];
-
+        // Render Publisher Ads from global store
         function renderTable() {
             const tbody = document.getElementById('posts-table-body');
             tbody.innerHTML = '';
             
+            // Get ads from global store for THIS user
+            const allAds = store.getAll();
+            const myAds = allAds.filter(ad => ad.publisherEmail === user.email);
+
             if (myAds.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#888;">No postings yet. Click "Post New Vacancy" to get started.</td></tr>';
                 return;
@@ -418,13 +417,14 @@
                 let statusText = '';
                 if (ad.status === 'pending_payment') { badgeClass = 'badge-pending'; statusText = 'Payment Verification'; }
                 else if (ad.status === 'review') { badgeClass = 'badge-review'; statusText = 'Admin Review'; }
-                else if (ad.status === 'approved') { badgeClass = 'badge-approved'; statusText = 'Approved / Started'; }
+                else if (ad.status === 'published') { badgeClass = 'badge-approved'; statusText = 'Approved / Started'; }
+                else { badgeClass = 'badge-pending'; statusText = ad.status; }
 
                 const row = `
                     <tr>
-                        <td style="font-weight:700; color:#003399;">${ad.ref}</td>
-                        <td style="font-weight:600;">${ad.title}</td>
-                        <td>${ad.date}</td>
+                        <td style="font-weight:700; color:#003399;">${ad.refCode}</td>
+                        <td style="font-weight:600;">${ad.businessName || 'Business Proposal'}</td>
+                        <td>${new Date(ad.submittedAt).toLocaleDateString()}</td>
                         <td><span class="badge ${badgeClass}">${statusText}</span></td>
                         <td>
                             <button style="background:#eee; border:1px solid #ccc; padding:4px 8px; border-radius:3px; cursor:pointer;" onclick="alert('Viewing ad details...')">View</button>
@@ -444,18 +444,24 @@
         document.getElementById('ad-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const title = document.getElementById('ad-title').value;
             const uniqueCode = generateCode();
             
+            // Collect form data (simplified for demo, but we save to global store)
+            // Assuming inputs are accessed by index or ID in a real app. Here we just create a strong stub based on the Smergers format
             const newAd = {
-                ref: uniqueCode,
-                title: title,
-                date: new Date().toISOString().split('T')[0],
+                refCode: uniqueCode,
+                businessName: 'Business Proposal - ' + uniqueCode, // Redacted as per instructions
+                contactName: document.querySelectorAll('.form-control')[8].value || user.name, // 8th input is contact name
+                phone: document.querySelectorAll('.form-control')[9].value || 'N/A',
+                email: document.querySelectorAll('.form-control')[10].value || user.email,
+                industry: document.querySelectorAll('.form-control')[3].value || 'Various',
+                district: document.querySelectorAll('.form-control')[4].value || 'Sri Lanka',
+                investmentRequired: document.querySelectorAll('.form-control')[15].value || 0, // monthly sales roughly maps to value or % required
+                publisherEmail: user.email,
                 status: 'pending_payment'
             };
             
-            myAds.push(newAd);
-            localStorage.setItem('myPublisherAds', JSON.stringify(myAds));
+            store.save(newAd); // Save to global store
             
             // Show modal with payment instructions
             document.getElementById('generated-code').innerText = uniqueCode;
