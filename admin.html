@@ -3,325 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | HelaInvest</title>
+    <title>Advanced Admin Dashboard | HelaInvest</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        body { background: #f4f6f9; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Login Screen */
+        .admin-login-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #003399; display: flex; justify-content: center; align-items: center; z-index: 2000;
+        }
         .admin-login {
-            max-width: 400px;
-            margin: 100px auto;
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 10px;
-            text-align: center;
+            background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            width: 100%; max-width: 400px; text-align: center;
         }
-        .admin-login input {
-            width: 100%;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 5px;
-            background: var(--bg-color);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-primary);
-        }
+        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        .admin-login button { width: 100%; padding: 15px; background: #f1c40f; border: none; font-weight: 700; border-radius: 6px; font-size: 1.1rem; cursor: pointer; color: #333; }
         
-        #admin-panel {
-            display: none; /* Hidden by default until login */
+        /* Advanced Layout */
+        .sidebar {
+            width: 260px; background: #002266; color: #fff; display: flex; flex-direction: column;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 10;
         }
+        .sidebar-header { padding: 25px 20px; font-size: 1.5rem; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.1); color: #f1c40f; }
+        .sidebar-nav { flex: 1; padding: 20px 0; }
+        .nav-item {
+            padding: 15px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px;
+            color: #a3b8cc; transition: 0.3s; font-weight: 500; border-left: 4px solid transparent;
+        }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.05); color: #fff; border-left-color: #f1c40f; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-footer a { color: #a3b8cc; text-decoration: none; font-size: 0.9rem; }
 
-        .dashboard-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .stat-card {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .stat-card h3 {
-            font-size: 2rem;
-            color: var(--accent-color);
-        }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .top-header { background: #fff; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); z-index: 5; }
+        .content-area { flex: 1; padding: 30px; overflow-y: auto; }
         
-        .admin-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--card-bg);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .admin-table th, .admin-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .admin-table th {
-            background: rgba(0,0,0,0.2);
-            font-weight: 600;
-            color: var(--text-muted);
-        }
+        .tab-pane { display: none; animation: fadeIn 0.3s; }
+        .tab-pane.active { display: block; }
+
+        /* Stats & Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.03); border-left: 5px solid #003399; }
+        .stat-card.warning { border-left-color: #ffc107; }
+        .stat-card.success { border-left-color: #28a745; }
+        .stat-card h3 { margin: 0 0 10px 0; font-size: 2.5rem; color: #333; }
+        .stat-card p { margin: 0; color: #666; font-size: 0.95rem; font-weight: 500; }
+
+        /* Tables */
+        .adv-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.03); }
+        .adv-table th, .adv-table td { padding: 15px 20px; text-align: left; border-bottom: 1px solid #f0f0f0; }
+        .adv-table th { background: #f8f9fa; font-weight: 600; color: #555; font-size: 0.9rem; text-transform: uppercase; }
+        .adv-table tr:hover { background: #fafafa; }
         
-        .status-badge {
-            padding: 0.3rem 0.6rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        .status-pending { background: rgba(245, 158, 11, 0.2); color: var(--warning); }
-        .status-published { background: rgba(34, 197, 94, 0.2); color: var(--success); }
-        .status-rejected { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
+        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.5px; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-review { background: #cce5ff; color: #004085; }
+        .status-published { background: #d4edda; color: #155724; }
+        .status-rejected { background: #f8d7da; color: #721c24; }
 
-        .action-btn {
-            padding: 0.4rem 0.8rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-right: 0.5rem;
-            font-weight: 600;
-        }
-        .btn-approve { background: var(--success); color: #fff; }
-        .btn-reject { background: var(--danger); color: #fff; }
-        .btn-delete { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+        .btn-action { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 5px; color: #fff; }
+        .btn-verify { background: #f1c40f; color: #333; }
+        .btn-approve { background: #28a745; }
+        .btn-reject { background: #dc3545; }
+        .btn-edit { background: #17a2b8; }
+        .btn-primary { background: #003399; color: #fff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+        /* Advanced Details Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 3000; }
+        .modal-container { background: #fff; width: 90%; max-width: 900px; max-height: 90vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .modal-header { padding: 20px 30px; background: #003399; color: #fff; display: flex; justify-content: space-between; align-items: center; }
+        .modal-body { padding: 30px; overflow-y: auto; flex: 1; background: #f9f9f9; }
+        .modal-footer { padding: 20px 30px; background: #fff; border-top: 1px solid #eee; text-align: right; }
+        
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .detail-card { background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .detail-card h4 { margin-top: 0; color: #cc0000; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 15px; }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px dashed #eee; padding-bottom: 5px; }
+        .detail-row strong { color: #555; }
+        .detail-row span { font-weight: 600; color: #222; text-align: right; max-width: 60%; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="logo">HelaInvest Admin.</div>
-        <nav>
-            <ul>
-                <li><a href="index.html">← Back to Site</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="container">
-        
-        <!-- Login Screen -->
-        <div id="login-screen" class="admin-login">
-            <h2>Admin Login</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Enter PIN (Demo: hela2024)</p>
+    <!-- Login Screen -->
+    <div id="login-screen" class="admin-login-wrapper">
+        <div class="admin-login">
+            <h2 style="color: #003399; margin-top: 0;">System Admin</h2>
+            <p style="color: #666; margin-bottom: 30px;">Enter Admin PIN (Demo: hela2024)</p>
             <input type="password" id="admin-pin" placeholder="Enter PIN">
-            <button id="login-btn" class="btn btn-primary" style="width: 100%;">Login</button>
-            <p id="login-error" style="color: var(--danger); margin-top: 1rem; display: none;">Invalid PIN</p>
+            <button id="login-btn">Secure Login <i class="fas fa-lock"></i></button>
+            <p id="login-error" style="color: #dc3545; margin-top: 15px; display: none; font-weight: 600;">Invalid PIN Provided</p>
+        </div>
+    </div>
+
+    <!-- Advanced Sidebar Layout -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            HelaInvest<span style="color:#fff;">Admin</span>
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-item active" onclick="switchTab('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</div>
+            <div class="nav-item" onclick="switchTab('proposals')"><i class="fas fa-file-invoice-dollar"></i> Manage Ads / Proposals</div>
+            <div class="nav-item" onclick="switchTab('jobseekers')"><i class="fas fa-users"></i> Manage Job Seekers</div>
+        </div>
+        <div class="sidebar-footer">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Live Site</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-header">
+            <h2 id="page-title" style="margin: 0; color: #333;">Dashboard Overview</h2>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-weight: 600; color: #003399;"><i class="fas fa-user-shield"></i> Super Admin</span>
+                <button onclick="location.reload()" class="btn-action" style="background: #eee; color: #333;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
         </div>
 
-        <!-- Admin Dashboard -->
-        <div id="admin-panel">
-            <h1 style="margin-bottom: 2rem;">Dashboard Overview</h1>
+        <div class="content-area">
             
-            <div class="dashboard-stats">
-                <div class="stat-card">
-                    <h3 id="stat-total">0</h3>
-                    <p>Total Submissions</p>
+            <!-- TAB: Dashboard -->
+            <div id="tab-dashboard" class="tab-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="stat-total">0</h3>
+                        <p>Total Submissions</p>
+                    </div>
+                    <div class="stat-card warning">
+                        <h3 id="stat-pending">0</h3>
+                        <p>Action Required (Pending/Review)</p>
+                    </div>
+                    <div class="stat-card success">
+                        <h3 id="stat-published">0</h3>
+                        <p>Live / Published Ads</p>
+                    </div>
+                    <div class="stat-card" style="border-left-color: #17a2b8;">
+                        <h3 id="stat-users">0</h3>
+                        <p>Registered Users</p>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <h3 id="stat-pending">0</h3>
-                    <p>Pending Review</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="stat-published">0</h3>
-                    <p>Published</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="stat-rejected">0</h3>
-                    <p>Rejected</p>
-                </div>
-            </div>
-
-            <h2 style="margin-bottom: 1rem; margin-top: 3rem;">Manage Listings</h2>
-            <div style="overflow-x: auto;">
-                <table class="admin-table">
+                
+                <h3 style="color: #333; margin-top: 40px; margin-bottom: 20px;">Recent Activity</h3>
+                <table class="adv-table">
                     <thead>
                         <tr>
-                            <th>Business Name</th>
-                            <th>Industry</th>
-                            <th>Requested (LKR)</th>
+                            <th>Ref Code</th>
+                            <th>Type</th>
                             <th>Status</th>
                             <th>Date</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="admin-tbody">
+                    <tbody id="recent-activity-body">
                         <!-- Populated by JS -->
                     </tbody>
                 </table>
             </div>
+
+            <!-- TAB: Manage Proposals -->
+            <div id="tab-proposals" class="tab-pane">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <p style="color: #666; margin: 0;">Review and verify business advertisements before they go live.</p>
+                </div>
+                
+                <table class="adv-table">
+                    <thead>
+                        <tr>
+                            <th>Ref Code</th>
+                            <th>Business / User</th>
+                            <th>Industry</th>
+                            <th>Requested (LKR)</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="proposals-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- TAB: Manage Job Seekers -->
+            <div id="tab-jobseekers" class="tab-pane">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <p style="color: #666; margin: 0;">Manage registered Job Seekers and Clients.</p>
+                    <button class="btn-primary" onclick="openUserModal()"><i class="fas fa-plus"></i> Add New Job Seeker</button>
+                </div>
+                
+                <table class="adv-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email Address</th>
+                            <th>Role / Type</th>
+                            <th>Registered Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-body">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 
-    <!-- Details Modal -->
-    <div id="detail-modal" class="modal">
-        <div class="modal-content">
-            <h2 id="modal-title" style="margin-bottom: 1rem; color: var(--accent-color);"></h2>
-            <div id="modal-body" style="margin-bottom: 2rem; font-size: 0.9rem;"></div>
-            <button class="btn btn-outline" onclick="document.getElementById('detail-modal').style.display='none'">Close</button>
+    <!-- Advanced Details Modal (Proposals) -->
+    <div id="detail-modal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 style="margin: 0;"><i class="fas fa-file-contract"></i> Proposal Details: <span id="m-refcode"></span></h3>
+                <button onclick="document.getElementById('detail-modal').style.display='none'" style="background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-grid">
+                    <!-- Column 1 -->
+                    <div>
+                        <div class="detail-card" style="margin-bottom: 20px;">
+                            <h4>Business Information</h4>
+                            <div class="detail-row"><strong>Role:</strong> <span id="m-role"></span></div>
+                            <div class="detail-row"><strong>Interested In:</strong> <span id="m-interest"></span></div>
+                            <div class="detail-row"><strong>Established:</strong> <span id="m-established"></span></div>
+                            <div class="detail-row"><strong>Industry:</strong> <span id="m-industry"></span></div>
+                            <div class="detail-row"><strong>Location:</strong> <span id="m-district"></span></div>
+                            <div class="detail-row"><strong>Employees:</strong> <span id="m-employees"></span></div>
+                            <div class="detail-row"><strong>Legal Entity:</strong> <span id="m-entity"></span></div>
+                            <div style="margin-top: 15px;">
+                                <strong>Short Description:</strong>
+                                <p style="font-weight: 600; color: #222; margin-top: 5px; font-size: 0.95rem;" id="m-shortdesc"></p>
+                            </div>
+                        </div>
+
+                        <div class="detail-card">
+                            <h4>Financials & Assets</h4>
+                            <div class="detail-row"><strong>Monthly Sales:</strong> <span id="m-monthlysales"></span></div>
+                            <div class="detail-row"><strong>Yearly Sales:</strong> <span id="m-yearlysales"></span></div>
+                            <div class="detail-row" style="background:#fff3cd; padding:5px;"><strong>% Willing to Sell:</strong> <span id="m-percent" style="color:#cc0000;"></span></div>
+                            <div class="detail-row"><strong>Value of Physical Assets:</strong> <span id="m-assetvalue"></span></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Column 2 -->
+                    <div>
+                        <div class="detail-card" style="margin-bottom: 20px; border-top: 4px solid #003399;">
+                            <h4>Contact Details</h4>
+                            <div class="detail-row"><strong>Name:</strong> <span id="m-contactname"></span></div>
+                            <div class="detail-row"><strong>Phone:</strong> <span id="m-phone"></span></div>
+                            <div class="detail-row"><strong>Email:</strong> <span id="m-email"></span></div>
+                        </div>
+
+                        <div class="detail-card" style="margin-bottom: 20px;">
+                            <h4>Detailed Explanations</h4>
+                            <strong>Products/Services:</strong>
+                            <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-products"></p>
+                            
+                            <strong>Highlights:</strong>
+                            <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-highlights"></p>
+                            
+                            <strong>Facility:</strong>
+                            <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-facility"></p>
+                            
+                            <strong>Funding:</strong>
+                            <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-funding"></p>
+                        </div>
+                        
+                        <div class="detail-card">
+                            <h4>Selected Services</h4>
+                            <div id="m-services" style="font-weight: 600; color: #003399;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" id="m-actions">
+                <!-- Actions injected dynamically based on status -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Seeker Add/Edit Modal -->
+    <div id="user-modal" class="modal-overlay">
+        <div class="modal-container" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3 style="margin: 0;" id="user-modal-title">Add Job Seeker</h3>
+                <button onclick="document.getElementById('user-modal').style.display='none'" style="background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="u-id">
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-weight:600; margin-bottom:5px;">Full Name</label>
+                    <input type="text" id="u-name" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-weight:600; margin-bottom:5px;">Email Address</label>
+                    <input type="email" id="u-email" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-weight:600; margin-bottom:5px;">Role Type</label>
+                    <select id="u-role" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                        <option value="client">Job Seeker / Client</option>
+                        <option value="publisher">Job Publisher</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; font-weight:600; margin-bottom:5px;">Password (Leave blank to keep current if editing)</label>
+                    <input type="password" id="u-pass" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-action" style="background:#ccc; color:#333; padding:10px 20px;" onclick="document.getElementById('user-modal').style.display='none'">Cancel</button>
+                <button class="btn-primary" onclick="saveUser()">Save User</button>
+            </div>
         </div>
     </div>
 
     <script src="app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Login Logic
-            document.getElementById('login-btn').addEventListener('click', () => {
-                const pin = document.getElementById('admin-pin').value;
-                if (pin === 'hela2024') {
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('admin-panel').style.display = 'block';
-                    renderAdmin();
+        // --- Navigation ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            const titles = {
+                'dashboard': 'Dashboard Overview',
+                'proposals': 'Manage Ads / Proposals',
+                'jobseekers': 'Manage Job Seekers & Users'
+            };
+            document.getElementById('page-title').innerText = titles[tabId];
+        }
+
+        // --- Login Logic ---
+        document.getElementById('login-btn').addEventListener('click', () => {
+            if (document.getElementById('admin-pin').value === 'hela2024') {
+                document.getElementById('login-screen').style.display = 'none';
+                loadData();
+            } else {
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+
+        // --- Data Loading ---
+        function loadData() {
+            const listings = store.getAll().reverse();
+            const users = authStore.getUsers().reverse();
+
+            // Stats
+            document.getElementById('stat-total').innerText = listings.length;
+            document.getElementById('stat-pending').innerText = listings.filter(l => ['pending_payment', 'review'].includes(l.status)).length;
+            document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
+            document.getElementById('stat-users').innerText = users.length;
+
+            renderProposals(listings);
+            renderUsers(users);
+        }
+
+        // --- Render Proposals (Smergers Detailed Format) ---
+        function renderProposals(listings) {
+            const tbody = document.getElementById('proposals-body');
+            const recBody = document.getElementById('recent-activity-body');
+            
+            if (listings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No proposals found.</td></tr>';
+                recBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No activity.</td></tr>';
+                return;
+            }
+
+            let html = '';
+            let recHtml = '';
+
+            listings.forEach((l, index) => {
+                const date = l.submittedAt ? new Date(l.submittedAt).toLocaleDateString() : 'N/A';
+                
+                let actionBtns = '';
+                let statusBadge = '';
+                
+                if (l.status === 'pending_payment') {
+                    statusBadge = '<span class="status-badge status-pending">PAYMENT VERIFICATION</span>';
+                    actionBtns = `
+                        <button class="btn-action btn-verify" onclick="changeStatus('${l.id}', 'review')">Verify Payment</button>
+                        <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
+                    `;
+                } else if (l.status === 'review') {
+                    statusBadge = '<span class="status-badge status-review">ADMIN REVIEW</span>';
+                    actionBtns = `
+                        <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
+                        <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
+                    `;
+                } else if (l.status === 'published') {
+                    statusBadge = '<span class="status-badge status-published">PUBLISHED</span>';
+                    actionBtns = `<button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
                 } else {
-                    document.getElementById('login-error').style.display = 'block';
+                    statusBadge = '<span class="status-badge status-rejected">REJECTED</span>';
+                    actionBtns = `<button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>`;
+                }
+
+                html += `
+                    <tr>
+                        <td style="font-weight:700; color:#cc0000;">${l.refCode || 'N/A'}</td>
+                        <td>
+                            <strong>${l.businessName || 'Business Proposal'}</strong><br>
+                            <span style="font-size:0.8rem; color:#666;">${l.publisherEmail || 'N/A'}</span>
+                            <div style="font-size:0.8rem; color:#0088cc; cursor:pointer; text-decoration:underline; margin-top:4px;" onclick="viewFullDetails('${l.id}')">View Full Details</div>
+                        </td>
+                        <td>${l.industry || 'N/A'}</td>
+                        <td style="font-weight:600;">${formatLKR(l.investmentRequired || 0)}</td>
+                        <td>${statusBadge}</td>
+                        <td>${actionBtns}</td>
+                    </tr>
+                `;
+
+                if(index < 5) {
+                    recHtml += `<tr><td><strong>${l.refCode || 'N/A'}</strong></td><td>Proposal Submission</td><td>${statusBadge}</td><td>${date}</td></tr>`;
                 }
             });
 
-            // Make actions global so inline onclick works
-            window.changeStatus = function(id, newStatus) {
-                store.update(id, { status: newStatus });
-                renderAdmin();
-            };
+            tbody.innerHTML = html;
+            recBody.innerHTML = recHtml;
+        }
 
-            window.deleteListing = function(id) {
-                if(confirm("Are you sure you want to delete this listing permanently?")) {
-                    let listings = store.getAll();
-                    listings = listings.filter(l => l.id !== id);
-                    localStorage.setItem('hela_listings', JSON.stringify(listings));
-                    renderAdmin();
-                }
-            };
-
-            window.viewDetails = function(id) {
-                const listing = store.getById(id);
-                if(!listing) return;
-
-                document.getElementById('modal-title').innerText = listing.businessName || 'Business Proposal';
-                
-                let servicesHTML = listing.services && listing.services.length > 0 
-                    ? `<ul style="margin-left: 1.5rem; color: var(--accent-color);">
-                        ${listing.services.map(s => `<li>${s}</li>`).join('')}
-                       </ul>`
-                    : '<p>No specific services selected.</p>';
-
-                document.getElementById('modal-body').innerHTML = `
-                    <p><strong>Ref Code:</strong> <span style="color:#cc0000; font-weight:bold;">${listing.refCode || 'N/A'}</span></p>
-                    <p><strong>Contact Name:</strong> ${listing.contactName || 'N/A'}</p>
-                    <p><strong>Phone:</strong> ${listing.phone || 'N/A'}</p>
-                    <p><strong>Email:</strong> ${listing.email || listing.publisherEmail || 'N/A'}</p>
-                    <p><strong>Location:</strong> ${listing.district || 'N/A'}</p>
-                    <p><strong>Industry:</strong> ${listing.industry || 'N/A'}</p>
-                    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
-                    <p><strong>Short Desc:</strong> ${listing.shortDescription || 'Please see full attachment'}</p>
-                    <p><strong>Requested Investment / Value:</strong> ${formatLKR(listing.investmentRequired || 0)}</p>
-                    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
-                    <h4 style="margin-bottom: 0.5rem;">Requested Professional Services:</h4>
-                    ${servicesHTML}
-                    <p style="margin-top: 0.5rem;"><strong>Notes:</strong> ${listing.additionalNotes || 'N/A'}</p>
-                `;
-                document.getElementById('detail-modal').style.display = 'flex';
-            };
-
-            function renderAdmin() {
-                const listings = store.getAll().reverse(); // Newest first
-                
-                // Update stats
-                document.getElementById('stat-total').innerText = listings.length;
-                document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
-                document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
-                document.getElementById('stat-rejected').innerText = listings.filter(l => l.status === 'rejected').length;
-
-                // Render table
-                const tbody = document.getElementById('admin-tbody');
-                
-                if (listings.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No submissions found.</td></tr>';
-                    return;
-                }
-
-                // Update Table Header
-                document.querySelector('.admin-table thead tr').innerHTML = `
-                    <th>Ref Code</th>
-                    <th>Business Info</th>
-                    <th>Industry</th>
-                    <th>Requested (LKR)</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Actions</th>
-                `;
-
-                tbody.innerHTML = listings.map(l => {
-                    const date = new Date(l.submittedAt).toLocaleDateString();
-                    
-                    let actionButtons = '';
-                    let statusBadgeClass = `status-${l.status}`;
-                    let statusLabel = l.status.toUpperCase();
-
-                    if (l.status === 'pending_payment') {
-                        statusBadgeClass = 'status-pending';
-                        statusLabel = 'PAYMENT VERIFICATION';
-                        actionButtons = `
-                            <button class="action-btn" style="background:#ffc107; color:#333;" onclick="changeStatus('${l.id}', 'review')">Verify Payment</button>
-                            <button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
-                        `;
-                    } else if (l.status === 'pending' || l.status === 'review') {
-                        statusBadgeClass = 'status-pending';
-                        statusLabel = 'ADMIN REVIEW';
-                        actionButtons = `
-                            <button class="action-btn btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
-                            <button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
-                        `;
-                    } else if (l.status === 'published') {
-                        statusBadgeClass = 'status-published';
-                        statusLabel = 'PUBLISHED';
-                        actionButtons = `<button class="action-btn btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
-                    } else if (l.status === 'rejected') {
-                        statusBadgeClass = 'status-rejected';
-                        statusLabel = 'REJECTED';
-                        actionButtons = `<button class="action-btn btn-approve" onclick="changeStatus('${l.id}', 'published')">Publish</button>`;
-                    }
-
-                    return `
-                        <tr>
-                            <td style="font-weight:700; color:var(--accent-color);">${l.refCode || 'N/A'}</td>
-                            <td>
-                                <strong>${l.businessName || 'Business Proposal'}</strong>
-                                <div style="font-size: 0.8rem; color: #0088cc; cursor: pointer; margin-top: 0.2rem; text-decoration: underline;" onclick="viewDetails('${l.id}')">View Full Details</div>
-                            </td>
-                            <td>${l.industry || 'N/A'}</td>
-                            <td>${formatLKR(l.investmentRequired || 0)}</td>
-                            <td><span class="status-badge ${statusBadgeClass}">${statusLabel}</span></td>
-                            <td>${date}</td>
-                            <td>
-                                ${actionButtons}
-                                <button class="action-btn btn-delete" onclick="deleteListing('${l.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                }).join('');
+        // --- Render Users (Job Seekers / Publishers) ---
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-body');
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No users registered yet.</td></tr>';
+                return;
             }
-        });
+
+            tbody.innerHTML = users.map(u => {
+                const roleBadge = u.role === 'publisher' ? '<span style="color:#003399; font-weight:700;">Publisher</span>' : '<span style="color:#28a745; font-weight:600;">Job Seeker</span>';
+                return `
+                    <tr>
+                        <td style="font-weight:600;">${u.name}</td>
+                        <td>${u.email}</td>
+                        <td>${roleBadge}</td>
+                        <td>${new Date(parseInt(u.id.replace('g_','')) || Date.now()).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn-action btn-edit" onclick="editUser('${u.id}')">Edit</button>
+                            <button class="btn-action btn-reject" onclick="deleteUser('${u.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // --- Actions ---
+        window.changeStatus = function(id, newStatus) {
+            store.update(id, { status: newStatus });
+            loadData();
+            document.getElementById('detail-modal').style.display = 'none';
+        }
+
+        // --- View Advanced Massive Form Details ---
+        window.viewFullDetails = function(id) {
+            const l = store.getById(id);
+            if(!l) return;
+
+            document.getElementById('m-refcode').innerText = l.refCode || 'N/A';
+            
+            // Map all the massive form details
+            const fields = ['role', 'interest', 'established', 'industry', 'district', 'employees', 'entity', 'shortdesc', 
+                            'monthlysales', 'yearlysales', 'percent', 'assetvalue', 
+                            'contactname', 'phone', 'email', 
+                            'products', 'highlights', 'facility', 'funding'];
+            
+            fields.forEach(f => {
+                const el = document.getElementById('m-' + f);
+                if(el) {
+                    // For financials, format as currency if applicable
+                    if(f === 'monthlysales' || f === 'yearlysales' || f === 'assetvalue') {
+                        el.innerText = l[f] ? formatLKR(l[f]) : 'N/A';
+                    } 
+                    else if (f === 'percent') { el.innerText = l[f] ? l[f] + '%' : 'N/A'; }
+                    else { el.innerText = l[f] || 'Not Provided'; }
+                }
+            });
+
+            // Services
+            document.getElementById('m-services').innerHTML = (l.services && l.services.length > 0) 
+                ? l.services.map(s => `<div><i class="fas fa-check text-success"></i> ${s}</div>`).join('') 
+                : 'No specific services requested.';
+
+            // Generate Action buttons inside modal
+            let actionBtns = '';
+            if (l.status === 'pending_payment') {
+                actionBtns = `
+                    <button class="btn-action btn-verify" style="padding:10px 20px; font-size:1rem;" onclick="changeStatus('${l.id}', 'review')">Verify Payment Received</button>
+                `;
+            } else if (l.status === 'review') {
+                actionBtns = `
+                    <button class="btn-action btn-approve" style="padding:10px 20px; font-size:1rem;" onclick="changeStatus('${l.id}', 'published')">Approve & Publish</button>
+                    <button class="btn-action btn-reject" style="padding:10px 20px; font-size:1rem;" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
+                `;
+            } else if (l.status === 'published') {
+                actionBtns = `<button class="btn-action btn-reject" style="padding:10px 20px; font-size:1rem;" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
+            }
+
+            document.getElementById('m-actions').innerHTML = actionBtns || '<span style="color:#666;">No actions available.</span>';
+            document.getElementById('detail-modal').style.display = 'flex';
+        }
+
+        // --- User Management ---
+        window.openUserModal = function() {
+            document.getElementById('user-modal-title').innerText = 'Add Job Seeker';
+            document.getElementById('u-id').value = '';
+            document.getElementById('u-name').value = '';
+            document.getElementById('u-email').value = '';
+            document.getElementById('u-pass').value = '';
+            document.getElementById('u-role').value = 'client';
+            document.getElementById('user-modal').style.display = 'flex';
+        }
+
+        window.editUser = function(id) {
+            const users = authStore.getUsers();
+            const u = users.find(x => x.id === id);
+            if(u) {
+                document.getElementById('user-modal-title').innerText = 'Edit User Details';
+                document.getElementById('u-id').value = u.id;
+                document.getElementById('u-name').value = u.name;
+                document.getElementById('u-email').value = u.email;
+                document.getElementById('u-pass').value = ''; // Don't show pass
+                document.getElementById('u-role').value = u.role;
+                document.getElementById('user-modal').style.display = 'flex';
+            }
+        }
+
+        window.saveUser = function() {
+            const id = document.getElementById('u-id').value;
+            const name = document.getElementById('u-name').value;
+            const email = document.getElementById('u-email').value;
+            const role = document.getElementById('u-role').value;
+            const pass = document.getElementById('u-pass').value;
+
+            if(!name || !email) { alert("Name and Email required."); return; }
+
+            let users = authStore.getUsers();
+            
+            if(id) {
+                // Edit
+                const idx = users.findIndex(x => x.id === id);
+                if(idx > -1) {
+                    users[idx].name = name;
+                    users[idx].email = email;
+                    users[idx].role = role;
+                    if(pass) users[idx].password = pass;
+                }
+            } else {
+                // Add
+                if(users.find(x => x.email === email)) { alert("Email already exists."); return; }
+                users.push({
+                    id: Date.now().toString(),
+                    name: name, email: email, role: role, password: pass || '123456'
+                });
+            }
+            
+            localStorage.setItem(authStore.usersKey, JSON.stringify(users));
+            document.getElementById('user-modal').style.display = 'none';
+            loadData();
+        }
+
+        window.deleteUser = function(id) {
+            if(confirm("Are you sure you want to delete this user?")) {
+                let users = authStore.getUsers();
+                users = users.filter(x => x.id !== id);
+                localStorage.setItem(authStore.usersKey, JSON.stringify(users));
+                loadData();
+            }
+        }
+
     </script>
 </body>
 </html>

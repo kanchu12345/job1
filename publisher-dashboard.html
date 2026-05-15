@@ -140,36 +140,36 @@
                         
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">You are a(n)</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-role" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">You are interested in</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-interest" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">When was the business established?</label>
-                            <input type="text" class="form-control" style="width: 200px;" required>
+                            <input type="text" id="f-established" class="form-control" style="width: 200px;" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Select business' industry</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-industry" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Where is the business located / headquartered?</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-location" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">How many permanent employees does the business have?</label>
-                            <input type="number" class="form-control" style="width: 200px;" required>
+                            <input type="number" id="f-employees" class="form-control" style="width: 200px;" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Select business legal entity type</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-entity" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Describe the business in a single line</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="2" required></textarea>
+                                <textarea id="f-shortdesc" class="form-control" rows="2" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
@@ -179,15 +179,15 @@
                         <h4 style="color: #cc0000; margin-bottom: 15px;">Contact Details</h4>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Contact Person Name *</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-contactname" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Contact Number *</label>
-                            <input type="text" class="form-control" required>
+                            <input type="text" id="f-phone" class="form-control" required>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Email Address *</label>
-                            <input type="email" class="form-control" required>
+                            <input type="email" id="f-email" class="form-control" required>
                         </div>
                     </div>
 
@@ -195,28 +195,28 @@
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">What are the business's top-selling products and services, who uses them, and how?</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" required></textarea>
+                                <textarea id="f-products" class="form-control" rows="3" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Mention highlights of the business including number of clients, revenue model, promoter experience, business relationships, awards, etc</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" required></textarea>
+                                <textarea id="f-highlights" class="form-control" rows="3" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Describe your facility such as built-up area, number of floors, rental/lease details</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" required></textarea>
+                                <textarea id="f-facility" class="form-control" rows="3" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">How is the business funded presently? Mention all debts/loans outstanding and the total number of shareholders/owners of the business with percentage ownership.</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" required></textarea>
+                                <textarea id="f-funding" class="form-control" rows="3" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
@@ -225,28 +225,28 @@
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">At present, what is your average monthly sales?</label>
                             <div style="display: flex; flex: 1;">
                                 <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
-                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                                <input type="number" id="f-monthlysales" class="form-control" style="border-radius: 0 4px 4px 0;" required>
                             </div>
                         </div>
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">What was your latest reported yearly sales?</label>
                             <div style="display: flex; flex: 1;">
                                 <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
-                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                                <input type="number" id="f-yearlysales" class="form-control" style="border-radius: 0 4px 4px 0;" required>
                             </div>
                         </div>
 
                         <div class="form-group" style="display: flex; align-items: center;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; color: #cc0000; font-weight: 600;">% of business you are willing to sell / require investment</label>
                             <div style="display: flex; flex: 1; align-items: center;">
-                                <input type="number" class="form-control" style="width: 100px; margin-right: 10px;" required> %
+                                <input type="number" id="f-percent" class="form-control" style="width: 100px; margin-right: 10px;" required> %
                             </div>
                         </div>
 
                         <div class="form-group" style="display: flex; align-items: flex-start;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">List all tangible and intangible assets the business owns</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" required></textarea>
+                                <textarea id="f-assets" class="form-control" rows="3" required></textarea>
                                 <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
                             </div>
                         </div>
@@ -255,14 +255,14 @@
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">What is the value of physical assets owned by the business that would be part of the transaction?</label>
                             <div style="display: flex; flex: 1;">
                                 <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
-                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                                <input type="number" id="f-assetvalue" class="form-control" style="border-radius: 0 4px 4px 0;" required>
                             </div>
                         </div>
 
                         <div class="form-group" style="display: flex; align-items: flex-start; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
                             <label style="width: 300px; margin: 0; font-weight: normal; color: #555; color: #cc0000; font-weight: 600; padding-top: 10px;">What are you expecting to do with selling the business or planned investment?</label>
                             <div style="flex: 1;">
-                                <textarea class="form-control" rows="3" placeholder="Explain your objective..." required></textarea>
+                                <textarea id="f-objective" class="form-control" rows="3" placeholder="Explain your objective..." required></textarea>
                             </div>
                         </div>
                         
@@ -290,25 +290,25 @@
                         
                         <div style="margin-bottom: 10px;">
                             <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" name="plan" value="active">
+                                <input type="checkbox" name="plan" class="plan-cb" value="Active Business">
                                 <strong>Active Business</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
                             </label>
                         </div>
                         <div style="margin-bottom: 10px;">
                             <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" name="plan" value="fast_track" checked>
+                                <input type="checkbox" name="plan" class="plan-cb" value="Fast Track Business" checked>
                                 <strong>Fast Track Business</strong> <span style="color: #28a745; font-size: 0.8rem; font-weight: 600;">[ Recommended ]</span> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
                             </label>
                         </div>
                         <div style="margin-bottom: 10px;">
                             <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" name="plan" value="professional">
+                                <input type="checkbox" name="plan" class="plan-cb" value="Professional Business">
                                 <strong>Professional Business</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
                             </label>
                         </div>
                         <div style="margin-bottom: 20px;">
                             <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
-                                <input type="checkbox" name="plan" value="full_access">
+                                <input type="checkbox" name="plan" class="plan-cb" value="Full Access Plan">
                                 <strong>Full Access Plan</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
                             </label>
                         </div>
@@ -427,7 +427,7 @@
                         <td>${new Date(ad.submittedAt).toLocaleDateString()}</td>
                         <td><span class="badge ${badgeClass}">${statusText}</span></td>
                         <td>
-                            <button style="background:#eee; border:1px solid #ccc; padding:4px 8px; border-radius:3px; cursor:pointer;" onclick="alert('Viewing ad details...')">View</button>
+                            <button style="background:#eee; border:1px solid #ccc; padding:4px 8px; border-radius:3px; cursor:pointer;" onclick="alert('Please view full details via Admin Panel')">View</button>
                         </td>
                     </tr>
                 `;
@@ -446,18 +446,40 @@
             
             const uniqueCode = generateCode();
             
-            // Collect form data (simplified for demo, but we save to global store)
-            // Assuming inputs are accessed by index or ID in a real app. Here we just create a strong stub based on the Smergers format
+            // Collect all services checked
+            const selectedServices = Array.from(document.querySelectorAll('.plan-cb:checked')).map(cb => cb.value);
+            
+            // Collect form data for the Admin panel
             const newAd = {
                 refCode: uniqueCode,
-                businessName: 'Business Proposal - ' + uniqueCode, // Redacted as per instructions
-                contactName: document.querySelectorAll('.form-control')[8].value || user.name, // 8th input is contact name
-                phone: document.querySelectorAll('.form-control')[9].value || 'N/A',
-                email: document.querySelectorAll('.form-control')[10].value || user.email,
-                industry: document.querySelectorAll('.form-control')[3].value || 'Various',
-                district: document.querySelectorAll('.form-control')[4].value || 'Sri Lanka',
-                investmentRequired: document.querySelectorAll('.form-control')[15].value || 0, // monthly sales roughly maps to value or % required
+                businessName: 'Business Proposal - ' + uniqueCode,
+                role: document.getElementById('f-role').value,
+                interest: document.getElementById('f-interest').value,
+                established: document.getElementById('f-established').value,
+                industry: document.getElementById('f-industry').value,
+                district: document.getElementById('f-location').value,
+                employees: document.getElementById('f-employees').value,
+                entityType: document.getElementById('f-entity').value,
+                shortDescription: document.getElementById('f-shortdesc').value,
+                
+                contactName: document.getElementById('f-contactname').value,
+                phone: document.getElementById('f-phone').value,
+                email: document.getElementById('f-email').value,
+                
+                products: document.getElementById('f-products').value,
+                highlights: document.getElementById('f-highlights').value,
+                facility: document.getElementById('f-facility').value,
+                funding: document.getElementById('f-funding').value,
+                monthlySales: document.getElementById('f-monthlysales').value,
+                yearlySales: document.getElementById('f-yearlysales').value,
+                percentToSell: document.getElementById('f-percent').value,
+                assets: document.getElementById('f-assets').value,
+                assetValue: document.getElementById('f-assetvalue').value,
+                objective: document.getElementById('f-objective').value,
+                
+                services: selectedServices,
                 publisherEmail: user.email,
+                investmentRequired: document.getElementById('f-assetvalue').value,
                 status: 'pending_payment'
             };
             
