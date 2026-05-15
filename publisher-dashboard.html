@@ -82,6 +82,24 @@
         .btn-giant { display: inline-block; background: #ffdd00; color: #003399; font-size: 1.3rem; font-weight: 900; padding: 15px 40px; border-radius: 50px; text-decoration: none; text-transform: uppercase; border: none; cursor: pointer; box-shadow: 0 4px 10px rgba(255, 221, 0, 0.4); transition: transform 0.2s; }
         .btn-giant:hover { transform: scale(1.05); }
 
+        .btn-giant:hover { transform: scale(1.05); }
+
+        /* Payment Diagram Styles */
+        .pay-diagram { display: flex; gap: 20px; align-items: flex-start; margin-top: 25px; background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef; overflow-x: auto; }
+        .pay-instructions { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 40px; padding-top: 80px; }
+        .pay-inst-line { position: relative; background: #e2e3e5; padding: 8px 12px; border-radius: 4px; font-size: 0.85rem; color: #444; }
+        .pay-inst-line::after { content: '➔'; position: absolute; right: -25px; top: 50%; transform: translateY(-50%); color: #cc0000; font-size: 1.2rem; }
+        
+        .pay-form-mock { width: 320px; border: 5px solid; border-image: linear-gradient(to bottom, #cc0000, #ff9900) 1; background: #fff; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
+        .pay-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; font-size: 0.9rem; }
+        .pay-input-group { margin-top: 15px; }
+        .pay-label { font-size: 0.8rem; font-weight: 700; color: #333; margin-bottom: 5px; display: block; }
+        .pay-input { border-bottom: 2px solid #5cb85c; padding-bottom: 5px; color: #888; font-size: 0.85rem; display: flex; justify-content: space-between; }
+        .pay-input.gray { border-bottom-color: #ccc; }
+        .pay-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .pay-btn { flex: 1; padding: 10px; text-align: center; color: #fff; font-weight: 700; font-size: 0.9rem; }
+        .pay-btn.red { background: #cc0000; }
+        
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
@@ -161,6 +179,47 @@
                         <div id="dynamic-payment" style="white-space: pre-line; line-height: 1.6; color: #555;">
                             <!-- Populated by JS -->
                         </div>
+
+                        <!-- Visual Diagram -->
+                        <div class="pay-diagram">
+                            <div class="pay-instructions">
+                                <div class="pay-inst-line">Fill the Transaction Amount</div>
+                                <div class="pay-inst-line" style="margin-top: 20px;">Please ignore this section</div>
+                                <div class="pay-inst-line" style="margin-top: 25px;">Please enter the system-generated Ref Code (e.g. HLI-XXXX) as a reference ID</div>
+                            </div>
+                            
+                            <div class="pay-form-mock">
+                                <div class="pay-row">
+                                    <strong>Merchant Name</strong>
+                                    <span>HelaInvest</span>
+                                </div>
+                                <div class="pay-row">
+                                    <strong>City</strong>
+                                    <span>COLOMBO 03</span>
+                                </div>
+                                
+                                <div class="pay-input-group">
+                                    <span class="pay-label">Transaction Amount*</span>
+                                    <div class="pay-input"><span>0.00</span> <span>LKR</span></div>
+                                </div>
+                                
+                                <div class="pay-input-group">
+                                    <span class="pay-label">Tip Amount</span>
+                                    <div class="pay-input"><span>0.00</span></div>
+                                </div>
+                                
+                                <div class="pay-input-group">
+                                    <span class="pay-label">Reference Id</span>
+                                    <div class="pay-input gray"><span>HLI-1234</span></div>
+                                </div>
+                                
+                                <div class="pay-buttons">
+                                    <div class="pay-btn red">PAY</div>
+                                    <div class="pay-btn red">CANCEL</div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                     <div style="text-align: center; margin: 40px 0;">
