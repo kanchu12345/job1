@@ -128,29 +128,196 @@
             <!-- SECTION 2: NEW POST FORM -->
             <div id="new-post" class="dash-section">
                 <h3 style="margin-bottom:20px; color:#003399;">Upload Your Advertisement</h3>
-                <form id="ad-form" class="post-form">
-                    <div class="form-group">
-                        <label>Job Title / Vacancy Name *</label>
-                        <input type="text" id="ad-title" class="form-control" placeholder="e.g. Accounts Executive" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Company Name *</label>
-                        <input type="text" id="ad-company" class="form-control" placeholder="e.g. NOLIMIT" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Upload Advertisement Image (JPG/PNG) *</label>
-                        <input type="file" id="ad-image" class="form-control" accept="image/*" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Closing Date *</label>
-                        <input type="date" id="ad-closing" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Short Description (Optional)</label>
-                        <textarea id="ad-desc" class="form-control" rows="4" placeholder="Brief intro about the role..."></textarea>
-                    </div>
+                
+                <form id="ad-form" class="post-form" style="max-width: 100%;">
                     
-                    <button type="submit" class="btn-submit"><i class="fas fa-upload"></i> Submit for Approval</button>
+                    <div style="background: #fff; border: 1px solid #ccc; padding: 20px; margin-bottom: 30px;">
+                        <h4 style="border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 15px; font-size: 1.1rem;">Business Information</h4>
+                        <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">
+                            Information entered here is displayed publicly to match you with the right set of investors and buyers. 
+                            <strong style="color: #cc0000; border-bottom: 1px solid #cc0000;">Do not mention business name/information which can identify the business.</strong>
+                        </p>
+                        
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">You are a(n)</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">You are interested in</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">When was the business established?</label>
+                            <input type="text" class="form-control" style="width: 200px;" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Select business' industry</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Where is the business located / headquartered?</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">How many permanent employees does the business have?</label>
+                            <input type="number" class="form-control" style="width: 200px;" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Select business legal entity type</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Describe the business in a single line</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="2" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff; border: 2px solid #ff7a59; padding: 20px; margin-bottom: 30px;">
+                        <h4 style="color: #cc0000; margin-bottom: 15px;">Contact Details</h4>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Contact Person Name *</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Contact Number *</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 250px; margin: 0; font-weight: normal; color: #555;">Email Address *</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff; padding: 20px; margin-bottom: 30px;">
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">What are the business's top-selling products and services, who uses them, and how?</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Mention highlights of the business including number of clients, revenue model, promoter experience, business relationships, awards, etc</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">Describe your facility such as built-up area, number of floors, rental/lease details</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">How is the business funded presently? Mention all debts/loans outstanding and the total number of shareholders/owners of the business with percentage ownership.</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">At present, what is your average monthly sales?</label>
+                            <div style="display: flex; flex: 1;">
+                                <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
+                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">What was your latest reported yearly sales?</label>
+                            <div style="display: flex; flex: 1;">
+                                <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
+                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; color: #cc0000; font-weight: 600;">% of business you are willing to sell / require investment</label>
+                            <div style="display: flex; flex: 1; align-items: center;">
+                                <input type="number" class="form-control" style="width: 100px; margin-right: 10px;" required> %
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: flex-start;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; padding-top: 10px;">List all tangible and intangible assets the business owns</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" required></textarea>
+                                <div style="font-size: 0.75rem; color: #0088cc; margin-top: 5px;">Examples of what to write</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: center;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">What is the value of physical assets owned by the business that would be part of the transaction?</label>
+                            <div style="display: flex; flex: 1;">
+                                <span style="background: #eee; padding: 10px; border: 1px solid #ccc; border-right: none; border-radius: 4px 0 0 4px;">LKR</span>
+                                <input type="number" class="form-control" style="border-radius: 0 4px 4px 0;" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display: flex; align-items: flex-start; margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555; color: #cc0000; font-weight: 600; padding-top: 10px;">What are you expecting to do with selling the business or planned investment?</label>
+                            <div style="flex: 1;">
+                                <textarea class="form-control" rows="3" placeholder="Explain your objective..." required></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="display: flex; align-items: center; margin-top: 20px;">
+                            <label style="width: 300px; margin: 0; font-weight: normal; color: #555;">Upload Advertisement Image / PDF</label>
+                            <div style="flex: 1;">
+                                <input type="file" id="ad-image" class="form-control" accept="image/*, .pdf" required>
+                            </div>
+                        </div>
+                        
+                        <!-- Internal Hidden Field for Table Population Tracking -->
+                        <input type="hidden" id="ad-title" value="Business Proposal">
+                    </div>
+
+                    <div style="background: #fff; border-top: 2px solid #003399; padding: 20px; margin-bottom: 30px;">
+                        <h4 style="color: #cc0000; font-size: 0.9rem; margin-bottom: 15px;">Select services below which will help to prove your business and value</h4>
+                        
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="plan" value="active">
+                                <strong>Active Business</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
+                            </label>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="plan" value="fast_track" checked>
+                                <strong>Fast Track Business</strong> <span style="color: #28a745; font-size: 0.8rem; font-weight: 600;">[ Recommended ]</span> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
+                            </label>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="plan" value="professional">
+                                <strong>Professional Business</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
+                            </label>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="font-weight: normal; display: flex; align-items: center; gap: 10px;">
+                                <input type="checkbox" name="plan" value="full_access">
+                                <strong>Full Access Plan</strong> <span style="color: #0088cc; font-size: 0.8rem;">Know More</span>
+                            </label>
+                        </div>
+                        <div style="color: #0088cc; font-size: 0.85rem; margin-bottom: 20px;">
+                            <i class="fas fa-plus-square"></i> Select Individual Services
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #eee; padding-top: 20px;">
+                            <label style="font-weight: normal; display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #cc0000; font-weight: 600;">
+                                <input type="checkbox" required>
+                                I accept terms and conditions and I will give you a PDF of terms and conditions
+                            </label>
+                            
+                            <button type="submit" class="btn-submit" style="background: #f1c40f; color: #333; padding: 10px 30px; font-size: 1.1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">Submit</button>
+                        </div>
+                    </div>
+
                 </form>
             </div>
 
@@ -159,21 +326,34 @@
 
     <!-- Payment Instruction Modal -->
     <div class="modal-overlay" id="payment-modal">
-        <div class="modal-content">
-            <h3><i class="fas fa-check-circle" style="color:#28a745;"></i> Ad Submitted Successfully!</h3>
-            <p>Your advertisement has been received. To proceed with the Admin Review, please complete your payment.</p>
+        <div class="modal-content" style="max-width: 600px; text-align: left;">
+            <h3 style="color: #28a745; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 20px;">
+                <i class="fas fa-check-circle"></i> Ad Submitted Successfully!
+            </h3>
             
-            <div class="ref-code-box" id="generated-code">HLI-0000</div>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: #333; margin-bottom: 15px;">
+                Your post is under review based on the information provided. We will let you know once the admin has approved.
+            </p>
             
-            <div class="modal-instructions">
-                <strong><i class="fas fa-exclamation-triangle"></i> Payment Verification Required:</strong><br><br>
-                1. Transfer the advertising fee (LKR 5,000) via Bank Deposit or Online Transfer.<br>
+            <p style="font-size: 0.95rem; line-height: 1.6; color: #333; margin-bottom: 20px; background: #f8f9fa; padding: 15px; border-left: 4px solid #003399;">
+                <strong>Fee Details:</strong> Your posting fee will be <strong>Rs. 2,500/-</strong> (valid for 4 months). 
+                If you have selected any of the other services, those will be charged separately and one of our representatives will contact you within the next 48 hours.
+            </p>
+
+            <div class="ref-code-box" id="generated-code" style="text-align: center; margin: 25px 0;">HLI-0000</div>
+            
+            <div class="modal-instructions" style="background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; font-size: 0.9rem; color: #555;">
+                <strong style="color: #cc0000; font-size: 1rem;"><i class="fas fa-exclamation-triangle"></i> Money Deposit Instructions:</strong><br><br>
+                1. Transfer the posting fee (LKR 2,500) via Bank Deposit or Online Transfer.<br>
                 2. Bank: <strong>Commercial Bank</strong> | A/C: <strong>123456789</strong><br>
-                3. <strong>CRITICAL:</strong> You MUST include the exact code <strong style="color:#cc0000;" id="inst-code">HLI-0000</strong> in the "Remarks" or "Comment" section of your bank app transfer.<br>
-                4. Once the admin receives the money and checks the code, your ad status will change from "Payment Verification" to "Admin Review" and then "Approved".
+                3. <strong>CRITICAL:</strong> You MUST clearly mention the exact code <strong style="color:#cc0000;" id="inst-code">HLI-0000</strong> in the "Remarks" or "Comment" section of your bank app transfer.<br>
+                4. <strong style="color: #28a745;">Within 24 hours of verifying your deposit code, your ad will be published.</strong><br>
+                5. You can track this progress in your "My Postings & Status" tab.
             </div>
             
-            <button class="btn-submit" onclick="closeModal()">I Understand, View My Postings</button>
+            <div style="text-align: right;">
+                <button class="btn-submit" onclick="closeModal()">I Understand, View My Postings</button>
+            </div>
         </div>
     </div>
 
