@@ -6,9 +6,7 @@
     <title>Authentication | HelaInvest</title>
     <link rel="stylesheet" href="style.css">
     
-    <!-- Google Identity Services API for SSO -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
+    <!-- Google Identity Services mocked for demo -->
     <style>
         body { background: #f4f6f8; font-family: 'Inter', sans-serif; }
         
@@ -108,32 +106,15 @@
 
                 <div class="divider"><span>OR</span></div>
                 
-                <!-- Actual Google Sign-in API Button Container -->
-                <div id="g_id_onload"
-                     data-client_id="YOUR_GOOGLE_CLIENT_ID_HERE"
-                     data-context="signin"
-                     data-ux_mode="popup"
-                     data-callback="handleGoogleCredentialResponse"
-                     data-auto_prompt="false">
-                </div>
-                <div class="g_id_signin"
-                     data-type="standard"
-                     data-shape="rectangular"
-                     data-theme="outline"
-                     data-text="signin_with"
-                     data-size="large"
-                     data-logo_alignment="left">
-                </div>
-
-                <!-- Fallback Mock Google button if Client ID is missing -->
-                <button type="button" id="mock-google-btn" class="btn-submit" style="background:#fff; color:#444; border:1px solid #ccc; margin-top:10px; display:none;">
-                    <svg width="16" height="16" viewBox="0 0 48 48" style="vertical-align:middle; margin-right:8px;" xmlns="http://www.w3.org/2000/svg">
+                <!-- Mock Google button for Demo Purposes -->
+                <button type="button" id="mock-google-btn" class="btn-submit" style="background:#fff; color:#444; border:1px solid #ccc; margin-top:10px; display:flex; align-items:center; justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 48 48" style="margin-right:10px;" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
                         <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
                         <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
                         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
                     </svg>
-                    Continue with Google (Mock)
+                    Continue with Google
                 </button>
             </div>
 
@@ -264,58 +245,15 @@
             }
         });
 
-        // --- Google Sign-In Integration ---
-        // This function handles the JWT response from actual Google Sign In
-        function handleGoogleCredentialResponse(response) {
-            // ... (keep the JWT decoding logic as is) ...
-            try {
-                const base64Url = response.credential.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-
-                const payload = JSON.parse(jsonPayload);
-                
-                const users = authStore.getUsers();
-                let user = users.find(u => u.email === payload.email);
-                
-                if (!user) {
-                    user = authStore.register(payload.name, payload.email, 'google_sso', 'client');
-                }
-                
-                localStorage.setItem(authStore.sessionKey, JSON.stringify(user));
-                
-                if (user.role === 'publisher') {
-                    window.location.href = 'publisher-dashboard.html';
-                } else {
-                    window.location.href = 'index.html';
-                }
-
-            } catch(e) {
-                console.error("Failed to parse Google JWT", e);
-                alert("Google Sign-In failed locally.");
+        // Mock Google Sign-In Integration for Demo
+        document.getElementById('mock-google-btn').addEventListener('click', () => {
+            const user = authStore.loginWithGoogle();
+            if (user.role === 'publisher') {
+                window.location.href = 'publisher-dashboard.html';
+            } else {
+                window.location.href = 'index.html';
             }
-        }
-
-        // Fallback for demo purposes if no Client ID is provided
-        window.onload = function() {
-            const clientId = document.getElementById('g_id_onload').getAttribute('data-client_id');
-            if(clientId === 'YOUR_GOOGLE_CLIENT_ID_HERE') {
-                console.warn("No Google Client ID provided. Using mock Google button.");
-                document.querySelector('.g_id_signin').style.display = 'none';
-                const mockBtn = document.getElementById('mock-google-btn');
-                mockBtn.style.display = 'block';
-                mockBtn.addEventListener('click', () => {
-                    const user = authStore.loginWithGoogle();
-                    if (user.role === 'publisher') {
-                        window.location.href = 'publisher-dashboard.html';
-                    } else {
-                        window.location.href = 'index.html';
-                    }
-                });
-            }
-        };
+        });
     </script>
 </body>
 </html>
