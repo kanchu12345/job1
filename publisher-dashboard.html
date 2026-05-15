@@ -441,9 +441,8 @@
             const settings = settingsStore.getSettings();
             if(settings) {
                 const rulesHTML = `
-                    <li><i class="fas fa-check-circle"></i> <strong>LKR ${settings.adRateLKR}</strong> per vacancy. Duration: ${settings.adDuration} days</li>
-                    <li><i class="fas fa-globe"></i> International clients: <strong>USD ${settings.intlRateUSD}</strong> per vacancy.</li>
-                    ${settings.adRules.split('\n').filter(r => r.trim() !== '').map(r => `<li><i class="fas fa-info-circle"></i> ${r}</li>`).join('')}
+                    ${settings.adRates ? settings.adRates.split('\n').filter(r => r.trim() !== '').map(r => `<li><i class="fas fa-check-circle"></i> <strong>${r}</strong></li>`).join('') : ''}
+                    ${settings.adRules ? settings.adRules.split('\n').filter(r => r.trim() !== '').map(r => `<li><i class="fas fa-info-circle"></i> ${r}</li>`).join('') : ''}
                 `;
                 document.getElementById('dynamic-rules').innerHTML = rulesHTML;
                 document.getElementById('dynamic-payment').innerText = settings.paymentInstructions;

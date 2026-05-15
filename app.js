@@ -279,10 +279,8 @@ class SettingsStore {
   initSeedData() {
     if (!localStorage.getItem(this.settingsKey)) {
       const defaultSettings = {
-        adRateLKR: '6,400',
-        adDuration: '14',
-        intlRateUSD: '35',
-        adRules: 'Vacancy art work can be of unlimited size, full color.\nSignificant discount for more than 2 vacancies.\nTerms and Conditions will be applied.',
+        adRates: 'LKR 6,400 per vacancy. Duration: 14 days.\nInternational clients: USD 35 per vacancy (includes bank charges).\nSignificant discount for more than 2 vacancies.',
+        adRules: 'Vacancy art work can be of unlimited size, full color.\nTerms and Conditions will be applied.',
         paymentInstructions: 'We accept cash/cheque deposits, bank transfer, credit card payment (visa/mastercard) and other convenient methods.\n\nOnce the payment is made, Please send the scanned copy/photo of the deposited slip via email. For payments using fund transfer, You can send the screenshot of the receipt.'
       };
       localStorage.setItem(this.settingsKey, JSON.stringify(defaultSettings));
