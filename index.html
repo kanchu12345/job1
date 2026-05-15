@@ -31,51 +31,6 @@
 
 
 
-    <!-- Services Ticker Bar (right-to-left scroll) -->
-    <div class="tj-ticker-wrap">
-        <div class="tj-ticker-label">Our Services</div>
-        <div class="tj-ticker-outer">
-            <div class="tj-ticker-track">
-                <span>Business Registration</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Company Secretarial Services</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Accounting &amp; Bookkeeping</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Valuation</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Financial Due Diligence</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Plans</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Proposals</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Tax Advisory</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Other Business Advisory Services</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <!-- Duplicate for seamless loop -->
-                <span>Business Registration</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Company Secretarial Services</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Accounting &amp; Bookkeeping</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Valuation</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Financial Due Diligence</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Plans</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Business Proposals</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Tax Advisory</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-                <span>Other Business Advisory Services</span>
-                <span class="tj-ticker-dot">&#9679;</span>
-            </div>
-        </div>
-    </div>
 
     <!-- Page Body -->
     <div class="tj-page">
@@ -103,16 +58,31 @@
         <!-- Main Content -->
         <main class="tj-main">
 
-            <!-- Filter Bar (single row like topjobs) -->
-            <div class="tj-filter">
-                <label><input type="checkbox"> Businesses for Sale</label>
-                <label><input type="checkbox"> Investors</label>
-                <label><input type="checkbox"> Franchises</label>
-                <label><input type="checkbox"> Walk-in Inquiries</label>
-                &nbsp;
-                <input type="text" placeholder="Listing Ref. No" style="width:100px;">
-                <input type="text" placeholder="Keyword Search" style="width:130px;">
-                <button class="tj-btn-search">SEARCH</button>
+            <!-- News-style Services Ticker -->
+            <div class="tj-news-ticker">
+                <div class="tj-news-label">Our Services</div>
+                <div class="tj-news-overflow">
+                    <div class="tj-news-track" id="ticker-track">
+                        <span>Business Registration</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Company Secretarial Services</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Accounting &amp; Bookkeeping</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Business Valuation</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Financial Due Diligence</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Business Plans</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Business Proposals</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Tax Advisory</span>
+                        <span class="tj-ndot">&#9679;</span>
+                        <span>Other Business Advisory Services</span>
+                        <span class="tj-ndot">&#9679;</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Results Header -->
@@ -354,6 +324,15 @@
             row.style.display = (kwMatch && refMatch) ? '' : 'none';
         });
     }
+
+    // ── Seamless ticker: clone content so loop is gapless ──
+    (function() {
+        const track = document.getElementById('ticker-track');
+        if (!track) return;
+        // Clone all children and append — now content is doubled → -50% = seamless
+        const clone = track.innerHTML;
+        track.innerHTML = clone + clone;
+    })();
     </script>
 </body>
 </html>

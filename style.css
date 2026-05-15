@@ -747,64 +747,61 @@ a:hover {
 .tj-sidebar .arrow { font-size: 1rem; }
 .tj-sidebar-scroll { background: #003399; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; font-size: 0.75rem; cursor: pointer; }
 
-/* ── Services Ticker Bar ── */
-.tj-ticker-wrap {
-  background: #8b1a1a;
+/* ── News-style Services Ticker ── */
+.tj-news-ticker {
   display: flex;
-  align-items: center;
-  overflow: hidden;
-  height: 34px;
+  align-items: stretch;
+  background: #8b1a1a;
   border-bottom: 2px solid #6e1414;
+  height: 36px;
+  overflow: hidden;           /* CRITICAL — clips everything to one line */
+  margin-bottom: 6px;
 }
-.tj-ticker-label {
+.tj-news-label {
   background: #cc9900;
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
   padding: 0 14px;
-  height: 100%;
   display: flex;
   align-items: center;
   white-space: nowrap;
   flex: 0 0 auto;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  border-right: 3px solid #b38600;
+  border-right: 3px solid #a37700;
 }
-.tj-ticker-outer {
+.tj-news-overflow {
   flex: 1;
-  overflow: hidden;
+  overflow: hidden;           /* CRITICAL — second clip layer */
+  display: flex;
+  align-items: center;
   position: relative;
-  height: 100%;
-  display: flex;
-  align-items: center;
 }
-.tj-ticker-track {
-  display: flex;
+.tj-news-track {
+  display: inline-flex;       /* inline so width = natural content width */
   align-items: center;
-  gap: 0;
-  white-space: nowrap;
-  animation: tickerScroll 38s linear infinite;
-  will-change: transform;
+  white-space: nowrap;        /* CRITICAL — never wrap */
+  animation: newsScroll 30s linear infinite;
 }
-.tj-ticker-track:hover { animation-play-state: paused; }
-.tj-ticker-track span {
+.tj-news-track:hover { animation-play-state: paused; cursor: default; }
+.tj-news-track > span {
   color: #fff;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  padding: 0 14px;
-  letter-spacing: 0.2px;
+  padding: 0 16px;
+  white-space: nowrap;
 }
-.tj-ticker-dot {
-  color: #cc9900 !important;
-  font-size: 0.45rem !important;
-  padding: 0 2px !important;
-  vertical-align: middle;
-  opacity: 0.85;
+.tj-ndot {
+  color: #ffcc00 !important;
+  font-size: 0.4rem !important;
+  padding: 0 !important;
+  line-height: 1;
+  opacity: 0.9;
 }
 
-@keyframes tickerScroll {
-  0%   { transform: translateX(0); }
+@keyframes newsScroll {
+  0%   { transform: translateX(0%); }
   100% { transform: translateX(-50%); }
 }
 
