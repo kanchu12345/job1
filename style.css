@@ -747,53 +747,65 @@ a:hover {
 .tj-sidebar .arrow { font-size: 1rem; }
 .tj-sidebar-scroll { background: #003399; color: #fff; display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; font-size: 0.75rem; cursor: pointer; }
 
-/* Sidebar Search Box */
-.tj-sidebar-search {
-  background: #fff;
-  border: 1px solid #ccc;
-  border-bottom: none;
-  padding: 6px 7px 7px;
+/* ── Services Ticker Bar ── */
+.tj-ticker-wrap {
+  background: #8b1a1a;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  overflow: hidden;
+  height: 34px;
+  border-bottom: 2px solid #6e1414;
 }
-.tj-sb-input {
-  width: 100%;
-  padding: 6px 8px;
-  border: 1px solid #bbb;
-  font-size: 0.78rem;
-  border-radius: 3px;
-  outline: none;
-  font-family: inherit;
-  box-sizing: border-box;
-}
-.tj-sb-input:focus { border-color: #8b1a1a; }
-.tj-sb-row2 {
+.tj-ticker-label {
+  background: #cc9900;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0 14px;
+  height: 100%;
   display: flex;
-  gap: 4px;
+  align-items: center;
+  white-space: nowrap;
+  flex: 0 0 auto;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-right: 3px solid #b38600;
+}
+.tj-ticker-outer {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  display: flex;
   align-items: center;
 }
-.tj-sb-refno { flex: 1; }
-.tj-sb-btn {
-  background: #2d6a2d;
-  color: #fff;
-  border: none;
-  padding: 6px 10px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 3px;
+.tj-ticker-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
   white-space: nowrap;
-  letter-spacing: 0.3px;
-  transition: background 0.15s;
+  animation: tickerScroll 38s linear infinite;
+  will-change: transform;
 }
-.tj-sb-btn:hover { background: #1e4d1e; }
-.tj-sb-info {
-  color: #555;
-  font-size: 1rem;
-  cursor: help;
-  flex: 0 0 auto;
-  line-height: 1;
+.tj-ticker-track:hover { animation-play-state: paused; }
+.tj-ticker-track span {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0 14px;
+  letter-spacing: 0.2px;
+}
+.tj-ticker-dot {
+  color: #cc9900 !important;
+  font-size: 0.45rem !important;
+  padding: 0 2px !important;
+  vertical-align: middle;
+  opacity: 0.85;
+}
+
+@keyframes tickerScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 .tj-main { flex: 1; min-width: 0; }
