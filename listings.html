@@ -91,39 +91,45 @@
 </head>
 <body>
 
-    <!-- Top Utility Bar -->
-    <div class="tj-topbar">
-        <div class="inner">
-            <div>
-                <a href="submit.html">+ Post Your Vacancy</a>
-                <a href="happy-customers.html">Happy Customers</a>
-                <a href="top-employers.html">Top Employers</a>
-                <a href="contact.html">Contact Us</a>
-            </div>
-            <div id="topbar-auth">
-                <a href="auth.html" class="tj-btn-login" style="font-size:0.78rem;">Log In / Sign Up</a>
-            </div>
+    <!-- Top Bar (Login/Register) -->
+    <div class="top-bar">
+        <div class="container">
+            <a href="admin.html">Admin Login</a>
+            <span>|</span>
+            <a href="#">Help & Support</a>
         </div>
     </div>
 
-    <!-- Header -->
-    <div class="tj-header">
-        <div class="inner">
-            <a href="index.html" class="tj-logo">
-                Hela<span>Invest</span>
-                <small>investment made easy</small>
-            </a>
-            <div class="tj-header-btns">
-                <a href="submit.html" class="tj-btn-post">Post Your Vacancy</a>
-                <a href="happy-customers.html" class="tj-btn-happy">Happy Customers</a>
-                <a href="top-employers.html" class="tj-btn-text">Top Employers</a>
-                <a href="contact.html" class="tj-btn-text">Contact Us</a>
-                <span id="header-auth">
-                    <a href="auth.html" class="tj-btn-login">Log In / Sign Up</a>
-                </span>
+    <!-- Main Navigation -->
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">Hela<span>Invest</span></a>
+            
+            <!-- Centered Search -->
+            <div class="header-search">
+                <input type="text" placeholder="Search businesses, investors, franchises...">
+                <button>Search</button>
+            </div>
+            
+            <div class="header-actions">
+                <a href="#" style="color: var(--primary-color); font-weight: 600;">Login</a>
+                <a href="#" class="btn btn-accent" style="padding: 8px 15px;">Register</a>
+                <a href="submit.html" class="btn btn-primary" style="padding: 8px 15px;">+ Add Profile</a>
             </div>
         </div>
-    </div>
+    </header>
+
+    <!-- Sub Navigation -->
+    <nav class="sub-nav">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="listings.html" class="active">Businesses for Sale</a></li>
+                <li><a href="listings.html">Franchises</a></li>
+                <li><a href="listings.html">Investors & Buyers</a></li>
+            </ul>
+        </div>
+    </nav>
 
     <div class="page-header">
         <div class="container">
@@ -171,24 +177,54 @@
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="tj-footer">
-        <div class="inner">
-            <div class="tj-footer-links" style="justify-content: center;">
-                <a href="index.html">Home</a>
-                <a href="banner-promotions.html">Banner Promotions</a>
-                <a href="top-employers.html">Top Employers</a>
-                <a href="terms.html">T &amp; C</a>
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="faq.html">FAQ</a>
-                <a href="media.html">Media Room</a>
-                <a href="partners.html">Partners</a>
-                <a href="lmi.html">LMI</a>
-                <a href="contact.html">Contact Us</a>
-                <a href="sitemap.html">Sitemap</a>
+    <!-- Mega Footer -->
+    <footer class="mega-footer" style="background-color: var(--white); color: var(--text-muted); border-top: 1px solid var(--border-color); padding: 50px 0 20px;">
+        <div class="container">
+            <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px;">
+                <div class="footer-col">
+                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Get Started</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="submit.html" style="color: var(--primary-light); font-size: 0.9rem;">Sell your Business</a></li>
+                        <li style="margin-bottom: 10px;"><a href="submit.html" style="color: var(--primary-light); font-size: 0.9rem;">Finance your Business</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Buy a Business</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Invest in a Business</a></li>
+                        <li style="margin-bottom: 10px;"><a href="submit.html" style="color: var(--primary-light); font-size: 0.9rem;">Franchise your Business</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Businesses</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Businesses For Sale</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Investment Opportunities</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Businesses Seeking Loan</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Business Assets For Sale</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Investors</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Individual Investors</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Business Buyers</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Corporate Investors</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Venture Capital Firms</a></li>
+                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-size: 0.9rem;">Private Equity Firms</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Valuation</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: var(--primary-light); font-size: 0.9rem;">How to Value a Business</a></li>
+                        <li style="margin-bottom: 10px;"><a href="#" style="color: var(--primary-light); font-size: 0.9rem;">Business Valuation Calculator</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="tj-footer-copy">
-                Copyright &copy; 2006-2026 HelaInvest (Pvt) Ltd. All Rights Reserved.
+            <div class="footer-bottom" style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
+                <p>&copy; 2026 HelaInvest Platform. All rights reserved.</p>
+                <div style="display: flex; gap: 15px;">
+                    <a href="#" style="color: var(--text-muted);">Terms</a>
+                    <a href="#" style="color: var(--text-muted);">Privacy</a>
+                    <a href="#" style="color: var(--text-muted);">Cookies</a>
+                </div>
             </div>
         </div>
     </footer>
