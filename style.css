@@ -848,3 +848,112 @@ a:hover {
 .tj-social-x  { background: #000; }
 .tj-social-in { background: #0a66c2; }
 
+/* ── Listing Cards Grid & Modern Cards ── */
+.listing-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+  width: 100%;
+}
+
+.lc-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.lc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border-color: var(--primary-light);
+}
+
+.lc-body {
+  padding: 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.lc-name {
+  color: var(--primary-color);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.lc-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lc-meta {
+  border-top: 1px dashed var(--border-color);
+  margin-top: auto;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lc-meta-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.lc-meta-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.lc-meta-value {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.lc-footer {
+  background: #fdfdfd;
+  border-top: 1px solid var(--border-color);
+  padding: 12px 20px;
+  text-align: right;
+}
+
+.lc-btn {
+  background: var(--primary-light);
+  color: var(--white);
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.lc-btn:hover {
+  background: var(--primary-color);
+  color: var(--white);
+}
+
+.lc-btn:active {
+  transform: scale(0.98);
+}
+
+
