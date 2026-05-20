@@ -199,6 +199,58 @@ a:hover {
   color: var(--white);
 }
 
+/* Home Search Section */
+.home-search {
+    padding: 80px 0;
+    background: var(--bg-color);
+    animation: fadeSlideUp 0.8s ease-out forwards;
+    opacity: 0; /* start invisible for animation */
+}
+
+.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.search-input {
+    flex: 1 1 200px;
+    max-width: 300px;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-family);
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.search-input:focus {
+    border-color: var(--primary-light);
+}
+
+.search-button {
+    flex: 0 0 auto;
+    padding: 12px 24px;
+    border-radius: 6px;
+    background: var(--primary-light);
+    color: var(--white);
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.search-button:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeSlideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(59, 130, 246, 0.8)), url('https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=2070&auto=format&fit=crop') center/cover;

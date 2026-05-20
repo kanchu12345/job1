@@ -19,23 +19,39 @@
     </div>
 
     <!-- Main Navigation -->
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">Hela<span>Invest</span></a>
-            
-            <!-- Centered Search -->
-            <div class="header-search">
-                <input type="text" placeholder="Search businesses, investors, franchises...">
-                <button>Search</button>
-            </div>
-            
-            <div class="header-actions">
-                <a href="login.html" style="color: var(--primary-color); font-weight: 600;">Login</a>
-                <a href="register.html" class="btn btn-accent" style="padding: 8px 15px;">Register</a>
-                <a href="publisher-dashboard.html" class="btn btn-primary" style="padding: 8px 15px;">+ Add Profile</a>
-            </div>
-        </div>
-    </header>
+<!-- New Home Search Section (replaces removed header) -->
+<section class="home-search" id="home-search">
+    <div class="container">
+        <form class="search-form" onsubmit="event.preventDefault(); handleSearch();">
+            <input type="text" id="search-industry" name="industry" placeholder="Job/Industry" list="industry-options" class="search-input" autocomplete="off" />
+            <datalist id="industry-options"></datalist>
+            <input type="text" id="search-location" name="location" placeholder="Location" class="search-input" />
+            <input type="text" id="search-keywords" name="keywords" placeholder="Keywords" class="search-input" />
+            <button type="submit" class="btn btn-primary search-button">Search</button>
+        </form>
+    </div>
+</section>
+<script>
+    // Populate industry datalist from existing categoryStore
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof categoryStore !== 'undefined') {
+            const datalist = document.getElementById('industry-options');
+            const cats = categoryStore.getAll();
+            cats.forEach(c => {
+                const opt = document.createElement('option');
+                opt.value = c.name;
+                datalist.appendChild(opt);
+            });
+        }
+    });
+    function handleSearch() {
+        const industry = document.getElementById('search-industry').value.trim();
+        const location = document.getElementById('search-location').value.trim();
+        const keywords = document.getElementById('search-keywords').value.trim();
+        console.log('Search triggered:', { industry, location, keywords });
+        // TODO: integrate with actual search logic
+    }
+</script>
 
     <!-- Sub Navigation -->
     <nav class="sub-nav">

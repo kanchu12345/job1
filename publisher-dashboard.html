@@ -487,14 +487,7 @@
             }
             document.getElementById('pub-name').innerText = user.name;
             
-            // Populate Industry Dropdown
-            const indSelect = document.getElementById('f-industry');
-            const cats = categoryStore.getAll();
-            if(cats.length > 0) {
-                indSelect.innerHTML = '<option value="">Select Industry...</option>' + cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-            } else {
-                indSelect.innerHTML = '<option value="Other">Other</option>';
-            }
+            populateIndustryDropdown();
 
             // Populate Landing Page Settings
             const settings = settingsStore.getSettings();
@@ -522,6 +515,17 @@
         function logout() {
             authStore.logout();
             window.location.href = 'auth.html';
+        }
+
+        // Populate Industry Dropdown
+        function populateIndustryDropdown() {
+            const indSelect = document.getElementById('f-industry');
+            const cats = categoryStore.getAll();
+            if (cats.length > 0) {
+                indSelect.innerHTML = '<option value="">Select Industry...</option>' + cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+            } else {
+                indSelect.innerHTML = '<option value="Other">Other</option>';
+            }
         }
 
         // Tab Navigation
