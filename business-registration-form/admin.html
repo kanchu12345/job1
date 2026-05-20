@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – Business Registrations</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind customisation – keep same accent colour
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#FDD835',
+          },
+        },
+      },
+    };
+    // Helper to fetch submissions from localStorage
+    function loadSubmissions() {
+      const data = localStorage.getItem('registrations');
+      return data ? JSON.parse(data) : [];
+    }
+    function renderTable() {
+      const submissions = loadSubmissions();
+      const tbody = document.getElementById('submissionsBody');
+      tbody.innerHTML = '';
+      submissions.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b';
+        tr.innerHTML = `
+          <td class="px-4 py-2 text-sm text-gray-700">${idx + 1}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${item.contactName}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${item.contactEmail}</td>
+          <td class="px-4 py-2 text-sm text-gray-700">${item.paymentCode}</td>
+          <td class="px-4 py-2 text-sm">
+            <button data-index="${idx}" class="approveBtn bg-accent text-white px-2 py-1 rounded hover:bg-yellow-600">Approve</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+    function approveSubmission(index) {
+      const submissions = loadSubmissions();
+      if (submissions[index]) {
+        submissions[index].status = 'Approved';
+        localStorage.setItem('registrations', JSON.stringify(submissions));
+        renderTable();
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTable();
+      document.body.addEventListener('click', (e) => {
+        if (e.target.classList.contains('approveBtn')) {
+          const idx = e.target.getAttribute('data-index');
+          approveSubmission(idx);
+        }
+      });
+    });
+  </script>
+</head>
+<body class="bg-gray-50 min-h-screen p-6 font-sans">
+  <div class="max-w-5xl mx-auto bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Admin Panel – Registrations</h1>
+    <table class="min-w-full border border-gray-200">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">#</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Contact Name</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Email</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Payment Code</th>
+          <th class="px-4 py-2 text-left text-sm font-medium text-gray-600">Action</th>
+        </tr>
+      </thead>
+      <tbody id="submissionsBody"></tbody>
+    </table>
+  </div>
+</body>
+</html>

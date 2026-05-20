@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Registration Dashboard</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind configuration (accent colors, fonts)
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: '#FDD835', // Yellow accent
+            darkgray: '#4B5563',
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .progress-step {
+      @apply flex-1 text-center relative;
+    }
+    .progress-step::after {
+      content: '';
+      @apply absolute top-1/2 -right-1/2 w-full h-0.5 bg-gray-200;
+    }
+    .progress-step:last-child::after { display: none; }
+  </style>
+</head>
+<body class="bg-gray-50 font-sans antialiased min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white shadow-md rounded-lg max-w-3xl w-full p-6">
+    <!-- Progress Indicator -->
+    <div class="flex mb-8" aria-label="Progress">
+      <div class="progress-step">
+        <div class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center mx-auto">1</div>
+        <p class="mt-2 text-sm font-medium text-gray-700">Business Info</p>
+      </div>
+      <div class="progress-step">
+        <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mx-auto">2</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">Details</p>
+      </div>
+      <div class="progress-step">
+        <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-600 flex items-center justify-center mx-auto">3</div>
+        <p class="mt-2 text-sm font-medium text-gray-500">Plan</p>
+      </div>
+    </div>
+
+    <form id="registrationForm" class="space-y-6" method="POST" action="https://example.com/api/submit">
+      <!-- SECTION 1 -->
+      <section class="space-y-4" data-step="1">
+        <h2 class="text-xl font-semibold text-gray-800">1. Business Information</h2>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="role">You are a/an *</label>
+            <select id="role" name="role" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent">
+              <option value="" disabled selected>Select role</option>
+              <option>Founder</option>
+              <option>CEO</option>
+              <option>Investor</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="interest">You are interested in *</label>
+            <select id="interest" name="interest" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent">
+              <option value="" disabled selected>Select interest</option>
+              <option>Acquisition</option>
+              <option>Funding</option>
+              <option>Partnership</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="established">When was the business established? *</label>
+            <input type="date" id="established" name="established" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="industry">Select business industry *</label>
+            <select id="industry" name="industry" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent">
+              <option value="" disabled selected>Select industry</option>
+              <option>Technology</option>
+              <option>Manufacturing</option>
+              <option>Healthcare</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="location">Where is the business located/headquartered? *</label>
+            <input type="text" id="location" name="location" placeholder="City, Country" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="employees">How many permanent employees does the business have? *</label>
+            <input type="number" id="employees" name="employees" min="0" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="entity">Select business legal entity type *</label>
+            <select id="entity" name="entity" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent">
+              <option value="" disabled selected>Select entity</option>
+              <option>LLC</option>
+              <option>Corporation</option>
+              <option>Partnership</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="description">Describe the business in a single line *</label>
+            <input type="text" id="description" name="description" placeholder="e.g., SaaS platform for …" required aria-required="true" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+    <div class="mt-2 text-sm text-gray-500" id="adBanner">Your advertisement banner goes here.</div>
+          </div>
+          <!-- New fields -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="contactName">Contact Person Name *</label>
+            <input type="text" id="contactName" name="contactName" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="contactPhone">Contact Number *</label>
+            <input type="tel" id="contactPhone" name="contactPhone" required pattern="[0-9]{10,15}" aria-required="true" aria-describedby="phoneError" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+            <span id="phoneError" class="hidden text-red-600 text-sm">Please enter a valid phone number (10-15 digits).</span>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="contactEmail">Business Email Address *</label>
+            <input type="email" id="contactEmail" name="contactEmail" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button type="button" id="nextToStep2" class="bg-accent text-white px-4 py-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-accent">
+            Next
+          </button>
+        </div>
+      </section>
+
+      <!-- SECTION 2 -->
+      <section class="space-y-4 hidden" data-step="2">
+        <h2 class="text-xl font-semibold text-gray-800">2. Business Details</h2>
+        <div class="grid grid-cols-1 gap-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="topProducts">Top-selling products & services *</label>
+            <textarea id="topProducts" name="topProducts" rows="3" placeholder="Describe products, target customers, usage..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="highlights">Business highlights *</label>
+            <textarea id="highlights" name="highlights" rows="3" placeholder="Number of clients, revenue model, awards, partnerships..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="facility">Facility description *</label>
+            <textarea id="facility" name="facility" rows="2" placeholder="Build‑up area, floors, lease details..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="ownership">Ownership details & shareholder percentages *</label>
+            <textarea id="ownership" name="ownership" rows="2" placeholder="e.g., Founder A – 60%, Investor B – 40%" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <!-- Financial fields -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="monthlySales">Average monthly sales *</label>
+              <input type="number" id="monthlySales" name="monthlySales" min="0" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="yearlySales">Latest yearly sales *</label>
+              <input type="number" id="yearlySales" name="yearlySales" min="0" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+            </div>
+          </div>
+          <!-- Replaced fields -->
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="sellingPct">Expected selling percentage of the business *</label>
+              <input type="number" id="sellingPct" name="sellingPct" min="0" max="100" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700" for="investmentAmount">Required investment amount *</label>
+              <input type="number" id="investmentAmount" name="investmentAmount" min="0" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="investmentPurpose">Purpose of investment / use of funds *</label>
+            <textarea id="investmentPurpose" name="investmentPurpose" rows="2" placeholder="e.g., expansion, R&D, marketing..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <!-- Assets section -->
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="assets">List all tangible and intangible assets *</label>
+            <textarea id="assets" name="assets" rows="3" placeholder="Asset names, descriptions..." required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent"></textarea>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700" for="assetValue">Value of physical assets included in the transaction *</label>
+            <input type="number" id="assetValue" name="assetValue" min="0" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-accent focus:ring-accent" />
+          </div>
+        </div>
+        <div class="flex justify-between mt-4">
+          <button type="button" id="backToStep1" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-accent">Back</button>
+          <button type="button" id="nextToStep3" class="bg-accent text-white px-4 py-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-accent">Next</button>
+        </div>
+      </section>
+
+      <!-- SECTION 3 -->
+      <section class="space-y-4 hidden" data-step="3">
+        <h2 class="text-xl font-semibold text-gray-800">3. Choose Your Plan</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Card Template -->
+          <label class="relative block border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-accent transition" data-plan="active">
+            <input type="radio" name="plan" value="active" class="sr-only" />
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-gray-800">Active Business</span>
+            </div>
+          </label>
+          <label class="relative block border-2 border-accent bg-gray-50 rounded-lg p-4 cursor-pointer hover:border-accent transition" data-plan="fasttrack">
+            <input type="radio" name="plan" value="fasttrack" class="sr-only" checked />
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-gray-800">Fast Track Business</span>
+              <span class="bg-accent text-white text-xs px-2 py-0.5 rounded">Recommended</span>
+            </div>
+          </label>
+          <label class="relative block border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-accent transition" data-plan="professional">
+            <input type="radio" name="plan" value="professional" class="sr-only" />
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-gray-800">Professional Business</span>
+            </div>
+          </label>
+          <label class="relative block border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-accent transition" data-plan="fullaccess">
+            <input type="radio" name="plan" value="fullaccess" class="sr-only" />
+            <div class="flex items-center justify-between">
+              <span class="font-medium text-gray-800">Full Access Plan</span>
+            </div>
+          </label>
+        </div>
+        <div class="mt-4">
+          <label class="inline-flex items-center">
+            <input type="checkbox" id="terms" class="rounded text-accent focus:ring-accent" required />
+            <span class="ml-2 text-sm text-gray-700">I agree to the <a href="#" class="text-accent underline">terms and conditions</a></span>
+          </label>
+        </div>
+        <div class="flex justify-between mt-4">
+          <button type="button" id="backToStep2" class="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-accent">Back</button>
+          <button type="submit" id="submitBtn" class="bg-accent text-white px-6 py-2 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-accent">
+            Submit
+          </button>
+        </div>
+      </section>
+    </form>
+    <!-- Success toast -->
+    <div id="toastSuccess" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-30">
+      <div class="bg-white rounded-lg shadow-xl p-6 w-80 text-center">
+        <svg class="mx-auto mb-4 w-12 h-12 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/></svg>
+        <p class="text-lg font-medium text-gray-800">Submission Successful!</p>
+        <p class="mt-2 text-sm text-gray-600">Your registration has been received. We will review and get back to you shortly.</p>
+        <button id="closeToast" class="mt-4 bg-accent text-white px-4 py-2 rounded-md hover:bg-yellow-600">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
