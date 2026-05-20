@@ -97,30 +97,12 @@
             <!-- Results Header -->
             <div class="tj-results-header">
                 <strong id="result-count">(0) Listings</strong>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span id="page-count">1 page(s)</span>
-                    <button class="tj-btn-grid">&#9632;&#9632; View As Grid</button>
-                </div>
+                <span id="page-count">1 page(s)</span>
             </div>
 
-            <!-- Data Table -->
-            <div class="tj-table-wrap">
-                <table class="tj-table">
-                    <thead>
-                        <tr>
-                            <th style="width:28px;">#</th>
-                            <th style="width:90px;">Ref No.</th>
-                            <th style="width:28%;">Business / Opportunity &amp; Owner</th>
-                            <th>Description Snippet</th>
-                            <th style="width:110px;">Listed Date</th>
-                            <th style="width:110px;">Closing Date</th>
-                            <th style="width:80px;">District</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tj-tbody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
+            <!-- Listing Cards Grid -->
+            <div class="listing-cards-grid" id="listing-cards-grid">
+                <!-- Populated by JS -->
             </div>
         </main>
 
@@ -129,126 +111,51 @@
     <script src="app.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const tbody  = document.getElementById('tj-tbody');
         const countEl = document.getElementById('result-count');
         const pageEl  = document.getElementById('page-count');
+        const cardsGrid = document.getElementById('listing-cards-grid');
 
-        if (tbody) {
-            countEl.textContent = '(706) Jobs';
-            pageEl.textContent  = '1 page(s)';
+        // Listing data
+        const listings = [
+            { ref: '1498764', name: 'Accounts Executive', description: 'Please refer to the job advertisement for full details on responsibilities and requirements.', investment: 'Salary: Negotiable', location: 'Colombo', url: 'listing-detail.html?ref=1498764&title=Accounts+Executive&employer=NOLIMIT&district=Colombo' },
+            { ref: '1498748', name: 'Senior Executive Credit Controller (FMCG)', description: 'Please refer to the advert for full details on this credit controller role at Konnact Net.', investment: 'Salary: Negotiable', location: 'Colombo 2', url: 'listing-detail.html?ref=1498748&title=Senior+Executive+Credit+Controller&employer=Konnact+Net+Pvt+Ltd&district=Colombo+2' },
+            { ref: '1498706', name: 'Accountant | Assistant Accountant | Tax Executive', description: 'Please refer to the vacancy notice for full details on this multi-role opportunity.', investment: 'Salary: Negotiable', location: 'Kotte', url: 'listing-detail.html?ref=1498706&title=Accountant&employer=Consulting+Engineers+and+Architects&district=Kotte' },
+            { ref: '1498677', name: 'Cost Controller', description: 'Please refer to the vacancy posted by Continental Food Products (Private) Limited for all details.', investment: 'Salary: Negotiable', location: 'Peliyagoda', url: 'listing-detail.html?ref=1498677&title=Cost+Controller&employer=Continental+Food+Products&district=Peliyagoda' },
+            { ref: '1498675', name: 'Junior Executive – Finance', description: 'Finance role at Continental Food Products. Please refer to the vacancy for complete requirements.', investment: 'Salary: Negotiable', location: 'Peliyagoda', url: 'listing-detail.html?ref=1498675&title=Junior+Executive+Finance&employer=Continental+Food+Products&district=Peliyagoda' },
+            { ref: '1498470', name: 'Accountant', description: 'Please refer to the vacancy. Employer identity is confidential for this accounting position.', investment: 'Salary: Negotiable', location: 'Polgasowita', url: 'listing-detail.html?ref=1498470&title=Accountant&employer=Company+Name+Withheld&district=Polgasowita' },
+            { ref: '1498265', name: 'Senior Accountant', description: 'Senior accounting position at Integrity Spheres (Pvt) Ltd. Refer to the vacancy for requirements.', investment: 'Salary: Negotiable', location: 'Melbourne', url: 'listing-detail.html?ref=1498265&title=Senior+Accountant&employer=Integrity+Spheres&district=Melbourne' },
+            { ref: '1498136', name: 'Junior Executive – Finance', description: 'Finance executive opportunity at Continental Tea (Private) Limited. Refer to the vacancy for details.', investment: 'Salary: Negotiable', location: 'Colombo 3', url: 'listing-detail.html?ref=1498136&title=Junior+Executive+Finance&employer=Continental+Tea&district=Colombo+3' },
+            { ref: '1497924', name: 'Group Accountant', description: 'Group-level accounting role at Medfuture. Please refer to the vacancy for full details and requirements.', investment: 'Salary: Negotiable', location: 'Colombo 3', url: 'listing-detail.html?ref=1497924&title=Group+Accountant&employer=Medfuture&district=Colombo+3' },
+        ];
 
-            // Hardcoded exact rows matching the screenshot provided
-            const exactRows = `
-                <tr>
-                    <td style="background-color: #ffcc00; color: #fff; font-weight: bold;">1</td>
-                    <td class="ref">1498764</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498764&title=Accounts+Executive&employer=NOLIMIT&district=Colombo&listed=Sun+May+10+2026&closing=Sun+May+17+2026" style="color: #990000;">Accounts Executive (1)</a>
-                        <div class="biz-employer">NOLIMIT</div>
-                    </td>
-                    <td class="desc">Please refer to the job advertisement.</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Sun May 17 2026</td>
-                    <td class="town"></td>
-                </tr>
-                <tr>
-                    <td style="background-color: #ffcc33; color: #fff; font-weight: bold;">2</td>
-                    <td class="ref">1498748</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498748&title=Senior+Executive+Credit+Controller+(FMCG)&employer=Konnact+Net+Pvt+Ltd&district=Colombo+2&listed=Sun+May+10+2026&closing=Sat+May+23+2026" style="color: #990000;">Senior Executive Credit Controller-Colombo 2<br>(FMCG) (1)</a>
-                        <div class="biz-employer">Konnact Net Pvt Ltd</div>
-                    </td>
-                    <td class="desc">Please refer the advert</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Sat May 23 2026</td>
-                    <td class="town">Colombo 2</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">3</td>
-                    <td class="ref">1498706</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498706&title=Accountant+%7C+Assistant+Accountant+%7C+Tax+Executive&employer=Consulting+Engineers+and+Architects&district=Kotte&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Accountant | Assistant Accountant | Tax<br>Executive</a>
-                        <div class="biz-employer">Consulting Engineers and Architects</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Kotte</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">4</td>
-                    <td class="ref">1498677</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498677&title=Cost+Controller&employer=Continental+Food+Products+(Private)+Limited&district=Peliyagoda&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Cost Controller</a>
-                        <div class="biz-employer">Continental Food Products (Private) Limited</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Peliyagoda</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">5</td>
-                    <td class="ref">1498675</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498675&title=Junior+Executive+-+Finance&employer=Continental+Food+Products+(Private)+Limited&district=Peliyagoda&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Junior Executive - Finance</a>
-                        <div class="biz-employer">Continental Food Products (Private) Limited</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Peliyagoda</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">6</td>
-                    <td class="ref">1498470</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498470&title=Accountant&employer=Company+Name+Withheld&district=Polgasowita&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Accountant</a>
-                        <div class="biz-employer">Company Name Withheld</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Polgasowita</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">7</td>
-                    <td class="ref">1498265</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498265&title=Senior+Accountant&employer=Integrity+Spheres+(Pvt)+Ltd&district=Melbourne&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Senior Accountant</a>
-                        <div class="biz-employer">Integrity Spheres (Pvt) Ltd</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Melbourne</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">8</td>
-                    <td class="ref">1498136</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1498136&title=Junior+Executive+-+Finance&employer=Continental+Tea+(Private)+Limited&district=Colombo+3&listed=Sun+May+10+2026&closing=Fri+May+22+2026" style="color: #990000;">Junior Executive - Finance</a>
-                        <div class="biz-employer">Continental Tea (Private) Limited</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Fri May 22 2026</td>
-                    <td class="town">Colombo 3</td>
-                </tr>
-                <tr>
-                    <td style="background-color: #339966; color: #fff; font-weight: bold;">9</td>
-                    <td class="ref">1497924</td>
-                    <td class="biz-title">
-                        <a href="listing-detail.html?ref=1497924&title=Group+Accountant&employer=Medfuture&district=Colombo+3&listed=Sun+May+10+2026&closing=Thu+May+21+2026" style="color: #990000;">Group Accountant</a>
-                        <div class="biz-employer">Medfuture</div>
-                    </td>
-                    <td class="desc">Please refer the vacancy</td>
-                    <td class="date">Sun May 10 2026</td>
-                    <td class="date">Thu May 21 2026</td>
-                    <td class="town">Colombo 3</td>
-                </tr>
-            `;
-            tbody.innerHTML = exactRows;
+        if (countEl) countEl.textContent = `(${listings.length}) Listings`;
+        if (pageEl) pageEl.textContent = '1 page(s)';
+
+        // Card generator
+        const generateCard = (l) => `
+            <div class="lc-card">
+                <div class="lc-body">
+                    <h3 class="lc-name">${l.name}</h3>
+                    <p class="lc-desc">${l.description}</p>
+                    <div class="lc-meta">
+                        <div class="lc-meta-item">
+                            <span class="lc-meta-label">💰 Investment Required</span>
+                            <span class="lc-meta-value">${l.investment}</span>
+                        </div>
+                        <div class="lc-meta-item">
+                            <span class="lc-meta-label">📍 Location</span>
+                            <span class="lc-meta-value">${l.location}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="lc-footer">
+                    <a href="${l.url}" class="lc-btn">View Details</a>
+                </div>
+            </div>
+        `;
+
+        if (cardsGrid) {
+            cardsGrid.innerHTML = listings.map(generateCard).join('');
         }
 
         // Render dynamic categories
@@ -274,74 +181,6 @@
                 this.innerHTML += ' <span class="arrow">&raquo;</span>';
             });
         });
-
-        // Allow Enter key on search inputs (safely)
-        ['sb-keyword','sb-refno'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) {
-                el.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter') doSidebarSearch();
-                });
-            }
-        });
-
-        // --- HelaInvest grids logic ---
-        const grid = document.getElementById('featured-grid');
-        if (grid) {
-            const listings = store.getPublished().slice(0, 3);
-            if (listings.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No listings available right now.</p>';
-            } else {
-                // Helper to generate a SMERGERS-style card
-                const generateCard = (l) => `
-                    <div class="listing-card" style="box-shadow: 0 1px 3px rgba(0,0,0,0.12); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: var(--white); transition: box-shadow 0.2s;">
-                        <div style="padding: 15px; display: flex; gap: 15px; border-bottom: 1px solid var(--border-color);">
-                            <div style="width: 80px; height: 80px; background: #f4f5f7; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; border-radius: 4px;">Image</div>
-                            <div style="flex: 1;">
-                                <a href="listing-detail.html?id=${l.id}" style="color: var(--primary-light); font-weight: 600; font-size: 1.05rem; display: block; margin-bottom: 5px;">${l.industry} Business in ${l.district}</a>
-                                <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap;">
-                                    <span>📍 ${l.district}, Sri Lanka</span>
-                                    <span>🏢 ${l.industry}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="padding: 15px;">
-                            <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 15px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${l.shortDescription}</p>
-                            
-                            <div style="background: var(--bg-color); padding: 10px; border-radius: 4px; font-size: 0.85rem; display: flex; justify-content: space-between;">
-                                <div>
-                                    <span style="color: var(--text-muted); display: block; margin-bottom: 2px;">Investment Req</span>
-                                    <strong style="color: var(--text-main);">${formatLKR(l.investmentRequired)}</strong>
-                                </div>
-                                <div style="text-align: right;">
-                                    <span style="color: var(--text-muted); display: block; margin-bottom: 2px;">Business Stage</span>
-                                    <strong style="color: var(--text-main);">${l.businessStage}</strong>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="padding: 10px 15px; border-top: 1px solid var(--border-color); background: #fafafa; display: flex; justify-content: space-between; align-items: center;">
-                            <a href="listing-detail.html?id=${l.id}" style="font-size: 0.85rem; color: var(--primary-color); font-weight: 600;">Contact Business</a>
-                            <span style="background: var(--success-bg); color: var(--success); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">Verified</span>
-                        </div>
-                    </div>
-                `;
-
-                grid.innerHTML = listings.map(generateCard).join('');
-                
-                const investorsGrid = document.getElementById('investors-grid');
-                if (investorsGrid) {
-                    investorsGrid.innerHTML = listings.map(l => generateCard({...l, industry: 'Investor', shortDescription: 'Looking to invest in ' + l.industry + ' sector.'})).join('');
-                }
-                const brandsGrid = document.getElementById('brands-grid');
-                if (brandsGrid) {
-                    brandsGrid.innerHTML = listings.map(l => generateCard({...l, industry: 'Franchise', shortDescription: 'Looking for franchise partners in ' + l.district})).join('');
-                }
-                const advisorsGrid = document.getElementById('advisors-grid');
-                if (advisorsGrid) {
-                    advisorsGrid.innerHTML = listings.map(l => generateCard({...l, industry: 'M&A Advisor', shortDescription: 'Financial consultant specializing in ' + l.industry})).join('');
-                }
-            }
-        }
     });
 
     function doSidebarSearch() {
