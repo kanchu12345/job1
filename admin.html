@@ -572,22 +572,49 @@
 
             document.getElementById('m-refcode').innerText = l.refCode || 'N/A';
             
-            // Map all the massive form details
-            const fields = ['role', 'interest', 'established', 'industry', 'district', 'employees', 'entity', 'shortdesc', 
-                            'monthlysales', 'yearlysales', 'percent', 'assetvalue', 
-                            'contactname', 'phone', 'email', 
-                            'products', 'highlights', 'facility', 'funding'];
-            
-            fields.forEach(f => {
+            // Map all the massive form details (supports older + newer field names)
+            const fieldValues = {
+                role: l.role,
+                interest: l.interest,
+                established: l.established,
+                industry: l.industry,
+                district: l.district,
+                employees: l.employees,
+                entity: l.entity ?? l.entityType,
+                shortdesc: l.shortDescription ?? l.shortdesc,
+
+                monthlysales: l.monthlySales ?? l.monthlysales,
+                yearlysales: l.yearlySales ?? l.yearlysales,
+                percent: l.percentToSell ?? l.percent,
+                assetvalue: l.assetValue ?? l.assetvalue,
+
+                contactname: l.contactName ?? l.contactname,
+                phone: l.phone,
+                email: l.email,
+
+                products: l.products,
+                highlights: l.highlights,
+                facility: l.facility,
+                funding: l.funding
+            };
+
+            Object.entries(fieldValues).forEach(([f, rawVal]) => {
                 const el = document.getElementById('m-' + f);
-                if(el) {
-                    // For financials, format as currency if applicable
-                    if(f === 'monthlysales' || f === 'yearlysales' || f === 'assetvalue') {
-                        el.innerText = l[f] ? formatLKR(l[f]) : 'N/A';
-                    } 
-                    else if (f === 'percent') { el.innerText = l[f] ? l[f] + '%' : 'N/A'; }
-                    else { el.innerText = l[f] || 'Not Provided'; }
+                if (!el) return;
+
+                if (f === 'monthlysales' || f === 'yearlysales' || f === 'assetvalue') {
+                    const num = Number(rawVal);
+                    el.innerText = Number.isFinite(num) && num > 0 ? formatLKR(num) : 'N/A';
+                    return;
                 }
+
+                if (f === 'percent') {
+                    const num = Number(rawVal);
+                    el.innerText = Number.isFinite(num) && num > 0 ? `${num}%` : 'N/A';
+                    return;
+                }
+
+                el.innerText = rawVal ? String(rawVal) : 'Not Provided';
             });
 
             // Services

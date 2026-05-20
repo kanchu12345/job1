@@ -817,11 +817,15 @@ a:hover {
 
 .tj-table-wrap { border: 1px solid #ccc; background: #fff; max-height: 600px; overflow-y: auto; overflow-x: auto; }
 .tj-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-.tj-table thead th { background: var(--primary-color); color: #fff; padding: 12px 10px; text-align: left; font-weight: 600; border-right: 1px solid rgba(255,255,255,0.15); position: sticky; top: 0; z-index: 2; white-space: nowrap; font-size: 0.9rem; }
+.tj-table thead th { background: #555; color: #fff; padding: 10px 8px; text-align: left; font-weight: 600; border-right: 1px solid #777; position: sticky; top: 0; z-index: 2; white-space: nowrap; font-size: 0.88rem; }
+.tj-table thead th:first-child { background: #333; width: 35px; text-align: center; }
 .tj-table tbody tr { border-bottom: 1px solid #ddd; }
 .tj-table tbody tr:hover { background: #eef4ff; }
 .tj-table tbody tr:nth-child(even) { background: #f7f7f7; }
-.tj-table td { padding: 12px 10px; vertical-align: middle; border-right: 1px solid #e0e0e0; font-size: 0.88rem; }
+.tj-table td { padding: 10px 8px; vertical-align: middle; border-right: 1px solid #e0e0e0; font-size: 0.88rem; }
+.tj-table td:first-child { text-align: center; color: #555; font-size: 0.85rem; background: #f0f0f0; border-right: 1px solid #ccc; font-weight: 600; }
+.tj-table .biz-title a { color: #003399; font-weight: 600; text-decoration: none; font-size: 0.95rem; }
+.tj-table .biz-employer { color: #333; font-size: 0.83rem; margin-top: 2px; }
 .tj-btn-detail {
   display: inline-block;
   background: var(--primary-light);

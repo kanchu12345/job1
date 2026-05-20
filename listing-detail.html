@@ -264,6 +264,41 @@
             white-space: pre-line;
         }
 
+        .ad-all-fields {
+            border-top: 2px solid #eee;
+            padding-top: 20px;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        .ad-all-fields h3 {
+            font-size: 1.05rem;
+            margin-bottom: 12px;
+            color: #003399;
+        }
+        .ad-all-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+            font-size: 0.92rem;
+        }
+        .ad-all-item {
+            border-bottom: 1px dashed #e6e6e6;
+            padding-bottom: 8px;
+        }
+        .ad-all-item strong {
+            display: inline-block;
+            width: 170px;
+            color: #555;
+            font-weight: 700;
+        }
+        .ad-all-item span {
+            font-weight: 600;
+            color: #111;
+        }
+        .ad-all-wide {
+            grid-column: 1 / -1;
+        }
+
         .ad-footer-contact {
             background: #f9f9f9;
             padding: 15px;
@@ -410,6 +445,11 @@
                     Loading description...
                 </div>
 
+                <div class="ad-all-fields" id="ad-all-fields" style="display:none;">
+                    <h3>All Data Fields</h3>
+                    <div class="ad-all-grid" id="ad-all-grid"></div>
+                </div>
+
                 <div class="ad-footer-contact" id="ad-contact-box">
                     <strong>Direct Contact:</strong> <span id="ad-contact-name"></span><br>
                     <strong>Email:</strong> <span id="ad-email"></span> | <strong>Phone:</strong> <span id="ad-phone"></span>
@@ -548,6 +588,68 @@
                     fullDesc += '<br><br><strong>Services Requested:</strong><br>' + listing.services.join(', ');
                 }
                 setEl('ad-desc', fullDesc);
+
+                // All data fields section (Smergers-like)
+                const allWrap = document.getElementById('ad-all-fields');
+                const allGrid = document.getElementById('ad-all-grid');
+                if (allWrap && allGrid) {
+                    const numOrNull = (v) => {
+                        const n = Number(v);
+                        return Number.isFinite(n) ? n : null;
+                    };
+                    const fmtMoney = (v) => {
+                        const n = numOrNull(v);
+                        return n && n > 0 ? formatLKR(n) : '—';
+                    };
+                    const fmtPercent = (v) => {
+                        const n = numOrNull(v);
+                        return n && n > 0 ? `${n}%` : '—';
+                    };
+
+                    const items = [
+                        ['Ref Code', listing.refCode || ref],
+                        ['Publisher Email', listing.publisherEmail],
+                        ['Role', listing.role],
+                        ['Interested In', listing.interest],
+                        ['Established', listing.established],
+                        ['Employees', listing.employees],
+                        ['Legal Entity', listing.entity || listing.entityType],
+
+                        ['Monthly Sales', fmtMoney(listing.monthlySales || listing.monthlysales)],
+                        ['Yearly Sales', fmtMoney(listing.yearlySales || listing.yearlysales)],
+                        ['% Willing to Sell / Invest', fmtPercent(listing.percentToSell || listing.percent)],
+                        ['Value of Physical Assets', fmtMoney(listing.assetValue || listing.assetvalue)],
+
+                        ['Products/Services', listing.products, true],
+                        ['Highlights', listing.highlights, true],
+                        ['Facility', listing.facility, true],
+                        ['Funding', listing.funding, true],
+                        ['Assets (Tangible/Intangible)', listing.assets, true],
+                        ['Objective', listing.objective, true],
+                        ['Additional Notes', listing.additionalNotes, true],
+                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : '—', true],
+
+                        ['Contact Name', listing.contactName],
+                        ['Contact Phone', listing.phone],
+                        ['Contact Email', listing.email]
+                    ];
+
+                    const safeText = (v) => {
+                        if (v === null || v === undefined) return '—';
+                        const s = String(v).trim();
+                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '—';
+                    };
+
+                    allGrid.innerHTML = items
+                        .filter(([_, v]) => v !== undefined)
+                        .map(([label, value, wide]) => `
+                            <div class="ad-all-item ${wide ? 'ad-all-wide' : ''}">
+                                <strong>${safeText(label)}:</strong> <span>${safeText(value)}</span>
+                            </div>
+                        `)
+                        .join('');
+                    allWrap.style.display = 'block';
+                }
 
                 setEl('ad-contact-name', listing.contactName);
                 setEl('ad-email', `<a href="mailto:${listing.email}" style="color:#003399;">${listing.email}</a>`);

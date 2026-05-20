@@ -589,7 +589,28 @@
             // Collect all services checked
             const selectedServices = Array.from(document.querySelectorAll('.plan-cb:checked')).map(cb => cb.value);
             
-            // Collect form data for the Admin panel
+            // Collect form data for the Admin panel / public listing
+            const products = document.getElementById('f-products').value;
+            const highlights = document.getElementById('f-highlights').value;
+            const facility = document.getElementById('f-facility').value;
+            const funding = document.getElementById('f-funding').value;
+            const assets = document.getElementById('f-assets').value;
+            const objective = document.getElementById('f-objective').value;
+
+            const fullDescription = [
+                products ? `Products/Services:\n${products}` : '',
+                highlights ? `\nHighlights:\n${highlights}` : '',
+                facility ? `\nFacility:\n${facility}` : '',
+                funding ? `\nFunding:\n${funding}` : '',
+                assets ? `\nAssets:\n${assets}` : '',
+                objective ? `\nObjective:\n${objective}` : ''
+            ].filter(Boolean).join('\n');
+
+            const assetValue = Number(document.getElementById('f-assetvalue').value) || 0;
+            const monthlySales = Number(document.getElementById('f-monthlysales').value) || 0;
+            const yearlySales = Number(document.getElementById('f-yearlysales').value) || 0;
+            const percentToSell = Number(document.getElementById('f-percent').value) || 0;
+
             const newAd = {
                 refCode: uniqueCode,
                 businessName: 'Business Proposal - ' + uniqueCode,
@@ -599,27 +620,28 @@
                 industry: document.getElementById('f-industry').value,
                 district: document.getElementById('f-location').value,
                 employees: document.getElementById('f-employees').value,
-                entityType: document.getElementById('f-entity').value,
+                entity: document.getElementById('f-entity').value,
                 shortDescription: document.getElementById('f-shortdesc').value,
+                fullDescription,
                 
                 contactName: document.getElementById('f-contactname').value,
                 phone: document.getElementById('f-phone').value,
                 email: document.getElementById('f-email').value,
                 
-                products: document.getElementById('f-products').value,
-                highlights: document.getElementById('f-highlights').value,
-                facility: document.getElementById('f-facility').value,
-                funding: document.getElementById('f-funding').value,
-                monthlySales: document.getElementById('f-monthlysales').value,
-                yearlySales: document.getElementById('f-yearlysales').value,
-                percentToSell: document.getElementById('f-percent').value,
-                assets: document.getElementById('f-assets').value,
-                assetValue: document.getElementById('f-assetvalue').value,
-                objective: document.getElementById('f-objective').value,
+                products,
+                highlights,
+                facility,
+                funding,
+                monthlySales,
+                yearlySales,
+                percentToSell,
+                assets,
+                assetValue,
+                objective,
                 
                 services: selectedServices,
                 publisherEmail: user.email,
-                investmentRequired: document.getElementById('f-assetvalue').value,
+                investmentRequired: assetValue,
                 status: 'pending_payment'
             };
             
