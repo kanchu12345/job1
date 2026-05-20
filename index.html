@@ -100,9 +100,22 @@
                 <span id="page-count">1 page(s)</span>
             </div>
 
-            <!-- Listing Cards Grid -->
-            <div class="listing-cards-grid" id="listing-cards-grid">
-                <!-- Populated by JS -->
+            <!-- Data Table -->
+            <div class="tj-table-wrap">
+                <table class="tj-table">
+                    <thead>
+                        <tr>
+                            <th style="width:25%;">Business Name</th>
+                            <th>Short Description</th>
+                            <th style="width:180px;">Investment Required</th>
+                            <th style="width:140px;">Location</th>
+                            <th style="width:130px; text-align:center;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tj-tbody">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
             </div>
         </main>
 
@@ -113,7 +126,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         const countEl = document.getElementById('result-count');
         const pageEl  = document.getElementById('page-count');
-        const cardsGrid = document.getElementById('listing-cards-grid');
+        const tbody = document.getElementById('tj-tbody');
 
         // Listing data
         const listings = [
@@ -131,31 +144,29 @@
         if (countEl) countEl.textContent = `(${listings.length}) Listings`;
         if (pageEl) pageEl.textContent = '1 page(s)';
 
-        // Card generator
-        const generateCard = (l) => `
-            <div class="lc-card">
-                <div class="lc-body">
-                    <h3 class="lc-name">${l.name}</h3>
-                    <p class="lc-desc">${l.description}</p>
-                    <div class="lc-meta">
-                        <div class="lc-meta-item">
-                            <span class="lc-meta-label">💰 Investment Required</span>
-                            <span class="lc-meta-value">${l.investment}</span>
-                        </div>
-                        <div class="lc-meta-item">
-                            <span class="lc-meta-label">📍 Location</span>
-                            <span class="lc-meta-value">${l.location}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="lc-footer">
-                    <a href="${l.url}" class="lc-btn">View Details</a>
-                </div>
-            </div>
+        // Table Row generator
+        const generateRow = (l) => `
+            <tr>
+                <td class="biz-title" style="font-weight: 600; color: var(--primary-color);">
+                    ${l.name}
+                </td>
+                <td class="desc" style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.4;">
+                    ${l.description}
+                </td>
+                <td class="investment" style="font-weight: 600; color: var(--success); font-size: 0.9rem;">
+                    ${l.investment}
+                </td>
+                <td class="town" style="font-weight: 500; font-size: 0.88rem;">
+                    📍 ${l.location}
+                </td>
+                <td style="text-align: center; vertical-align: middle;">
+                    <a href="${l.url}" class="tj-btn-detail" style="display: inline-block; background: var(--primary-light); color: var(--white); font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 4px; text-decoration: none; transition: background 0.2s;">View Details</a>
+                </td>
+            </tr>
         `;
 
-        if (cardsGrid) {
-            cardsGrid.innerHTML = listings.map(generateCard).join('');
+        if (tbody) {
+            tbody.innerHTML = listings.map(generateRow).join('');
         }
 
         // Render dynamic categories
