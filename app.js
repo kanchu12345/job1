@@ -360,7 +360,6 @@ class SettingsStore {
       localStorage.setItem(this.settingsKey, JSON.stringify(defaultSettings));
     }
   }
-
   getSettings() {
     return JSON.parse(localStorage.getItem(this.settingsKey));
   }
@@ -370,5 +369,46 @@ class SettingsStore {
   }
 }
 
+// Initialize Stores
+const store = new ListingStore();
+const authStore = new AuthStore();
+const categoryStore = new CategoryStore();
 const settingsStore = new SettingsStore();
 
+// --- Inject Test Pending Post for Admin Review Testing ---
+(function injectTestPost() {
+    const listings = store.getAll();
+    const hasTestPost = listings.find(l => l.refCode === 'TEST-999999');
+    if (!hasTestPost) {
+        store.save({
+            id: 'test-pending-1',
+            refCode: 'TEST-999999',
+            status: 'review', // Ready for admin to review
+            businessName: 'Lanka Tech Innovators',
+            role: 'Business Owner',
+            interest: 'Selling the Business',
+            established: '2018',
+            industry: 'IT & Software',
+            district: 'Colombo',
+            employees: '45',
+            entity: 'Private Limited Company',
+            shortdesc: 'A leading AI solutions provider in Sri Lanka.',
+            contactname: 'Kasun Bandara',
+            phone: '+94 77 999 8888',
+            email: 'kasun@lankatech.lk',
+            products: 'Enterprise AI Chatbots, Data Analytics Dashboards. Used by top banks and telecom companies.',
+            highlights: 'Over 20 enterprise clients, 150M LKR Annual Recurring Revenue, Awarded Best AI Startup 2023.',
+            facility: '4,000 sq ft modern office space in Orion City, Colombo 09 (Leased).',
+            additionalnotes: 'Kasun (CEO) owns 70%, CTO owns 30%.',
+            monthlysales: '12500000',
+            yearlysales: '150000000',
+            percent: '100',
+            investmentRequired: '500000000',
+            funding: 'Founders are relocating abroad and wish to sell the entire company.',
+            assets: 'High-end server racks, 50 Apple MacBooks, Office Furniture, proprietary AI source code.',
+            assetvalue: '25000000',
+            plan: 'fast-track'
+        });
+        console.log("Injected Test Pending Post for Review.");
+    }
+})();

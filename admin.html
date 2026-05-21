@@ -397,11 +397,17 @@
 
         // --- Login Logic ---
         document.getElementById('login-btn').addEventListener('click', () => {
-            if (document.getElementById('admin-pin').value === 'hela2024') {
+            if (document.getElementById('admin-pin').value.trim() === 'hela2024') {
                 document.getElementById('login-screen').style.display = 'none';
                 loadData();
             } else {
                 document.getElementById('login-error').style.display = 'block';
+            }
+        });
+        
+        document.getElementById('admin-pin').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('login-btn').click();
             }
         });
 

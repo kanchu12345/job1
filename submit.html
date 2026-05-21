@@ -156,66 +156,71 @@
                             
                             <div>
                                 <label class="form-label">You are a/an</label>
-                                <select class="form-input" required>
+                                <select name="role" class="form-input" required>
                                     <option value="" disabled selected>Select option...</option>
-                                    <option value="owner">Business Owner</option>
-                                    <option value="broker">Business Broker / Advisor</option>
-                                    <option value="franchisor">Franchisor</option>
+                                    <option value="Business Owner">Business Owner</option>
+                                    <option value="Business Broker / Advisor">Business Broker / Advisor</option>
+                                    <option value="Franchisor">Franchisor</option>
                                 </select>
                             </div>
                             
                             <div>
                                 <label class="form-label">You are interested in</label>
-                                <select class="form-input" required>
+                                <select name="interest" class="form-input" required>
                                     <option value="" disabled selected>Select option...</option>
-                                    <option value="selling">Selling the Business</option>
-                                    <option value="investment">Raising Investment</option>
-                                    <option value="franchising">Franchising</option>
+                                    <option value="Selling the Business">Selling the Business</option>
+                                    <option value="Raising Investment">Raising Investment</option>
+                                    <option value="Franchising">Franchising</option>
                                 </select>
                             </div>
 
                             <div>
                                 <label class="form-label">When was the business established?</label>
-                                <input type="number" class="form-input" placeholder="e.g. 2015" required min="1800" max="2030">
+                                <input name="established" type="number" class="form-input" placeholder="e.g. 2015" required min="1800" max="2030">
                             </div>
 
                             <div>
                                 <label class="form-label">Select Business Industry</label>
-                                <select class="form-input" required>
+                                <select name="industry" class="form-input" required>
                                     <option value="" disabled selected>Select industry...</option>
-                                    <option value="IT">IT & Software</option>
+                                    <option value="IT & Software">IT & Software</option>
                                     <option value="Manufacturing">Manufacturing</option>
-                                    <option value="Hospitality">Hotels & Hospitality</option>
+                                    <option value="Hotels & Hospitality">Hotels & Hospitality</option>
                                     <option value="Agriculture">Agriculture</option>
-                                    <option value="Retail">Retail & E-commerce</option>
+                                    <option value="Retail & E-commerce">Retail & E-commerce</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
 
                             <div class="md:col-span-2">
                                 <label class="form-label">Where is the business located/headquartered?</label>
-                                <input type="text" class="form-input" placeholder="City, District, or Province" required>
+                                <input name="district" type="text" class="form-input" placeholder="City, District, or Province" required>
                             </div>
 
                             <div>
                                 <label class="form-label">How many permanent employees does the business have?</label>
-                                <input type="number" class="form-input" placeholder="e.g. 15" required min="0">
+                                <input name="employees" type="number" class="form-input" placeholder="e.g. 15" required min="0">
                             </div>
 
                             <div>
                                 <label class="form-label">Select Business Legal Entity Type</label>
-                                <select class="form-input" required>
+                                <select name="entity" class="form-input" required>
                                     <option value="" disabled selected>Select entity...</option>
-                                    <option value="sole">Sole Proprietorship</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="pvt">Private Limited Company</option>
-                                    <option value="plc">Public Limited Company</option>
+                                    <option value="Sole Proprietorship">Sole Proprietorship</option>
+                                    <option value="Partnership">Partnership</option>
+                                    <option value="Private Limited Company">Private Limited Company</option>
+                                    <option value="Public Limited Company">Public Limited Company</option>
                                 </select>
                             </div>
 
                             <div class="md:col-span-2">
+                                <label class="form-label">Business Name</label>
+                                <input name="businessName" type="text" class="form-input" placeholder="e.g. Acme Corp" required>
+                            </div>
+
+                            <div class="md:col-span-2">
                                 <label class="form-label">Describe the business in a single line</label>
-                                <input type="text" class="form-input" placeholder="e.g. A fast-growing B2B software company specializing in HR solutions." required>
+                                <input name="shortdesc" type="text" class="form-input" placeholder="e.g. A fast-growing B2B software company specializing in HR solutions." required>
                             </div>
 
                         </div>
@@ -225,15 +230,15 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="form-label">Contact Person Name</label>
-                                    <input type="text" class="form-input" placeholder="John Doe" required>
+                                    <input name="contactname" type="text" class="form-input" placeholder="John Doe" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Contact Number</label>
-                                    <input type="tel" class="form-input" placeholder="+94 77 123 4567" required>
+                                    <input name="phone" type="tel" class="form-input" placeholder="+94 77 123 4567" required>
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="form-label">Business Email Address</label>
-                                    <input type="email" class="form-input" placeholder="contact@company.com" required>
+                                    <input name="email" type="email" class="form-input" placeholder="contact@company.com" required>
                                 </div>
                             </div>
                         </div>
@@ -246,46 +251,46 @@
                             
                             <div>
                                 <label class="form-label">What are the business’s top-selling products and services, who uses them, and how?</label>
-                                <textarea class="form-input h-24" placeholder="Detail your main offerings and target audience..." required></textarea>
+                                <textarea name="products" class="form-input h-24" placeholder="Detail your main offerings and target audience..." required></textarea>
                             </div>
 
                             <div>
                                 <label class="form-label">Mention highlights of the business <span class="tooltip-icon" title="Include number of clients, revenue model, awards, partnerships, etc.">?</span></label>
-                                <textarea class="form-input h-24" placeholder="e.g. 50+ B2B clients, subscription revenue model, won best startup 2024..." required></textarea>
+                                <textarea name="highlights" class="form-input h-24" placeholder="e.g. 50+ B2B clients, subscription revenue model, won best startup 2024..." required></textarea>
                             </div>
 
                             <div>
                                 <label class="form-label">Describe your facility <span class="tooltip-icon" title="Include build-up area, floors, rental/lease details">?</span></label>
-                                <textarea class="form-input h-24" placeholder="e.g. 5,000 sq ft office space on lease for 5 years..."></textarea>
+                                <textarea name="facility" class="form-input h-24" placeholder="e.g. 5,000 sq ft office space on lease for 5 years..."></textarea>
                             </div>
 
                             <div>
                                 <label class="form-label">Ownership details and shareholder percentages</label>
-                                <textarea class="form-input h-20" placeholder="e.g. Founder 1: 60%, Founder 2: 40%"></textarea>
+                                <textarea name="additionalnotes" class="form-input h-20" placeholder="e.g. Founder 1: 60%, Founder 2: 40%"></textarea>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="form-label">Average Monthly Sales (LKR)</label>
-                                    <input type="number" class="form-input" placeholder="e.g. 2000000" required>
+                                    <input name="monthlysales" type="number" class="form-input" placeholder="e.g. 2000000" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Latest Yearly Sales (LKR)</label>
-                                    <input type="number" class="form-input" placeholder="e.g. 24000000" required>
+                                    <input name="yearlysales" type="number" class="form-input" placeholder="e.g. 24000000" required>
                                 </div>
                                 <div>
                                     <label class="form-label">Expected Selling Percentage of Business (%)</label>
-                                    <input type="number" class="form-input" placeholder="e.g. 20" required min="1" max="100">
+                                    <input name="percent" type="number" class="form-input" placeholder="e.g. 20" required min="1" max="100">
                                 </div>
                                 <div>
                                     <label class="form-label">Required Investment Amount (LKR)</label>
-                                    <input type="number" class="form-input" placeholder="e.g. 10000000" required>
+                                    <input name="investmentRequired" type="number" class="form-input" placeholder="e.g. 10000000" required>
                                 </div>
                             </div>
 
                             <div>
                                 <label class="form-label">Purpose of investment or expected use of funds</label>
-                                <textarea class="form-input h-20" placeholder="e.g. Expand manufacturing capacity, hire sales team..." required></textarea>
+                                <textarea name="funding" class="form-input h-20" placeholder="e.g. Expand manufacturing capacity, hire sales team..." required></textarea>
                             </div>
 
                             <div class="border-t border-gray-200 pt-6 mt-6">
@@ -293,11 +298,11 @@
                                 
                                 <div class="mb-4">
                                     <label class="form-label">List all tangible and intangible assets</label>
-                                    <textarea class="form-input h-20" placeholder="e.g. Machinery, vehicles, patents, trademarks..."></textarea>
+                                    <textarea name="assets" class="form-input h-20" placeholder="e.g. Machinery, vehicles, patents, trademarks..."></textarea>
                                 </div>
                                 <div>
                                     <label class="form-label">Value of physical assets included in the transaction (LKR)</label>
-                                    <input type="number" class="form-input" placeholder="e.g. 5000000">
+                                    <input name="assetvalue" type="number" class="form-input" placeholder="e.g. 5000000">
                                 </div>
                             </div>
                         </div>
@@ -590,6 +595,22 @@
                     const refCode = 'HELA-' + Math.floor(100000 + Math.random() * 900000); // HELA-XXXXXX
                     document.getElementById('generated-code').textContent = refCode;
                     document.getElementById('generated-code-inline').textContent = refCode;
+
+                    // Collect Data
+                    const formData = new FormData(form);
+                    const newListing = Object.fromEntries(formData.entries());
+                    newListing.refCode = refCode;
+                    newListing.status = 'pending_payment';
+                    
+                    const user = authStore.getCurrentUser();
+                    if(user) {
+                        newListing.publisherEmail = user.email;
+                        newListing.publisherId = user.id;
+                    }
+
+                    // Save to store
+                    const store = new ListingStore();
+                    store.save(newListing);
 
                     // Simulate API Call / Submission
                     form.classList.add('hidden');
