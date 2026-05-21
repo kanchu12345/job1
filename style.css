@@ -1027,4 +1027,111 @@ a:hover {
   transform: scale(0.98);
 }
 
+/* New Header Styles matching the design */
+.top-bar-new {
+    background-color: #0b4cb4; /* Deep blue from image */
+    color: white;
+    font-size: 13px;
+    padding: 6px 0;
+}
+.top-bar-new .container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.top-bar-new a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+.top-bar-new a:hover {
+    text-decoration: underline;
+}
 
+.main-header-new {
+    background-color: white;
+    border-bottom: 3px solid #0b4cb4;
+}
+.header-inner-new {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+}
+
+.logo-new {
+    font-size: 28px;
+    font-weight: 800;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.logo-new .hela { color: #0b4cb4; }
+.logo-new .invest { color: #ffb300; }
+
+.search-container-new {
+    display: flex;
+    align-items: center;
+    width: 500px;
+}
+.search-input-new {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 14px;
+    outline: none;
+}
+.search-input-new:focus {
+    border-color: #0b4cb4;
+}
+.search-btn-new {
+    padding: 10px 20px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+.search-btn-new:hover {
+    background-color: #0b4cb4;
+}
+
+.header-actions-new {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.login-link-new {
+    color: #0b4cb4;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+}
+.btn-register-new {
+    background-color: #ffb300;
+    color: black;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+.btn-register-new:hover {
+    background-color: #e6a200;
+}
+.btn-add-profile-new {
+    background-color: #0b4cb4;
+    color: white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+}
+.btn-add-profile-new:hover {
+    background-color: #083a8c;
+}
