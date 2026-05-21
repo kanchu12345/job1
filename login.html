@@ -90,9 +90,8 @@
                 
                 // Read role from local cache or default to index
                 const role = authStore.getUserRoleLocally ? authStore.getUserRoleLocally(user.uid || user.id) : user.role;
-                
                 if (role === 'publisher') {
-                    window.location.href = 'index.html'; // Or 'publisher-dashboard.html'
+                    window.location.href = 'submit.html'; 
                 } else {
                     window.location.href = 'index.html';
                 }
@@ -109,7 +108,7 @@
                 const role = authStore.getUserRoleLocally ? authStore.getUserRoleLocally(user.uid || user.id) : user.role;
                 
                 if (role === 'publisher') {
-                    window.location.href = 'index.html'; 
+                    window.location.href = 'submit.html'; 
                 } else {
                     window.location.href = 'index.html';
                 }
