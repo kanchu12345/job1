@@ -128,6 +128,95 @@
         </tbody>
     </table>
 </main>
+
+<script src="app.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const tbody = document.querySelector('.tj-table tbody');
+    const searchInput = document.getElementById('sidebar-search-input');
+    const searchBtn = document.getElementById('sidebar-search-btn');
+    const categoryLinks = document.querySelectorAll('.category-list a');
+    
+    // Get listings from store
+    let allListings = store.getPublished();
+    
+    function renderListings(listings) {
+        tbody.innerHTML = '';
+        if (listings.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No businesses found matching your criteria.</td></tr>';
+            return;
+        }
+        
+        listings.forEach(listing => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="biz-title"><a href="listing-detail.html?id=${listing.id}">${listing.businessName}</a></td>
+                <td>${listing.district || 'N/A'}</td>
+                <td>${listing.industry || 'N/A'}</td>
+                <td>${formatLKR(listing.investmentRequired)}</td>
+                <td>${listing.businessStage || 'N/A'}</td>
+                <td><a href="listing-detail.html?id=${listing.id}" class="btn-detail">Contact</a></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Initial render
+    renderListings(allListings);
+
+    // Search functionality
+    function handleSearch() {
+        const keyword = searchInput.value.toLowerCase().trim();
+        const filtered = allListings.filter(l => {
+            return (l.businessName && l.businessName.toLowerCase().includes(keyword)) ||
+                   (l.shortDescription && l.shortDescription.toLowerCase().includes(keyword)) ||
+                   (l.fullDescription && l.fullDescription.toLowerCase().includes(keyword)) ||
+                   (l.industry && l.industry.toLowerCase().includes(keyword)) ||
+                   (l.district && l.district.toLowerCase().includes(keyword));
+        });
+        renderListings(filtered);
+        
+        // Optional: remove active class from categories when searching
+        categoryLinks.forEach(link => link.style.fontWeight = 'normal');
+    }
+
+    if (searchBtn) {
+        searchBtn.addEventListener('click', handleSearch);
+    }
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', (e) => {
+            handleSearch();
+        });
+    }
+
+    // Category click functionality
+    categoryLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Highlight active category
+            categoryLinks.forEach(l => l.style.fontWeight = 'normal');
+            link.style.fontWeight = 'bold';
+            
+            const category = link.textContent.trim();
+            
+            // Filter by exact match or includes (for broader matching)
+            const filtered = allListings.filter(l => 
+                l.industry && (
+                    l.industry.toLowerCase() === category.toLowerCase() || 
+                    category.toLowerCase().includes(l.industry.toLowerCase()) ||
+                    l.industry.toLowerCase().includes(category.toLowerCase())
+                )
+            );
+            
+            renderListings(filtered);
+            
+            // Clear search input
+            if (searchInput) searchInput.value = '';
+        });
+    });
+});
+</script>
 </body>
 </html>
