@@ -87,14 +87,8 @@
             
             try {
                 const user = await authStore.login(email, pass);
-                
-                // Read role from local cache or default to index
-                const role = authStore.getUserRoleLocally ? authStore.getUserRoleLocally(user.uid || user.id) : user.role;
-                if (role === 'publisher') {
-                    window.location.href = 'submit.html'; 
-                } else {
-                    window.location.href = 'index.html';
-                }
+                // Directly redirect to the dashboard/submit page
+                window.location.href = 'submit.html';
             } catch (err) {
                 alert("Login failed: " + err.message);
             }
@@ -105,13 +99,8 @@
                 // We default to 'publisher' if they login via Google on this platform for the first time
                 const user = await authStore.loginWithGoogle('publisher');
                 
-                const role = authStore.getUserRoleLocally ? authStore.getUserRoleLocally(user.uid || user.id) : user.role;
-                
-                if (role === 'publisher') {
-                    window.location.href = 'submit.html'; 
-                } else {
-                    window.location.href = 'index.html';
-                }
+                // Directly redirect to the dashboard/submit page
+                window.location.href = 'submit.html';
             } catch (err) {
                 alert("Google Login failed: " + err.message);
             }
