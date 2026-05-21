@@ -112,6 +112,33 @@ class AuthStore {
   constructor() {
     this.usersKey = 'hela_users';
     this.sessionKey = 'hela_session';
+    this.initFirebaseAuthListener();
+  }
+
+  initFirebaseAuthListener() {
+    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          const sessionUser = {
+            id: user.uid,
+            name: user.displayName || user.email.split('@')[0],
+            email: user.email,
+            role: this.getUserRoleLocally(user.uid) || 'client'
+          };
+          localStorage.setItem(this.sessionKey, JSON.stringify(sessionUser));
+          if (typeof updateGlobalAuthUI === 'function') updateGlobalAuthUI();
+        } else {
+          localStorage.removeItem(this.sessionKey);
+          if (typeof updateGlobalAuthUI === 'function') updateGlobalAuthUI();
+        }
+      });
+    }
+  }
+
+  getUserRoleLocally(uid) {
+    const users = this.getUsers();
+    const user = users.find(u => u.id === uid);
+    return user ? user.role : null;
   }
 
   getUsers() {
@@ -122,47 +149,86 @@ class AuthStore {
     return JSON.parse(localStorage.getItem(this.sessionKey)) || null;
   }
 
-  register(name, email, password, role) {
-    const users = this.getUsers();
-    if (users.find(u => u.email === email)) {
-      throw new Error("Email already registered");
-    }
-    const newUser = { id: Date.now().toString(), name, email, password, role };
-    users.push(newUser);
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
-    return newUser;
-  }
-
-  login(email, password) {
-    const users = this.getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
-    if (!user) {
-      throw new Error("Invalid credentials");
-    }
-    localStorage.setItem(this.sessionKey, JSON.stringify(user));
-    return user;
-  }
-
-  loginWithGoogle() {
-    // Mock Google SSO User
-    const user = {
-      id: 'g_' + Date.now().toString(),
-      name: 'Google User',
-      email: 'user@gmail.com',
-      role: 'client' // Default role for SSO mock
-    };
-    // Ensure mock user is in db
-    const users = this.getUsers();
-    if (!users.find(u => u.email === user.email)) {
-      users.push(user);
+  async register(name, email, password, role) {
+    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
+      await user.updateProfile({ displayName: name });
+      
+      const users = this.getUsers();
+      const newUser = { id: user.uid, name, email, role };
+      if (!users.find(u => u.id === user.uid)) {
+        users.push(newUser);
+        localStorage.setItem(this.usersKey, JSON.stringify(users));
+      }
+      return newUser;
+    } else {
+      const users = this.getUsers();
+      if (users.find(u => u.email === email)) {
+        throw new Error("Email already registered");
+      }
+      const newUser = { id: Date.now().toString(), name, email, password, role };
+      users.push(newUser);
       localStorage.setItem(this.usersKey, JSON.stringify(users));
+      return newUser;
     }
-    localStorage.setItem(this.sessionKey, JSON.stringify(user));
-    return user;
   }
 
-  logout() {
-    localStorage.removeItem(this.sessionKey);
+  async login(email, password) {
+    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+      return userCredential.user;
+    } else {
+      const users = this.getUsers();
+      const user = users.find(u => u.email === email && u.password === password);
+      if (!user) {
+        throw new Error("Invalid credentials");
+      }
+      localStorage.setItem(this.sessionKey, JSON.stringify(user));
+      return user;
+    }
+  }
+
+  async loginWithGoogle(role = 'client') {
+    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      const userCredential = await firebase.auth().signInWithPopup(provider);
+      const user = userCredential.user;
+      
+      const users = this.getUsers();
+      if (!users.find(u => u.id === user.uid)) {
+        users.push({
+          id: user.uid,
+          name: user.displayName,
+          email: user.email,
+          role: role
+        });
+        localStorage.setItem(this.usersKey, JSON.stringify(users));
+      }
+      return user;
+    } else {
+      const user = {
+        id: 'g_' + Date.now().toString(),
+        name: 'Google User',
+        email: 'user@gmail.com',
+        role: role
+      };
+      const users = this.getUsers();
+      if (!users.find(u => u.email === user.email)) {
+        users.push(user);
+        localStorage.setItem(this.usersKey, JSON.stringify(users));
+      }
+      localStorage.setItem(this.sessionKey, JSON.stringify(user));
+      return user;
+    }
+  }
+
+  async logout() {
+    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+      await firebase.auth().signOut();
+    } else {
+      localStorage.removeItem(this.sessionKey);
+    }
   }
 }
 
@@ -179,9 +245,10 @@ function updateGlobalAuthUI() {
   
   if (user) {
       const roleLabel = user.role === 'publisher' ? '(Publisher)' : '(Client)';
+      const displayName = user.email ? user.email.substring(0, 5) : user.name.split(' ')[0];
       const loggedInHTML = `
           <span style="color:#003399; font-weight:700; font-size:0.8rem; margin-right:10px;">
-              Hi, ${user.name.split(' ')[0]} ${roleLabel}
+              Hi, ${displayName} ${roleLabel}
           </span>
           <a href="#" onclick="logoutUser(event)" class="tj-btn-text" style="color:#cc0000; padding:0; text-decoration:none; font-size:0.8rem;">Logout</a>
       `;

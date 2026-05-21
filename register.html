@@ -77,13 +77,16 @@
             </div>
         </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
     <script src="app.js"></script>
     <script>
         // Set the role to 'publisher' automatically since this page is specifically for publishing ads.
         const selectedRole = 'publisher';
         
         // Register handler
-        document.getElementById('register-form').addEventListener('submit', (e) => {
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
@@ -91,10 +94,10 @@
             
             try {
                 // Register user
-                const user = authStore.register(name, email, pass, selectedRole);
+                const user = await authStore.register(name, email, pass, selectedRole);
                 
-                // Automatically log them in
-                authStore.login(email, pass);
+                // Automatically log them in (if not already handled by Firebase)
+                await authStore.login(email, pass);
                 
                 // Redirect to the home page (or dashboard) since they want to publish an ad
                 alert("Registration successful! You can now submit your investment opportunities.");
@@ -104,25 +107,31 @@
             }
         });
 
-        // Google sign-up mock
-        document.getElementById('mock-google-btn').addEventListener('click', () => {
-            const user = authStore.loginWithGoogle();
-            
-            // Override Google SSO mock role to 'publisher' for this page
-            if (user) {
-                user.role = selectedRole;
-                localStorage.setItem(authStore.sessionKey, JSON.stringify(user));
+        // Google sign-up
+        document.getElementById('mock-google-btn').addEventListener('click', async () => {
+            try {
+                const user = await authStore.loginWithGoogle(selectedRole);
                 
-                let users = authStore.getUsers();
-                let uIndex = users.findIndex(u => u.id === user.id);
-                if(uIndex !== -1) {
-                    users[uIndex].role = selectedRole;
-                    localStorage.setItem(authStore.usersKey, JSON.stringify(users));
+                // Override local cache role if using the mock
+                if (typeof isFirebaseConfigured === 'undefined' || !isFirebaseConfigured) {
+                    if (user) {
+                        user.role = selectedRole;
+                        localStorage.setItem(authStore.sessionKey, JSON.stringify(user));
+                        
+                        let users = authStore.getUsers();
+                        let uIndex = users.findIndex(u => u.id === user.id);
+                        if(uIndex !== -1) {
+                            users[uIndex].role = selectedRole;
+                            localStorage.setItem(authStore.usersKey, JSON.stringify(users));
+                        }
+                    }
                 }
+                
+                alert("Registration successful via Google! You can now submit your investment opportunities.");
+                window.location.href = 'index.html';
+            } catch (err) {
+                alert(err.message);
             }
-            
-            alert("Registration successful via Google! You can now submit your investment opportunities.");
-            window.location.href = 'index.html';
         });
     </script>
 </body>
