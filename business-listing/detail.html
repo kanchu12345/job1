@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Detail</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header"><h1>Business Detail</h1></header>
+  <main class="container" id="detail-container">
+    <!-- Content will be injected by script -->
+  </main>
+  <a href="index.html" class="back-link" style="margin:1rem; display:inline-block; color:var(--accent);">← Back to Listings</a>
+  <script src="script.js"></script>
+  <script>
+    // Parse query parameter "id"
+    const params = new URLSearchParams(window.location.search);
+    const idx = parseInt(params.get('id'));
+    if (isNaN(idx) || !businesses || !businesses[idx]) {
+      document.getElementById('detail-container').innerHTML = '<p>Business not found.</p>';
+    } else {
+      const biz = businesses[idx];
+      const imagesHtml = biz.images.map(src => `<img src="${src}" alt="${biz.name} image" />`).join('');
+      const html = `
+        <h2>${biz.name}</h2>
+        <p><strong>Full Description:</strong> ${biz.fullDesc}</p>
+        <p><strong>Short Description:</strong> ${biz.shortDesc}</p>
+        <p><strong>Investment Required:</strong> ${formatLKR(biz.investmentRequired)}</p>
+        ${biz.minInvestment ? `<p><strong>Minimum Investment:</strong> ${formatLKR(biz.minInvestment)}</p>` : ''}
+        ${biz.expectedReturn ? `<p><strong>Expected Return:</strong> ${biz.expectedReturn}</p>` : ''}
+        <p><strong>Industry:</strong> ${biz.industry} | <strong>Stage:</strong> ${biz.stage}</p>
+        <p><strong>Location:</strong> ${biz.location.city}${biz.location.province ? ', ' + biz.location.province : ''}</p>
+        <p><strong>Contact Person:</strong> ${biz.contact.person}</p>
+        <p><strong>Phone:</strong> ${biz.contact.phone}</p>
+        <p><strong>Email:</strong> <a href="mailto:${biz.contact.email}">${biz.contact.email}</a></p>
+        <div class="detail-gallery">${imagesHtml}</div>
+      `;
+      document.getElementById('detail-container').innerHTML = html;
+    }
+    // formatLKR function is defined in script.js; reuse it.
+  </script>
+</body>
+</html>

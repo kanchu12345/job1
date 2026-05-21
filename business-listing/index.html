@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Listings</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+<h1>Business Listings</h1>
+    <nav class="nav"><a href="index.html">Home</a> <a href="listings.html">Listings</a> <a href="contact.html">Contact</a></nav>
+  </header>
+  <main class="container">
+    <table class="listing-table">
+      <thead>
+        <tr>
+          <th>Business Name</th>
+          <th>Short Description</th>
+          <th>Investment Required (LKR)</th>
+          <th>Industry</th>
+          <th>Stage</th>
+          <th>Location</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Rows will be injected by script.js -->
+      </tbody>
+    </table>
+  </main>
+  <!-- Detail modal -->
+  <div class="modal" id="detail-modal">
+    <div class="modal-content">
+      <span class="close" id="modal-close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelaInvest - Business for Sale, Investors, Franchises &amp; Advisors</title>
+    <title>HelaInvest - Business for Sale, Investors, Franchises & Advisors</title>
     <meta name="description" content="Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -28,10 +28,20 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Search Bar -->
-            <div class="search-container-new">
-                <input type="text" placeholder="Search businesses, investors, franchises..." class="search-input-new">
-                <button type="button" class="search-btn-new">Search</button>
+            <!-- Scrolling Text -->
+            <div class="header-scroller" style="display: flex; align-items: center;">
+                <div style="font-weight: 800; color: var(--primary-color); padding-right: 15px; margin-right: 15px; border-right: 2px solid var(--border-color); font-size: 0.95rem; text-transform: uppercase;">Our Services</div>
+                <marquee behavior="scroll" direction="left" scrollamount="4" class="header-scroller-inner" style="display: block; flex: 1;">
+                    <span>• Business Registration</span>
+                    <span>• Company Secretarial services</span>
+                    <span>• Accounting &amp; Bookkeeping</span>
+                    <span>• Business Valuation</span>
+                    <span>• Financial Due Diligence</span>
+                    <span>• Business plans</span>
+                    <span>• Business Proposals</span>
+                    <span>• Tax advisory</span>
+                    <span>• Other Business Advisory service</span>
+                </marquee>
             </div>
 
             <!-- Action Buttons -->
@@ -41,352 +51,83 @@
             </div>
         </div>
     </header>
-<!-- New Home Search Section (replaces removed header) -->
-<section class="home-search" id="home-search">
-    <div class="container">
-        <form class="search-form" onsubmit="event.preventDefault(); handleSearch();">
-            <input type="text" id="search-industry" name="industry" placeholder="Job/Industry" list="industry-options" class="search-input" autocomplete="off" />
-            <datalist id="industry-options"></datalist>
-            <input type="text" id="search-location" name="location" placeholder="Location" class="search-input" />
-            <input type="text" id="search-keywords" name="keywords" placeholder="Keywords" class="search-input" />
-            <button type="submit" class="btn btn-primary search-button">Search</button>
-        </form>
-    </div>
-</section>
-<script>
-    // Populate industry datalist from existing categoryStore
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof categoryStore !== 'undefined') {
-            const datalist = document.getElementById('industry-options');
-            const cats = categoryStore.getAll();
-            cats.forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c.name;
-                datalist.appendChild(opt);
-            });
-        }
-    });
-    function handleSearch() {
-        const industry = document.getElementById('search-industry').value.trim();
-        const location = document.getElementById('search-location').value.trim();
-        const keywords = document.getElementById('search-keywords').value.trim();
-        console.log('Search triggered:', { industry, location, keywords });
-        // TODO: integrate with actual search logic
-    }
-</script>
-
-    <!-- Sub Navigation -->
-    <nav class="sub-nav">
-        <div class="container">
-            <ul>
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="listings.html">Businesses for Sale</a></li>
-                <li><a href="listings.html">Franchises</a></li>
-                <li><a href="listings.html">Investors & Buyers</a></li>
-            </ul>
-        </div>
-    </nav>
 
 
-    <!-- Hero Section -->
-    <section class="hero" style="padding: 60px 0;">
-        <div class="container">
-            <h1 style="margin-bottom: 40px; font-size: 2.8rem; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">Private Network for M&amp;A, Private Equity and VCs</h1>
-            
-            <div class="hero-action" style="margin-top: 30px; text-align: center;">
-                <a href="login.html" class="btn btn-primary" style="padding: 12px 30px; font-size: 1rem;">Get Started</a>
-            </div>
-            
-            <p style="margin-top: 40px; font-size: 1.1rem; opacity: 0.9; max-width: 800px; margin-left: auto; margin-right: auto;">67,000+ pre-screened businesses and investors from 900+ industries, 170+ countries.</p>
-        </div>
-    </section>
 
-    <!-- Topjobs-style Latest Opportunities Table -->
+    <!-- Two-column Layout: Sidebar and Table -->
     <section class="section section-white" style="padding-top: 40px; padding-bottom: 40px;">
         <div class="container">
-            <div class="section-header" style="text-align: left; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main);">Latest Business Opportunities</h2>
-                    <p style="font-size: 1rem;">Browse published opportunities and view full details.</p>
-                </div>
-                <a href="listings.html" style="color: var(--primary-light); font-weight: 600;">View All &rarr;</a>
-            </div>
-
-            <div class="tj-results-header" style="border: 1px solid var(--border-color); border-bottom: none;">
-                <strong id="home-result-count">(0) Listings</strong>
-                <span id="home-page-count">1 page(s)</span>
-            </div>
-
-            <div class="tj-table-wrap" style="border: 1px solid var(--border-color);">
-                <table class="tj-table">
-                    <thead>
-                        <tr>
-                            <th style="width: 35px; text-align: center;">#</th>
-                            <th style="width: 28%;">Business Name</th>
-                            <th>Short Description</th>
-                            <th style="width: 190px;">Investment Required</th>
-                            <th style="width: 160px;">Location</th>
-                            <th style="width: 140px; text-align: center;">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="home-tj-tbody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Businesses for Sale Section -->
-    <section class="section section-alt">
-        <div class="container">
-            <div class="section-header" style="text-align: left; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main);">Businesses for Sale on HelaInvest</h2>
-                    <p style="font-size: 1rem;">Explore pre-screened businesses for sale from over 100+ countries and across 900+ different industries.</p>
-                </div>
-                <a href="listings.html" style="color: var(--primary-light); font-weight: 600;">View All Businesses &rarr;</a>
-            </div>
-            
-            <div class="grid-3" id="featured-grid">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Investors & Buyers Section -->
-    <section class="section section-white">
-        <div class="container">
-            <div class="section-header" style="text-align: left; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main);">Investors &amp; Business Buyers on HelaInvest</h2>
-                    <p style="font-size: 1rem;">Get started by introducing yourself to an investor or a business buyer and send them your proposal today.</p>
-                </div>
-                <a href="listings.html" style="color: var(--primary-light); font-weight: 600;">View All Investors &rarr;</a>
-            </div>
-            
-            <div class="grid-3" id="investors-grid">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Brands / Franchises Section -->
-    <section class="section section-alt">
-        <div class="container">
-            <div class="section-header" style="text-align: left; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main);">Brands on HelaInvest</h2>
-                    <p style="font-size: 1rem;">Partner with world class brands and grow together. Take up franchises, distributorships and sales agencies.</p>
-                </div>
-                <a href="listings.html" style="color: var(--primary-light); font-weight: 600;">View All Brands &rarr;</a>
-            </div>
-            
-            <div class="grid-3" id="brands-grid">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Financial Advisors Section -->
-    <section class="section section-white">
-        <div class="container">
-            <div class="section-header" style="text-align: left; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; margin-bottom: 30px;">
-                <div>
-                    <h2 style="font-size: 1.8rem; margin-bottom: 5px; color: var(--text-main);">Financial Advisors on HelaInvest</h2>
-                    <p style="font-size: 1rem;">Join our list of top notch advisors who are experts in their respective domains and locations.</p>
-                </div>
-                <a href="#" style="color: var(--primary-light); font-weight: 600;">View All Advisors &rarr;</a>
-            </div>
-            <div class="grid-3" id="advisors-grid">
-                <!-- Populated by JS -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Info Sections Grid -->
-    <section class="section section-alt">
-        <div class="container">
-            <div class="grid-3">
-                <div style="background: var(--white); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color);">
-                    <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 15px;">Business Valuation Calculator</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">Curious to know the valuation of your business? Try our simple, yet one of the most effective, online valuation calculators out there for free.</p>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Try Valuation Tool</a>
-                </div>
-
-                <div style="background: var(--white); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color);">
-                    <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 15px;">Industry Watch</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">HelaInvest Industry Watch offers a bird's eye view of traditional and sunrise sectors at an inflection point.</p>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Explore Industry Watch</a>
-                </div>
-
-                <div style="background: var(--white); padding: 30px; border-radius: 8px; border: 1px solid var(--border-color);">
-                    <h3 style="color: var(--primary-color); font-size: 1.3rem; margin-bottom: 15px;">HelaInvest Guide</h3>
-                    <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;">Our experience in the industry led us to create this guide. Consider this your go-to resource when buying and selling a business.</p>
-                    <a href="#" class="btn btn-outline" style="width: 100%;">Explore Guide</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEO Links Block (SMERGERS Style) -->
-    <section class="section section-white" style="padding: 40px 0; border-top: 1px solid var(--border-color);">
-        <div class="container" style="text-align: center;">
-            <p style="font-size: 0.85rem; color: var(--primary-light); line-height: 2;">
-                <a href="#" style="margin: 0 10px;">Business Opportunities</a>
-                <a href="#" style="margin: 0 10px;">Sell Company</a>
-                <a href="#" style="margin: 0 10px;">Low Cost Franchise</a>
-                <a href="#" style="margin: 0 10px;">Businesses for Sale</a>
-                <a href="#" style="margin: 0 10px;">Restaurants for Sale</a>
-                <a href="#" style="margin: 0 10px;">Companies for Sale</a>
-                <a href="#" style="margin: 0 10px;">Investors</a>
-                <a href="#" style="margin: 0 10px;">Business Buyers</a>
-                <a href="#" style="margin: 0 10px;">Private Equity Firms</a>
-                <a href="#" style="margin: 0 10px;">Startup Investors</a>
-            </p>
-        </div>
-    </section>
-
-    <!-- Mega Footer -->
-    <footer class="mega-footer" style="background-color: var(--white); color: var(--text-muted); border-top: 1px solid var(--border-color); padding: 50px 0 20px;">
-        <div class="container">
-            <div class="footer-grid" style="grid-template-columns: repeat(4, 1fr); gap: 30px; margin-bottom: 40px;">
-                <div class="footer-col">
-                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Get Started</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="publisher-dashboard.html" style="color: var(--primary-light); font-weight: 600;">Sell your Business</a></li>
-                        <li style="margin-bottom: 10px;"><a href="publisher-dashboard.html" style="color: var(--primary-light); font-weight: 600;">Finance your Business</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Buy a Business</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Invest in a Business</a></li>
-                        <li style="margin-bottom: 10px;"><a href="publisher-dashboard.html" style="color: var(--primary-light); font-weight: 600;">Franchise your Business</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Businesses</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Businesses For Sale</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Investment Opportunities</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Businesses Seeking Loan</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Business Assets For Sale</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Investors</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Individual Investors</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Business Buyers</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Corporate Investors</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Venture Capital Firms</a></li>
-                        <li style="margin-bottom: 10px;"><a href="listings.html" style="color: var(--primary-light); font-weight: 600;">Private Equity Firms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4 style="color: var(--text-main); font-size: 1.05rem; margin-bottom: 20px; font-weight: 700;">Valuation</h4>
-                    <ul style="list-style: none; padding: 0;">
-                        <li style="margin-bottom: 10px;"><a href="#" style="color: var(--primary-light); font-weight: 600;">How to Value a Business</a></li>
-                        <li style="margin-bottom: 10px;"><a href="#" style="color: var(--primary-light); font-weight: 600;">Business Valuation Calculator</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom" style="text-align: center; border-top: 1px solid var(--border-color); padding-top: 20px; font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center;">
-                <p>&copy; 2026 HelaInvest Platform. All rights reserved.</p>
-                <div style="display: flex; gap: 15px;">
-                    <a href="#" style="color: var(--text-muted);">Terms</a>
-                    <a href="#" style="color: var(--text-muted);">Privacy</a>
-                    <a href="#" style="color: var(--text-muted);">Cookies</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="app.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const homeCountEl = document.getElementById('home-result-count');
-            const homePageEl = document.getElementById('home-page-count');
-            const homeTbody = document.getElementById('home-tj-tbody');
-
-            const published = store.getPublished();
-            if (homeCountEl) homeCountEl.textContent = `(${published.length}) Listings`;
-            if (homePageEl) homePageEl.textContent = '1 page(s)';
-
-            if (homeTbody) {
-                if (published.length === 0) {
-                    homeTbody.innerHTML = `
-                        <tr>
-                            <td colspan="6" style="text-align:center; padding: 18px; color: var(--text-muted);">
-                                No published opportunities right now.
-                            </td>
-                        </tr>
-                    `;
-                } else {
-                    homeTbody.innerHTML = published.slice(0, 20).map((l, idx) => `
-                        <tr>
-                            <td style="text-align: center; font-weight: 700;">${idx + 1}</td>
-                            <td class="biz-title">
-                                <a href="listing-detail.html?id=${l.id}" style="color: var(--primary-color); font-weight: 700; text-decoration: none;">
-                                    ${l.businessName}
-                                </a>
-                            </td>
-                            <td style="color: var(--text-muted); line-height: 1.45;">${l.shortDescription || ''}</td>
-                            <td style="font-weight: 700; color: var(--success);">${formatLKR(l.investmentRequired || 0)}</td>
-                            <td style="font-weight: 600;">${l.district || '—'}</td>
-                            <td style="text-align: center;">
-                                <a href="listing-detail.html?id=${l.id}" class="tj-btn-detail">View Details</a>
-                            </td>
-                        </tr>
-                    `).join('');
-                }
-            }
-
-            const grid = document.getElementById('featured-grid');
-            const listings = published.slice(0, 3);
-
-            if (listings.length === 0) {
-                grid.innerHTML = '<p style="text-align:center; grid-column: 1/-1;">No listings available right now.</p>';
-                return;
-            }
-
-            // Helper to generate a SMERGERS-style card
-            const generateCard = (l) => `
-                <div class="listing-card" style="box-shadow: 0 1px 3px rgba(0,0,0,0.12); border: 1px solid var(--border-color); border-radius: 4px; overflow: hidden; background: var(--white); transition: box-shadow 0.2s;">
-                    <div style="padding: 15px; display: flex; gap: 15px; border-bottom: 1px solid var(--border-color);">
-                        <div style="width: 80px; height: 80px; background: #f4f5f7; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.8rem; border-radius: 4px;">Image</div>
-                        <div style="flex: 1;">
-                            <a href="listing-detail.html?id=${l.id}" style="color: var(--primary-light); font-weight: 600; font-size: 1.05rem; display: block; margin-bottom: 5px;">${l.industry} Business in ${l.district}</a>
-                            <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; gap: 10px; flex-wrap: wrap;">
-                                <span>📍 ${l.district}, Sri Lanka</span>
-                                <span>🏢 ${l.industry}</span>
-                            </div>
-                        </div>
+            <div class="layout-container">
+                <!-- Sidebar -->
+                <aside class="sidebar-categories">
+                    <div class="sidebar-header">
+                        Select Job Category
                     </div>
-                    <div style="padding: 15px;">
-                        <p style="font-size: 0.9rem; color: var(--text-main); margin-bottom: 15px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${l.shortDescription}</p>
-                        <div style="background: var(--bg-color); padding: 10px; border-radius: 4px; font-size: 0.85rem; display: flex; justify-content: space-between;">
-                            <div>
-                                <span style="color: var(--text-muted); display: block; margin-bottom: 2px;">Investment Req</span>
-                                <strong style="color: var(--text-main);">${formatLKR(l.investmentRequired)}</strong>
-                            </div>
-                            <div style="text-align: right;">
-                                <span style="color: var(--text-muted); display: block; margin-bottom: 2px;">Business Stage</span>
-                                <strong style="color: var(--text-main);">${l.businessStage}</strong>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="padding: 10px 15px; border-top: 1px solid var(--border-color); background: #fafafa; display: flex; justify-content: space-between; align-items: center;">
-                        <a href="listing-detail.html?id=${l.id}" style="font-size: 0.85rem; color: var(--primary-color); font-weight: 600;">Contact Business</a>
-                        <span style="background: var(--success-bg); color: var(--success); padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold;">Verified</span>
-                    </div>
-                </div>
-            `;
+                    <ul class="category-list">
+                        <li><a href="#">IT-Sware/DB/QA/Web/Graphics/GIS</a></li>
+                        <li><a href="#">IT-HWare/Networks/Systems</a></li>
+                        <li><a href="#">Accounting/Auditing/Finance</a></li>
+                        <li><a href="#">Banking &amp; Finance/Insurance</a></li>
+                        <li><a href="#">Sales/Marketing/Merchandising</a></li>
+                        <li><a href="#">HR/Training</a></li>
+                        <li><a href="#">Corporate Management/Analysts</a></li>
+                        <li><a href="#">Office Admin/Secretary/Receptionist</a></li>
+                        <li><a href="#">Civil Eng/Interior Design/Architecture</a></li>
+                        <li><a href="#">IT-Telecoms</a></li>
+                        <li><a href="#">Customer Relations/Public Relations</a></li>
+                        <li><a href="#">Logistics/Warehouse/Transport</a></li>
+                        <li><a href="#">Eng-Mech/Auto/Elec</a></li>
+                        <li><a href="#">Manufacturing/Operations</a></li>
+                        <li><a href="#">Media/Advert/Communication</a></li>
+                        <li><a href="#">Hotel/Restaurant/Hospitality</a></li>
+                        <li><a href="#">Travel/Tourism</a></li>
+                        <li><a href="#">Sports/Fitness/Recreation</a></li>
+                        <li><a href="#">Medical/Nursing/Healthcare</a></li>
+                        <li><a href="#">Legal/Law</a></li>
+                        <li><a href="#">Supervision/Quality Control</a></li>
+                        <li><a href="#">Apparel/Clothing</a></li>
+                        <li><a href="#">Ticketing/Airline/Marine</a></li>
+                        <li><a href="#">Education</a></li>
+                        <li><a href="#">R&amp;D/Science/Research</a></li>
+                        <li><a href="#">Agriculture/Dairy/Environment</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Fashion/Design/Beauty</a></li>
+                        <li><a href="#">International Development</a></li>
+                        <li><a href="#">KPO/BPO</a></li>
+                        <li><a href="#">Imports/Exports</a></li>
+                    </ul>
 
-            grid.innerHTML = listings.map(generateCard).join('');
+                    <!-- Search Bar inside Sidebar -->
+                    <div class="search-container-new" style="width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--border-color);">
+                        <input type="text" id="sidebar-search-input" placeholder="Search businesses, investors, franchises..." class="search-input-new" style="width: 100%; border-radius: 0; border: none; border-bottom: 1px solid var(--border-color); padding: 12px 15px;">
+                        <button type="button" id="sidebar-search-btn" class="search-btn-new" style="width: 100%; border-radius: 0 0 4px 4px; padding: 12px; font-size: 1rem;">Search</button>
+                    </div>
+                </aside>
 
-            // Populate mock investors and advisors grids
-            document.getElementById('investors-grid').innerHTML = listings.map(l => generateCard({ ...l, industry: 'Investor', shortDescription: 'Looking to invest in ' + l.industry + ' sector.' })).join('');
-            document.getElementById('brands-grid').innerHTML = listings.map(l => generateCard({ ...l, industry: 'Franchise', shortDescription: 'Looking for franchise partners in ' + l.district })).join('');
-            document.getElementById('advisors-grid').innerHTML = listings.map(l => generateCard({ ...l, industry: 'M&A Advisor', shortDescription: 'Financial consultant specializing in ' + l.industry })).join('');
-        });
-    </script>
+    <main class="main-listings">
+    <table class="tj-table">
+        <thead>
+            <tr>
+                <th>Business</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Investment Req</th>
+                <th>Stage</th>
+                <th>Contact</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="biz-title"><a href="#">Sample Business</a></td>
+                <td>Colombo, Sri Lanka</td>
+                <td>Technology</td>
+                <td>LKR 10,000,000</td>
+                <td>Startup</td>
+                <td><a href="#" class="btn-detail">Contact</a></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+<script>
 </body>
 </html>

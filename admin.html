@@ -321,6 +321,9 @@
                             
                             <strong>Funding:</strong>
                             <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-funding"></p>
+
+                            <strong>Additional Notes:</strong>
+                            <p style="font-size: 0.85rem; background: #eee; padding: 10px; border-radius: 4px;" id="m-additionalnotes"></p>
                         </div>
                         
                         <div class="detail-card">
@@ -595,7 +598,8 @@
                 products: l.products,
                 highlights: l.highlights,
                 facility: l.facility,
-                funding: l.funding
+                funding: l.funding,
+                additionalnotes: l.additionalNotes
             };
 
             Object.entries(fieldValues).forEach(([f, rawVal]) => {
