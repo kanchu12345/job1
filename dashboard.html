@@ -136,36 +136,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                        <!-- Mock Data Row -->
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-bold text-gray-900">Tech Startup Seeking Seed Capital</div>
-                                <div class="text-sm text-gray-500">Ref: HELA-492014</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Fast Track</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                May 21, 2026
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="status-badge status-pending">Pending Review</span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <a href="#" class="text-primary hover:underline">View Details</a>
-                            </td>
-                        </tr>
-                        
-                        <!-- Empty state (hidden for demonstration) -->
-                        <tr id="empty-state" class="hidden">
-                            <td colspan="5" class="px-6 py-12 text-center">
-                                <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                                <h3 class="mt-2 text-sm font-medium text-gray-900">No listings yet</h3>
-                                <p class="mt-1 text-sm text-gray-500">Get started by creating a new investment opportunity.</p>
-                            </td>
-                        </tr>
+                        <!-- Data rendered via JS -->
                     </tbody>
                 </table>
             </div>
@@ -173,16 +144,132 @@
 
     </main>
 
+    <!-- Feedback Modal -->
+    <div id="feedback-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+            <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 rounded-t-xl">
+                <h3 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    Revision Required
+                </h3>
+                <button onclick="document.getElementById('feedback-modal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="px-6 py-6 overflow-y-auto" id="feedback-content">
+                <!-- Feedback injected here -->
+            </div>
+            <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 rounded-b-xl flex justify-end">
+                <button onclick="document.getElementById('feedback-modal').classList.add('hidden')" class="px-4 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition">Close</button>
+            </div>
+        </div>
+    </div>
+
     <!-- App Logic -->
     <script src="app.js"></script>
     <script>
+        const store = new ListingStore();
+
         document.addEventListener('DOMContentLoaded', () => {
             const user = authStore.getCurrentUser();
             if (!user) {
-                // If they are not logged in, they shouldn't see the dashboard
                 window.location.href = 'login.html';
+                return;
             }
+
+            const tbody = document.querySelector('tbody');
+            
+            // Get listings for current user
+            // We'll filter by email for now as it's the most reliable link in this mock setup
+            const userListings = store.getAll().filter(l => l.publisherEmail === user.email);
+
+            if (userListings.length === 0) {
+                tbody.innerHTML = `
+                    <tr id="empty-state">
+                        <td colspan="5" class="px-6 py-12 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <h3 class="mt-2 text-sm font-medium text-gray-900">No listings yet</h3>
+                            <p class="mt-1 text-sm text-gray-500">Get started by creating a new investment opportunity.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            userListings.forEach(l => {
+                let badge = '';
+                let action = '<a href="#" class="text-primary hover:underline font-medium">View Details</a>';
+                
+                if (l.status === 'pending_payment') {
+                    badge = '<span class="status-badge status-pending">Payment Processing</span>';
+                } else if (l.status === 'review') {
+                    badge = '<span class="status-badge status-pending" style="background:#e0e7ff; color:#3730a3;">Under Admin Review</span>';
+                } else if (l.status === 'published') {
+                    badge = '<span class="status-badge status-published">Published</span>';
+                } else if (l.status === 'needs_revision') {
+                    badge = '<span class="status-badge status-rejected" style="background:#fee2e2; color:#b91c1c;">Needs Revision</span>';
+                    action = `<button onclick="viewFeedback('${l.id}')" class="text-red-600 font-bold hover:underline">View Feedback</button>`;
+                } else {
+                    badge = '<span class="status-badge status-rejected">Rejected</span>';
+                }
+
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-gray-50 transition';
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-bold text-gray-900">${l.businessName || 'Business Proposal'}</div>
+                        <div class="text-sm text-gray-500">Ref: ${l.refCode || 'N/A'}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${l.package || 'Standard'}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        ${l.submittedAt ? new Date(l.submittedAt).toLocaleDateString() : 'N/A'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        ${badge}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
+                        ${action}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
         });
+
+        window.viewFeedback = function(id) {
+            const l = store.getById(id);
+            if (!l || !l.fieldFeedback) return;
+
+            let html = '<p class="text-gray-600 mb-4">The admin has reviewed your listing and requested the following changes before it can be published:</p>';
+            html += '<div class="space-y-4">';
+
+            const fieldNames = {
+                role: 'Role', interest: 'Interested In', established: 'Established Date', industry: 'Industry',
+                district: 'Location/District', employees: 'Number of Employees', entity: 'Legal Entity', shortdesc: 'Short Description',
+                monthlysales: 'Monthly Sales', yearlysales: 'Yearly Sales', percent: 'Percentage Willing to Sell',
+                assetvalue: 'Asset Value', contactname: 'Contact Name', phone: 'Phone Number', email: 'Email',
+                products: 'Products/Services', highlights: 'Highlights', facility: 'Facility', funding: 'Funding Requirements',
+                additionalnotes: 'Additional Notes'
+            };
+
+            for (const [field, reason] of Object.entries(l.fieldFeedback)) {
+                const readableName = fieldNames[field] || field;
+                html += `
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+                        <h4 class="font-bold text-red-800 text-sm mb-1">${readableName}</h4>
+                        <p class="text-red-600 text-sm">${reason}</p>
+                    </div>
+                `;
+            }
+            html += '</div>';
+
+            document.getElementById('feedback-content').innerHTML = html;
+            document.getElementById('feedback-modal').classList.remove('hidden');
+        };
     </script>
 </body>
 </html>

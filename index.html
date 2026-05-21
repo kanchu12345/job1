@@ -63,38 +63,8 @@
                     <div class="sidebar-header">
                         Select Job Category
                     </div>
-                    <ul class="category-list">
-                        <li><a href="#">IT-Sware/DB/QA/Web/Graphics/GIS</a></li>
-                        <li><a href="#">IT-HWare/Networks/Systems</a></li>
-                        <li><a href="#">Accounting/Auditing/Finance</a></li>
-                        <li><a href="#">Banking &amp; Finance/Insurance</a></li>
-                        <li><a href="#">Sales/Marketing/Merchandising</a></li>
-                        <li><a href="#">HR/Training</a></li>
-                        <li><a href="#">Corporate Management/Analysts</a></li>
-                        <li><a href="#">Office Admin/Secretary/Receptionist</a></li>
-                        <li><a href="#">Civil Eng/Interior Design/Architecture</a></li>
-                        <li><a href="#">IT-Telecoms</a></li>
-                        <li><a href="#">Customer Relations/Public Relations</a></li>
-                        <li><a href="#">Logistics/Warehouse/Transport</a></li>
-                        <li><a href="#">Eng-Mech/Auto/Elec</a></li>
-                        <li><a href="#">Manufacturing/Operations</a></li>
-                        <li><a href="#">Media/Advert/Communication</a></li>
-                        <li><a href="#">Hotel/Restaurant/Hospitality</a></li>
-                        <li><a href="#">Travel/Tourism</a></li>
-                        <li><a href="#">Sports/Fitness/Recreation</a></li>
-                        <li><a href="#">Medical/Nursing/Healthcare</a></li>
-                        <li><a href="#">Legal/Law</a></li>
-                        <li><a href="#">Supervision/Quality Control</a></li>
-                        <li><a href="#">Apparel/Clothing</a></li>
-                        <li><a href="#">Ticketing/Airline/Marine</a></li>
-                        <li><a href="#">Education</a></li>
-                        <li><a href="#">R&amp;D/Science/Research</a></li>
-                        <li><a href="#">Agriculture/Dairy/Environment</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Fashion/Design/Beauty</a></li>
-                        <li><a href="#">International Development</a></li>
-                        <li><a href="#">KPO/BPO</a></li>
-                        <li><a href="#">Imports/Exports</a></li>
+                    <ul class="category-list" id="dynamic-category-list">
+                        <!-- Populated dynamically via JS -->
                     </ul>
 
                     <!-- Search Bar inside Sidebar -->
@@ -135,7 +105,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.querySelector('.tj-table tbody');
     const searchInput = document.getElementById('sidebar-search-input');
     const searchBtn = document.getElementById('sidebar-search-btn');
-    const categoryLinks = document.querySelectorAll('.category-list a');
+    
+    // Dynamically load categories
+    const catListEl = document.getElementById('dynamic-category-list');
+    const categories = categoryStore.getAll();
+    if(categories && categories.length > 0) {
+        catListEl.innerHTML = categories.map(c => `<li><a href="#" class="cat-link">${c.name}</a></li>`).join('');
+    } else {
+        catListEl.innerHTML = '<li><span style="color:#999; padding:10px 15px; display:block;">No categories</span></li>';
+    }
+
+    const categoryLinks = document.querySelectorAll('.cat-link');
     
     // Get listings from store
     let allListings = store.getPublished();
@@ -149,8 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         listings.forEach(listing => {
             const tr = document.createElement('tr');
+            if(listing.boosted) {
+                tr.style.backgroundColor = '#fffbea'; // soft yellow background
+            }
+            
+            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">⭐</span> ' : '';
+            
             tr.innerHTML = `
-                <td class="biz-title"><a href="listing-detail.html?id=${listing.id}">${listing.businessName}</a></td>
+                <td class="biz-title">${boostBadge}<a href="listing-detail.html?id=${listing.id}" ${listing.boosted ? 'style="font-weight:800; color:#b45309;"' : ''}>${listing.businessName}</a></td>
                 <td>${listing.district || 'N/A'}</td>
                 <td>${listing.industry || 'N/A'}</td>
                 <td>${formatLKR(listing.investmentRequired)}</td>

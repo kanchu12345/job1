@@ -67,7 +67,11 @@ class ListingStore {
   }
 
   getPublished() {
-    return this.getAll().filter(l => l.status === 'published');
+    return this.getAll().filter(l => l.status === 'published').sort((a, b) => {
+        if (a.boosted && !b.boosted) return -1;
+        if (!a.boosted && b.boosted) return 1;
+        return new Date(b.submittedAt) - new Date(a.submittedAt);
+    });
   }
 
   getById(id) {
