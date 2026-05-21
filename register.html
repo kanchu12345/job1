@@ -99,9 +99,9 @@
                 // Automatically log them in (if not already handled by Firebase)
                 await authStore.login(email, pass);
                 
-                // Redirect to the submit page since they want to publish an ad
-                alert("Registration successful! You can now submit your investment opportunities.");
-                window.location.href = 'submit.html'; 
+                // Redirect to the dashboard page since they want to publish an ad
+                alert("Registration successful! You can now view your dashboard.");
+                window.location.href = 'dashboard.html'; 
             } catch (err) {
                 alert(err.message);
             }
@@ -127,8 +127,8 @@
                     }
                 }
                 
-                alert("Registration successful via Google! You can now submit your investment opportunities.");
-                window.location.href = 'submit.html';
+                alert("Registration successful via Google! You can now view your dashboard.");
+                window.location.href = 'dashboard.html';
             } catch (err) {
                 alert(err.message);
             }

@@ -353,6 +353,26 @@
 
                         </div>
 
+                    </div>
+
+                    <!-- STEP 4: Media Upload -->
+                    <div id="step-4" class="step-content">
+                        <h3 class="text-lg font-bold text-gray-800 mb-2">Upload Photos & Banner</h3>
+                        <p class="text-gray-500 mb-6 text-sm">Upload up to 5 photos to showcase your business. Maximum 1MB per image.</p>
+                        
+                        <div class="mb-8">
+                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:bg-gray-50 transition cursor-pointer" onclick="document.getElementById('file-upload').click()">
+                                <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                <span class="text-primary font-bold">Click to upload</span> or drag and drop
+                                <p class="text-xs text-gray-500 mt-2">PNG, JPG, JPEG (Max 1MB per file, up to 5 files)</p>
+                                <input type="file" id="file-upload" class="hidden" multiple accept="image/png, image/jpeg, image/jpg" onchange="handleFileUpload(event)">
+                            </div>
+                            <div id="file-preview-container" class="mt-4 grid grid-cols-2 md:grid-cols-5 gap-4">
+                                <!-- Previews will be injected here -->
+                            </div>
+                            <p id="file-error" class="text-red-500 text-sm mt-2 hidden"></p>
+                        </div>
+
                         <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 flex items-start gap-3">
                             <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded">
                             <label for="terms" class="text-sm text-gray-600">
@@ -379,13 +399,41 @@
                 </form>
 
                 <!-- Success State -->
-                <div id="success-state" class="hidden text-center py-12">
-                    <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                <div id="success-state" class="hidden py-8">
+                    <div class="text-center mb-8">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h2 class="text-3xl font-black text-gray-900 mb-2">Submission Successful!</h2>
+                        <p class="text-gray-600 max-w-lg mx-auto">Your business registration has been securely submitted. Please complete your payment to finalize the process.</p>
                     </div>
-                    <h2 class="text-3xl font-black text-gray-900 mb-4">Submission Successful!</h2>
-                    <p class="text-gray-600 max-w-md mx-auto mb-8">Your business registration has been securely submitted. Our team will review the details and contact you shortly regarding the next steps for publishing your investment opportunity.</p>
-                    <a href="index.html" class="inline-block px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-blue-900 transition">Return to Dashboard</a>
+
+                    <div class="bg-gray-50 border border-gray-200 rounded-xl p-8 max-w-2xl mx-auto mb-8">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 text-center">Payment Instructions</h3>
+                        
+                        <div class="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg mb-6 text-center">
+                            <p class="text-sm font-semibold uppercase tracking-wide mb-1">Your Unique Reference Code</p>
+                            <p id="generated-code" class="text-3xl font-black tracking-widest text-primary"></p>
+                        </div>
+
+                        <div class="space-y-3 text-gray-700 text-sm mb-6">
+                            <p><strong>1.</strong> Log in to your e-banking or mobile banking app.</p>
+                            <p><strong>2.</strong> Initiate a transfer to the following HelaInvest account:</p>
+                            <div class="bg-white p-4 rounded border border-gray-200 font-mono text-sm shadow-sm my-2">
+                                Bank: <span class="font-bold">Commercial Bank of Ceylon</span><br>
+                                Account Name: <span class="font-bold">HelaInvest (Pvt) Ltd</span><br>
+                                Account No: <span class="font-bold">1000 2345 6789</span><br>
+                                Branch: <span class="font-bold">Colombo 01</span>
+                            </div>
+                            <p><strong>3.</strong> <span class="font-bold text-red-600">IMPORTANT:</span> You must enter your Unique Reference Code (<span class="font-bold text-primary" id="generated-code-inline"></span>) into the <strong>"Remarks"</strong> or <strong>"Notes"</strong> section of your transfer.</p>
+                        </div>
+
+                        <p class="text-xs text-gray-500 italic text-center">Your listing will be published immediately after the payment is verified.</p>
+                    </div>
+
+                    <div class="text-center">
+                        <a href="dashboard.html" class="inline-block px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-blue-900 transition shadow-lg shadow-blue-900/20">Return to Dashboard</a>
+                    </div>
                 </div>
 
             </div>
@@ -399,7 +447,8 @@
             const steps = [
                 { id: 'step-1', title: 'Business Information', btnText: 'Continue to Details' },
                 { id: 'step-2', title: 'Business Details', btnText: 'Continue to Plans' },
-                { id: 'step-3', title: 'Plan Selection', btnText: 'Submit Registration' }
+                { id: 'step-3', title: 'Plan Selection', btnText: 'Continue to Media' },
+                { id: 'step-4', title: 'Media Upload', btnText: 'Submit Registration' }
             ];
             let currentStep = 0;
 
@@ -411,6 +460,50 @@
             const stepIndicator = document.getElementById('step-indicator');
             const progressBar = document.getElementById('progress-bar');
             
+            // File Upload Logic
+            let uploadedFiles = [];
+            window.handleFileUpload = function(event) {
+                const files = Array.from(event.target.files);
+                const errorEl = document.getElementById('file-error');
+                const previewContainer = document.getElementById('file-preview-container');
+                errorEl.classList.add('hidden');
+                
+                let newValidFiles = [];
+                
+                for(let file of files) {
+                    if(file.size > 1024 * 1024) {
+                        errorEl.textContent = "One or more files exceed the 1MB limit.";
+                        errorEl.classList.remove('hidden');
+                        return;
+                    }
+                    newValidFiles.push(file);
+                }
+                
+                if(uploadedFiles.length + newValidFiles.length > 5) {
+                    errorEl.textContent = "You can only upload a maximum of 5 photos.";
+                    errorEl.classList.remove('hidden');
+                    return;
+                }
+                
+                newValidFiles.forEach(file => {
+                    uploadedFiles.push(file);
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const div = document.createElement('div');
+                        div.className = 'relative rounded-lg overflow-hidden border border-gray-200 aspect-square';
+                        div.innerHTML = `
+                            <img src="${e.target.result}" class="w-full h-full object-cover">
+                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700" onclick="this.parentElement.remove(); uploadedFiles.splice(uploadedFiles.indexOf(file), 1);">✕</button>
+                        `;
+                        previewContainer.appendChild(div);
+                    }
+                    reader.readAsDataURL(file);
+                });
+                
+                // reset input so same file can be selected again if removed
+                event.target.value = '';
+            };
+
             // Plan Card Selection Logic
             const planCards = document.querySelectorAll('.plan-card');
             planCards.forEach(card => {
@@ -493,6 +586,11 @@
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 if (validateCurrentStep()) {
+                    // Generate anonymous reference code
+                    const refCode = 'HELA-' + Math.floor(100000 + Math.random() * 900000); // HELA-XXXXXX
+                    document.getElementById('generated-code').textContent = refCode;
+                    document.getElementById('generated-code-inline').textContent = refCode;
+
                     // Simulate API Call / Submission
                     form.classList.add('hidden');
                     document.getElementById('success-state').classList.remove('hidden');

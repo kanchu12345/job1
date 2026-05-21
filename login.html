@@ -87,8 +87,8 @@
             
             try {
                 const user = await authStore.login(email, pass);
-                // Directly redirect to the dashboard/submit page
-                window.location.href = 'submit.html';
+                // Directly redirect to the user's dashboard page
+                window.location.href = 'dashboard.html';
             } catch (err) {
                 alert("Login failed: " + err.message);
             }
@@ -99,8 +99,8 @@
                 // We default to 'publisher' if they login via Google on this platform for the first time
                 const user = await authStore.loginWithGoogle('publisher');
                 
-                // Directly redirect to the dashboard/submit page
-                window.location.href = 'submit.html';
+                // Directly redirect to the user's dashboard page
+                window.location.href = 'dashboard.html';
             } catch (err) {
                 alert("Google Login failed: " + err.message);
             }
