@@ -369,10 +369,7 @@ class SettingsStore {
   }
 }
 
-// Initialize Stores
-const store = new ListingStore();
-const authStore = new AuthStore();
-const categoryStore = new CategoryStore();
+// Initialize Settings Store
 const settingsStore = new SettingsStore();
 
 // --- Inject Test Pending Post for Admin Review Testing ---
