@@ -1728,3 +1728,16 @@ a:hover {
     background: #f0fbf8;
     border-color: #009877;
 }
+
+#filter-location {
+    border: 2px solid #1e293b;
+    color: var(--primary-color);
+    font-weight: 600;
+    padding-left: 15px;
+    padding-right: 35px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+#filter-location:hover {
+    background: #f8fafc;
+    border-color: #0f172a;
+}
