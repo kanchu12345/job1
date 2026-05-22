@@ -97,6 +97,12 @@ class ListingStore {
     }
   }
 
+  delete(id) {
+    let listings = this.getAll();
+    listings = listings.filter(l => l.id !== id);
+    localStorage.setItem(this.listingsKey, JSON.stringify(listings));
+  }
+
   formatCurrency(amount) {
     return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', maximumFractionDigits: 0 }).format(amount);
   }
@@ -247,23 +253,28 @@ function updateGlobalAuthUI() {
   const topAuth = document.getElementById('topbar-auth');
   const headerAuth = document.getElementById('header-auth');
   
+  const postAdBtn = `<a href="#" onclick="handlePostListing(event)" class="btn-register-new" style="background:#0b4cb4; color:#fff;">Post Your Ad</a>`;
+  
   if (user) {
       const roleLabel = user.role === 'publisher' ? '(Publisher)' : '(Client)';
-      const displayName = user.email ? user.email.substring(0, 5) : user.name.split(' ')[0];
+      const displayName = user.name ? user.name.split(' ')[0] : (user.email ? user.email.substring(0, 8) : 'User');
+      const dashLink = user.role === 'publisher' ? 'publisher-dashboard.html' : 'dashboard.html';
       const loggedInHTML = `
-          <span style="color:#003399; font-weight:700; font-size:0.8rem; margin-right:10px;">
+          <a href="${dashLink}" style="color:#003399; font-weight:700; font-size:0.8rem; margin-right:10px; text-decoration:none;">
               Hi, ${displayName} ${roleLabel}
-          </span>
-          <a href="#" onclick="logoutUser(event)" class="tj-btn-text" style="color:#cc0000; padding:0; text-decoration:none; font-size:0.8rem;">Logout</a>
+          </a>
+          ${postAdBtn}
+          <a href="#" onclick="logoutUser(event)" style="color:#cc0000; padding:0; text-decoration:none; font-size:0.8rem; font-weight:600;">Logout</a>
       `;
       if (topAuth) topAuth.innerHTML = loggedInHTML;
       if (headerAuth) headerAuth.innerHTML = loggedInHTML;
   } else {
       const loggedOutHTML = `
-          <a href="login.html" class="login-link-new">Login</a>
-          <a href="register.html" class="btn-register-new">Register</a>
+          <a href="auth.html" class="login-link-new">Login</a>
+          <a href="auth.html" class="btn-register-new">Register</a>
+          ${postAdBtn}
       `;
-      const topLoggedOutHTML = `<a href="login.html" class="login-link-new" style="font-size:0.78rem;">Login</a>`;
+      const topLoggedOutHTML = `<a href="auth.html" class="login-link-new" style="font-size:0.78rem;">Login</a>`;
       if (topAuth) topAuth.innerHTML = topLoggedOutHTML;
       if (headerAuth) headerAuth.innerHTML = loggedOutHTML;
   }
@@ -279,15 +290,132 @@ function handlePostListing(e) {
   if (e) e.preventDefault();
   const user = authStore.getCurrentUser();
   if (!user) {
-      alert("You must be logged in to post a listing.");
-      window.location.href = 'login.html';
+      alert("You must be logged in to post a listing. Please login or register first.");
+      window.location.href = 'auth.html';
       return;
   }
-  if (user.role !== 'publisher') {
-      alert("Only Job Publishers can post listings. You are registered as a Normal Client.");
-      return;
+  if (user.role === 'publisher') {
+      window.location.href = 'publisher-dashboard.html';
+  } else {
+      window.location.href = 'submit.html';
   }
-  window.location.href = 'submit.html';
+}
+
+// --- PDF Generation ---
+function generateListingPDF(listingId) {
+  const l = store.getById(listingId);
+  if (!l) { alert('Listing not found.'); return; }
+
+  const fmtMoney = (v) => {
+    const n = Number(v);
+    return Number.isFinite(n) && n > 0 ? store.formatCurrency(n) : 'N/A';
+  };
+
+  const statusLabels = {
+    'pending': 'Pending Review',
+    'pending_payment': 'Pending',
+    'review': 'Under Review',
+    'published': 'Published / Approved',
+    'rejected': 'Rejected',
+    'expired': 'Expired',
+    'needs_revision': 'Needs Revision'
+  };
+
+  const statusText = statusLabels[l.status] || l.status;
+  const submittedDate = l.submittedAt ? new Date(l.submittedAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : 'N/A';
+
+  const pdfHTML = `<!DOCTYPE html>
+<html><head><title>HelaInvest - ${l.businessName || 'Business Proposal'}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; padding: 40px; font-size: 14px; }
+  .pdf-header { text-align: center; border-bottom: 3px solid #003399; padding-bottom: 20px; margin-bottom: 30px; }
+  .pdf-header h1 { color: #003399; font-size: 28px; margin-bottom: 5px; }
+  .pdf-header h1 span { color: #cc9900; }
+  .pdf-header p { color: #666; font-size: 12px; }
+  .pdf-meta { display: flex; justify-content: space-between; background: #f4f6f9; padding: 15px; border-radius: 4px; margin-bottom: 25px; border-left: 4px solid #003399; }
+  .pdf-meta div { font-size: 13px; }
+  .pdf-meta strong { color: #003399; }
+  .section-title { color: #003399; font-size: 16px; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 8px; margin: 25px 0 15px; }
+  .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .detail-table td { padding: 8px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
+  .detail-table td:first-child { font-weight: 600; color: #555; width: 200px; }
+  .detail-table td:last-child { color: #111; }
+  .desc-block { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 15px; white-space: pre-line; line-height: 1.6; }
+  .pdf-footer { margin-top: 40px; text-align: center; color: #999; font-size: 11px; border-top: 1px solid #eee; padding-top: 15px; }
+  .status-label { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+  .status-pending { background: #fff3cd; color: #856404; }
+  .status-published { background: #d4edda; color: #155724; }
+  .status-rejected { background: #f8d7da; color: #721c24; }
+  .status-expired { background: #e2e3e5; color: #383d41; }
+  @media print { body { padding: 20px; } }
+</style></head><body>
+  <div class="pdf-header">
+    <h1>Hela<span>Invest</span></h1>
+    <p>Business Listing & Investment Platform — Sri Lanka</p>
+  </div>
+
+  <div class="pdf-meta">
+    <div><strong>Rating Code:</strong> ${l.refCode || 'N/A'}</div>
+    <div><strong>Submitted:</strong> ${submittedDate}</div>
+    <div><strong>Status:</strong> <span class="status-label status-${l.status === 'published' ? 'published' : l.status === 'rejected' ? 'rejected' : l.status === 'expired' ? 'expired' : 'pending'}">${statusText}</span></div>
+  </div>
+
+  <h2 style="text-align:center; font-size:22px; margin-bottom:25px; color:#111;">${l.businessName || 'Business Proposal'}</h2>
+
+  <div class="section-title">Business Information</div>
+  <table class="detail-table">
+    <tr><td>Role</td><td>${l.role || 'N/A'}</td></tr>
+    <tr><td>Interested In</td><td>${l.interest || 'N/A'}</td></tr>
+    <tr><td>Established</td><td>${l.established || 'N/A'}</td></tr>
+    <tr><td>Industry</td><td>${l.industry || 'N/A'}</td></tr>
+    <tr><td>Location</td><td>${l.district || 'N/A'}</td></tr>
+    <tr><td>Employees</td><td>${l.employees || 'N/A'}</td></tr>
+    <tr><td>Legal Entity</td><td>${l.entity || l.entityType || 'N/A'}</td></tr>
+    <tr><td>Short Description</td><td>${l.shortDescription || l.shortdesc || 'N/A'}</td></tr>
+  </table>
+
+  <div class="section-title">Financial Information</div>
+  <table class="detail-table">
+    <tr><td>Monthly Sales</td><td>${fmtMoney(l.monthlySales || l.monthlysales)}</td></tr>
+    <tr><td>Yearly Sales</td><td>${fmtMoney(l.yearlySales || l.yearlysales)}</td></tr>
+    <tr><td>Investment Required</td><td>${fmtMoney(l.investmentRequired)}</td></tr>
+    <tr><td>% Willing to Sell</td><td>${l.percentToSell || l.percent || 'N/A'}%</td></tr>
+    <tr><td>Physical Asset Value</td><td>${fmtMoney(l.assetValue || l.assetvalue)}</td></tr>
+  </table>
+
+  ${l.products ? '<div class="section-title">Products & Services</div><div class="desc-block">' + l.products + '</div>' : ''}
+  ${l.highlights ? '<div class="section-title">Business Highlights</div><div class="desc-block">' + l.highlights + '</div>' : ''}
+  ${l.facility ? '<div class="section-title">Facility Details</div><div class="desc-block">' + l.facility + '</div>' : ''}
+  ${l.funding ? '<div class="section-title">Funding Details</div><div class="desc-block">' + l.funding + '</div>' : ''}
+  ${l.assets ? '<div class="section-title">Assets</div><div class="desc-block">' + l.assets + '</div>' : ''}
+
+  <div class="section-title">Contact Details</div>
+  <table class="detail-table">
+    <tr><td>Contact Name</td><td>${l.contactName || l.contactname || 'N/A'}</td></tr>
+    <tr><td>Phone</td><td>${l.phone || 'N/A'}</td></tr>
+    <tr><td>Email</td><td>${l.email || 'N/A'}</td></tr>
+  </table>
+
+  ${(l.services && l.services.length > 0) ? '<div class="section-title">Selected Professional Services</div><table class="detail-table">' + l.services.map(s => '<tr><td>✓ ' + s + '</td><td></td></tr>').join('') + '</table>' : ''}
+
+  ${l.rejectionReason ? '<div class="section-title" style="color:#dc3545;">Rejection Reason</div><div class="desc-block" style="background:#fff5f5; border-left: 4px solid #dc3545;">' + l.rejectionReason + '</div>' : ''}
+
+  <div class="pdf-footer">
+    <p>Generated by HelaInvest Platform | Rating Code: ${l.refCode || 'N/A'} | Date: ${new Date().toLocaleDateString()}</p>
+    <p>This document is auto-generated and valid for reference purposes only.</p>
+  </div>
+
+  <script>window.onload = function() { window.print(); }</script>
+</body></html>`;
+
+  const pdfWindow = window.open('', '_blank');
+  if (pdfWindow) {
+    pdfWindow.document.write(pdfHTML);
+    pdfWindow.document.close();
+  } else {
+    alert('Pop-up blocked. Please allow pop-ups for this site to download PDF.');
+  }
 }
 
 // Auto-run UI sync on DOM load if elements exist
@@ -372,40 +500,4 @@ class SettingsStore {
 // Initialize Settings Store
 const settingsStore = new SettingsStore();
 
-// --- Inject Test Pending Post for Admin Review Testing ---
-(function injectTestPost() {
-    const listings = store.getAll();
-    const hasTestPost = listings.find(l => l.refCode === 'TEST-999999');
-    if (!hasTestPost) {
-        store.save({
-            id: 'test-pending-1',
-            refCode: 'TEST-999999',
-            status: 'review', // Ready for admin to review
-            businessName: 'Lanka Tech Innovators',
-            role: 'Business Owner',
-            interest: 'Selling the Business',
-            established: '2018',
-            industry: 'IT & Software',
-            district: 'Colombo',
-            employees: '45',
-            entity: 'Private Limited Company',
-            shortdesc: 'A leading AI solutions provider in Sri Lanka.',
-            contactname: 'Kasun Bandara',
-            phone: '+94 77 999 8888',
-            email: 'kasun@lankatech.lk',
-            products: 'Enterprise AI Chatbots, Data Analytics Dashboards. Used by top banks and telecom companies.',
-            highlights: 'Over 20 enterprise clients, 150M LKR Annual Recurring Revenue, Awarded Best AI Startup 2023.',
-            facility: '4,000 sq ft modern office space in Orion City, Colombo 09 (Leased).',
-            additionalnotes: 'Kasun (CEO) owns 70%, CTO owns 30%.',
-            monthlysales: '12500000',
-            yearlysales: '150000000',
-            percent: '100',
-            investmentRequired: '500000000',
-            funding: 'Founders are relocating abroad and wish to sell the entire company.',
-            assets: 'High-end server racks, 50 Apple MacBooks, Office Furniture, proprietary AI source code.',
-            assetvalue: '25000000',
-            plan: 'fast-track'
-        });
-        console.log("Injected Test Pending Post for Review.");
-    }
-})();
+// Test data injection removed — production-ready

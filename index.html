@@ -75,26 +75,36 @@
                 </aside>
 
     <main class="main-listings">
+
+    <!-- Filter Bar -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:10px 0; border-bottom:1px solid #ddd; margin-bottom:10px;">
+        <select id="filter-industry" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
+            <option value="">All Industries</option>
+        </select>
+        <select id="filter-location" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
+            <option value="">All Locations</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:5px;">
+            <span style="font-size:0.8rem; color:#666;">Investment:</span>
+            <input type="number" id="filter-invest-min" placeholder="Min (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:120px; font-size:0.85rem;">
+            <span style="color:#999;">–</span>
+            <input type="number" id="filter-invest-max" placeholder="Max (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:120px; font-size:0.85rem;">
+        </div>
+        <button id="btn-clear-filters" style="padding:8px 14px; background:#eee; border:1px solid #ccc; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Clear Filters</button>
+    </div>
+
     <table class="tj-table">
         <thead>
             <tr>
                 <th>Business</th>
                 <th>Location</th>
-                <th>Category</th>
+                <th>Industry</th>
                 <th>Investment Req</th>
                 <th>Stage</th>
-                <th>Contact</th>
+                <th>Details</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="biz-title"><a href="#">Sample Business</a></td>
-                <td>Colombo, Sri Lanka</td>
-                <td>Technology</td>
-                <td>LKR 10,000,000</td>
-                <td>Startup</td>
-                <td><a href="#" class="btn-detail">Contact</a></td>
-            </tr>
         </tbody>
     </table>
 </main>
@@ -105,6 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.querySelector('.tj-table tbody');
     const searchInput = document.getElementById('sidebar-search-input');
     const searchBtn = document.getElementById('sidebar-search-btn');
+    const filterIndustry = document.getElementById('filter-industry');
+    const filterLocation = document.getElementById('filter-location');
+    const filterInvestMin = document.getElementById('filter-invest-min');
+    const filterInvestMax = document.getElementById('filter-invest-max');
+    const btnClearFilters = document.getElementById('btn-clear-filters');
     
     // Dynamically load categories
     const catListEl = document.getElementById('dynamic-category-list');
@@ -119,6 +134,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Get listings from store
     let allListings = store.getPublished();
+
+    // Populate filter dropdowns from published listings data
+    const industries = [...new Set(allListings.map(l => l.industry).filter(Boolean))];
+    const locations = [...new Set(allListings.map(l => l.district).filter(Boolean))];
+    industries.sort().forEach(ind => {
+        filterIndustry.innerHTML += `<option value="${ind}">${ind}</option>`;
+    });
+    locations.sort().forEach(loc => {
+        filterLocation.innerHTML += `<option value="${loc}">${loc}</option>`;
+    });
     
     function renderListings(listings) {
         tbody.innerHTML = '';
@@ -130,18 +155,23 @@ document.addEventListener('DOMContentLoaded', () => {
         listings.forEach(listing => {
             const tr = document.createElement('tr');
             if(listing.boosted) {
-                tr.style.backgroundColor = '#fffbea'; // soft yellow background
+                tr.style.backgroundColor = '#fffbea';
             }
             
             const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">⭐</span> ' : '';
+            const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
+            const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
             
             tr.innerHTML = `
-                <td class="biz-title">${boostBadge}<a href="listing-detail.html?id=${listing.id}" ${listing.boosted ? 'style="font-weight:800; color:#b45309;"' : ''}>${listing.businessName}</a></td>
+                <td class="biz-title">
+                    ${boostBadge}<a href="listing-detail.html?id=${listing.id}" ${listing.boosted ? 'style="font-weight:800; color:#b45309;"' : ''}>${listing.businessName}</a>
+                    <div style="font-size:0.8rem; color:#666; margin-top:3px;">${descSnippet}</div>
+                </td>
                 <td>${listing.district || 'N/A'}</td>
                 <td>${listing.industry || 'N/A'}</td>
-                <td>${formatLKR(listing.investmentRequired)}</td>
+                <td style="font-weight:600;">${formatLKR(listing.investmentRequired)}</td>
                 <td>${listing.businessStage || 'N/A'}</td>
-                <td><a href="listing-detail.html?id=${listing.id}" class="btn-detail">Contact</a></td>
+                <td><a href="listing-detail.html?id=${listing.id}" class="btn-detail" style="background:#0b4cb4; color:#fff; padding:6px 14px; border-radius:4px; text-decoration:none; font-size:0.8rem; font-weight:600;">View Details</a></td>
             `;
             tbody.appendChild(tr);
         });
@@ -150,44 +180,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render
     renderListings(allListings);
 
-    // Search functionality
-    function handleSearch() {
-        const keyword = searchInput.value.toLowerCase().trim();
+    // Combined filter + search function
+    function applyFilters() {
+        const keyword = (searchInput ? searchInput.value : '').toLowerCase().trim();
+        const industry = filterIndustry.value;
+        const location = filterLocation.value;
+        const investMin = Number(filterInvestMin.value) || 0;
+        const investMax = Number(filterInvestMax.value) || Infinity;
+
         const filtered = allListings.filter(l => {
-            return (l.businessName && l.businessName.toLowerCase().includes(keyword)) ||
-                   (l.shortDescription && l.shortDescription.toLowerCase().includes(keyword)) ||
-                   (l.fullDescription && l.fullDescription.toLowerCase().includes(keyword)) ||
-                   (l.industry && l.industry.toLowerCase().includes(keyword)) ||
-                   (l.district && l.district.toLowerCase().includes(keyword));
+            // Keyword filter
+            if (keyword) {
+                const matchKeyword = (l.businessName && l.businessName.toLowerCase().includes(keyword)) ||
+                    (l.shortDescription && l.shortDescription.toLowerCase().includes(keyword)) ||
+                    (l.fullDescription && l.fullDescription.toLowerCase().includes(keyword)) ||
+                    (l.industry && l.industry.toLowerCase().includes(keyword)) ||
+                    (l.district && l.district.toLowerCase().includes(keyword));
+                if (!matchKeyword) return false;
+            }
+            // Industry filter
+            if (industry && l.industry !== industry) return false;
+            // Location filter
+            if (location && l.district !== location) return false;
+            // Investment range filter
+            const investAmt = Number(l.investmentRequired) || 0;
+            if (investAmt < investMin) return false;
+            if (investMax !== Infinity && investAmt > investMax) return false;
+            return true;
         });
         renderListings(filtered);
-        
-        // Optional: remove active class from categories when searching
-        categoryLinks.forEach(link => link.style.fontWeight = 'normal');
     }
 
-    if (searchBtn) {
-        searchBtn.addEventListener('click', handleSearch);
-    }
+    // Event listeners for filters
+    if (searchBtn) searchBtn.addEventListener('click', applyFilters);
+    if (searchInput) searchInput.addEventListener('keyup', applyFilters);
+    filterIndustry.addEventListener('change', applyFilters);
+    filterLocation.addEventListener('change', applyFilters);
+    filterInvestMin.addEventListener('input', applyFilters);
+    filterInvestMax.addEventListener('input', applyFilters);
     
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (e) => {
-            handleSearch();
-        });
-    }
+    btnClearFilters.addEventListener('click', () => {
+        if (searchInput) searchInput.value = '';
+        filterIndustry.value = '';
+        filterLocation.value = '';
+        filterInvestMin.value = '';
+        filterInvestMax.value = '';
+        categoryLinks.forEach(l => l.style.fontWeight = 'normal');
+        renderListings(allListings);
+    });
 
     // Category click functionality
     categoryLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            // Highlight active category
             categoryLinks.forEach(l => l.style.fontWeight = 'normal');
             link.style.fontWeight = 'bold';
             
             const category = link.textContent.trim();
+            filterIndustry.value = '';
             
-            // Filter by exact match or includes (for broader matching)
             const filtered = allListings.filter(l => 
                 l.industry && (
                     l.industry.toLowerCase() === category.toLowerCase() || 
@@ -195,10 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     l.industry.toLowerCase().includes(category.toLowerCase())
                 )
             );
-            
             renderListings(filtered);
-            
-            // Clear search input
             if (searchInput) searchInput.value = '';
         });
     });

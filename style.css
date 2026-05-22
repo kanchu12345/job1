@@ -1454,3 +1454,93 @@ a:hover {
         width: 100%;
     }
 }
+
+/* ==========================================================================
+   Print Styles for HelaInvest Platform
+   ========================================================================== */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Hide non-printable elements */
+  .top-bar-new,
+  .main-header-new,
+  .tj-header,
+  .tj-subnav,
+  .tj-sidebar,
+  .tj-right,
+  .tj-footer,
+  .tj-filter,
+  .btn,
+  .btn-action,
+  .btn-add-profile-new,
+  .btn-register-new,
+  .login-link-new,
+  .search-container-new,
+  .sidebar-categories,
+  header,
+  footer,
+  nav,
+  button,
+  input,
+  select,
+  a.lc-btn,
+  a.tj-btn-detail,
+  .tj-btn-post,
+  .tj-btn-happy,
+  .tj-btn-login {
+    display: none !important;
+  }
+
+  /* Full-width container and main body */
+  .layout-container,
+  .tj-page,
+  .main-listings,
+  .tj-main,
+  main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Table styling for print */
+  table, .tj-table, .detail-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto;
+  }
+  
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  th, td {
+    border: 1px solid #ddd !important;
+    padding: 8px !important;
+  }
+
+  /* Page breaks for sections in details */
+  .section-title {
+    page-break-after: avoid;
+    border-bottom: 2px solid #333 !important;
+  }
+
+  .desc-block {
+    page-break-inside: avoid;
+    background: #fdfdfd !important;
+    border-left: 3px solid #333 !important;
+  }
+}

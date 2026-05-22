@@ -129,10 +129,11 @@
                     <thead class="bg-gray-50">
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Business Name</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Plan</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Submitted On</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Rating Code</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Reason/Action</th>
+                            <th scope="col" class="px-6 py-3 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">PDF</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -168,8 +169,6 @@
     <!-- App Logic -->
     <script src="app.js"></script>
     <script>
-        const store = new ListingStore();
-
         document.addEventListener('DOMContentLoaded', () => {
             const user = authStore.getCurrentUser();
             if (!user) {
@@ -177,16 +176,48 @@
                 return;
             }
 
-            const tbody = document.querySelector('tbody');
-            
             // Get listings for current user
-            // We'll filter by email for now as it's the most reliable link in this mock setup
             const userListings = store.getAll().filter(l => l.publisherEmail === user.email);
+
+            // --- STAT CARDS ---
+            const pendingCount = userListings.filter(l => l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review').length;
+            const approvedCount = userListings.filter(l => l.status === 'published').length;
+            const rejectedCount = userListings.filter(l => l.status === 'rejected').length;
+
+            const statCardsHTML = `
+                <div id="stat-cards" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:15px; margin-bottom:25px;">
+                    <div style="background:#fff; padding:20px; border-radius:8px; border-left:4px solid #003399; text-align:center;">
+                        <div style="font-size:2rem; font-weight:800; color:#003399;">${userListings.length}</div>
+                        <div style="font-size:0.85rem; color:#666; font-weight:600;">Total Submitted</div>
+                    </div>
+                    <div style="background:#fff; padding:20px; border-radius:8px; border-left:4px solid #f59e0b; text-align:center;">
+                        <div style="font-size:2rem; font-weight:800; color:#f59e0b;">${pendingCount}</div>
+                        <div style="font-size:0.85rem; color:#666; font-weight:600;">Pending</div>
+                    </div>
+                    <div style="background:#fff; padding:20px; border-radius:8px; border-left:4px solid #10b981; text-align:center;">
+                        <div style="font-size:2rem; font-weight:800; color:#10b981;">${approvedCount}</div>
+                        <div style="font-size:0.85rem; color:#666; font-weight:600;">Approved</div>
+                    </div>
+                    <div style="background:#fff; padding:20px; border-radius:8px; border-left:4px solid #ef4444; text-align:center;">
+                        <div style="font-size:2rem; font-weight:800; color:#ef4444;">${rejectedCount}</div>
+                        <div style="font-size:0.85rem; color:#666; font-weight:600;">Rejected</div>
+                    </div>
+                </div>
+            `;
+
+            // Inject stat cards after the info banner (before the table section)
+            const infoBanner = document.querySelector('.bg-blue-50.border-l-4');
+            if (infoBanner) {
+                infoBanner.insertAdjacentHTML('afterend', statCardsHTML);
+            }
+
+            // --- TABLE RENDERING ---
+            const tbody = document.querySelector('tbody');
 
             if (userListings.length === 0) {
                 tbody.innerHTML = `
                     <tr id="empty-state">
-                        <td colspan="5" class="px-6 py-12 text-center">
+                        <td colspan="6" class="px-6 py-12 text-center">
                             <svg class="mx-auto h-12 w-12 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
@@ -200,20 +231,24 @@
 
             tbody.innerHTML = '';
             userListings.forEach(l => {
+                // Status badge
                 let badge = '';
-                let action = '<a href="#" class="text-primary hover:underline font-medium">View Details</a>';
-                
-                if (l.status === 'pending_payment') {
-                    badge = '<span class="status-badge status-pending">Payment Processing</span>';
-                } else if (l.status === 'review') {
-                    badge = '<span class="status-badge status-pending" style="background:#e0e7ff; color:#3730a3;">Under Admin Review</span>';
+                if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
+                    badge = '<span class="status-badge status-pending">Pending</span>';
                 } else if (l.status === 'published') {
                     badge = '<span class="status-badge status-published">Published</span>';
-                } else if (l.status === 'needs_revision') {
-                    badge = '<span class="status-badge status-rejected" style="background:#fee2e2; color:#b91c1c;">Needs Revision</span>';
-                    action = `<button onclick="viewFeedback('${l.id}')" class="text-red-600 font-bold hover:underline">View Feedback</button>`;
-                } else {
+                } else if (l.status === 'rejected') {
                     badge = '<span class="status-badge status-rejected">Rejected</span>';
+                } else if (l.status === 'expired') {
+                    badge = '<span class="status-badge status-expired">Expired</span>';
+                } else {
+                    badge = '<span class="status-badge status-pending">' + (l.status || 'Unknown') + '</span>';
+                }
+
+                // Rejection reason / action
+                let reasonAction = '-';
+                if (l.status === 'rejected' && l.rejectionReason) {
+                    reasonAction = `<button onclick="viewRejectionReason('${l.id}')" style="background:#fee2e2; color:#b91c1c; border:none; padding:4px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:0.8rem;">View Reason</button>`;
                 }
 
                 const tr = document.createElement('tr');
@@ -223,22 +258,46 @@
                         <div class="text-sm font-bold text-gray-900">${l.businessName || 'Business Proposal'}</div>
                         <div class="text-sm text-gray-500">Ref: ${l.refCode || 'N/A'}</div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${l.package || 'Standard'}</span>
-                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         ${l.submittedAt ? new Date(l.submittedAt).toLocaleDateString() : 'N/A'}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-blue-800">
+                        ${l.refCode || 'N/A'}
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
                         ${badge}
                     </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                        ${reasonAction}
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm">
-                        ${action}
+                        <button onclick="generateListingPDF('${l.id}')" style="background:#003399; color:#fff; border:none; padding:5px 12px; border-radius:4px; font-weight:600; cursor:pointer; font-size:0.8rem;">Download PDF</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         });
+
+        // View rejection reason in the feedback modal
+        window.viewRejectionReason = function(id) {
+            const l = store.getById(id);
+            if (!l) return;
+
+            let html = '';
+            if (l.rejectionReason) {
+                html = `
+                    <p class="text-gray-600 mb-4">Your listing has been rejected for the following reason:</p>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r">
+                        <p class="text-red-700 text-sm">${l.rejectionReason}</p>
+                    </div>
+                `;
+            } else {
+                html = '<p class="text-gray-600">No rejection reason provided.</p>';
+            }
+
+            document.getElementById('feedback-content').innerHTML = html;
+            document.getElementById('feedback-modal').classList.remove('hidden');
+        };
 
         window.viewFeedback = function(id) {
             const l = store.getById(id);

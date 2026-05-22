@@ -418,9 +418,9 @@
             const categories = categoryStore.getAll();
             const settings = settingsStore.getSettings();
 
-            // Stats
+            // Stats — pending counts pending + pending_payment + review
             document.getElementById('stat-total').innerText = listings.length;
-            document.getElementById('stat-pending').innerText = listings.filter(l => ['pending_payment', 'review'].includes(l.status)).length;
+            document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
             document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
             document.getElementById('stat-users').innerText = users.length;
 
@@ -478,7 +478,7 @@
             }
         }
 
-        // --- Render Proposals (Smergers Detailed Format) ---
+        // --- Render Proposals (Simplified Status Workflow) ---
         function renderProposals(listings) {
             const tbody = document.getElementById('proposals-body');
             const recBody = document.getElementById('recent-activity-body');
@@ -498,28 +498,43 @@
                 let actionBtns = '';
                 let statusBadge = '';
                 
-                if (l.status === 'pending_payment') {
-                    statusBadge = '<span class="status-badge status-pending">PAYMENT VERIFICATION</span>';
-                    actionBtns = `
-                        <button class="btn-action btn-verify" onclick="changeStatus('${l.id}', 'review')">Verify Payment</button>
-                        <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
-                    `;
-                } else if (l.status === 'review') {
-                    statusBadge = '<span class="status-badge status-review">ADMIN REVIEW</span>';
+                if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
+                    // Pending group — yellow badge
+                    statusBadge = '<span class="status-badge status-pending">PENDING</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
-                        <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject</button>
+                        <button class="btn-action btn-reject" onclick="rejectListing('${l.id}')">Reject</button>
+                        <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else if (l.status === 'published') {
+                    // Published — green badge
                     statusBadge = '<span class="status-badge status-published">PUBLISHED</span>';
                     const boostBtn = l.boosted ? 
-                        `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Remove Boost</button>` :
-                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">🚀 Boost Ad</button>`;
-                    actionBtns = `${boostBtn} <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
+                        `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
+                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">🚀 Boost</button>`;
+                    actionBtns = `
+                        ${boostBtn}
+                        <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
+                        <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                    `;
+                } else if (l.status === 'expired') {
+                    // Expired — gray badge
+                    statusBadge = '<span class="status-badge" style="background:#e2e3e5; color:#383d41;">EXPIRED</span>';
+                    actionBtns = `
+                        <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
+                        <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                    `;
                 } else {
+                    // Rejected (default) — red badge
                     statusBadge = '<span class="status-badge status-rejected">REJECTED</span>';
-                    actionBtns = `<button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>`;
+                    actionBtns = `
+                        <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
+                        <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                    `;
                 }
+
+                // Add PDF button to actions
+                actionBtns += ` <button class="btn-action btn-edit" onclick="generateListingPDF('${l.id}')" title="Download PDF"><i class="fas fa-file-pdf"></i> PDF</button>`;
 
                 html += `
                     <tr>
@@ -582,7 +597,26 @@
             loadData();
         }
 
-        // --- View Advanced Massive Form Details ---
+        // --- Reject with Reason ---
+        window.rejectListing = function(id) {
+            const reason = prompt('Please provide a reason for rejection:');
+            if (reason !== null && reason.trim() !== '') {
+                store.update(id, { status: 'rejected', rejectionReason: reason.trim() });
+                loadData();
+                document.getElementById('detail-modal').style.display = 'none';
+            }
+        }
+
+        // --- Delete Listing ---
+        window.deleteListing = function(id) {
+            if (confirm('Are you sure you want to permanently delete this listing?')) {
+                store.delete(id);
+                loadData();
+                document.getElementById('detail-modal').style.display = 'none';
+            }
+        }
+
+        // --- View Full Details (Simplified — no field-by-field review) ---
         window.viewFullDetails = function(id) {
             const l = store.getById(id);
             if(!l) return;
@@ -614,7 +648,7 @@
                 facility: l.facility,
                 funding: l.funding,
                 additionalnotes: l.additionalNotes
-            };            // Store current review id
+            };
             window.currentReviewListingId = id;
 
             Object.entries(fieldValues).forEach(([f, rawVal]) => {
@@ -630,22 +664,8 @@
                     displayVal = Number.isFinite(num) && num > 0 ? `${num}%` : 'N/A';
                 }
 
-                if (l.status === 'review') {
-                    el.innerHTML = `
-                        <div style="display:flex; flex-direction:column; gap:5px; text-align:right;">
-                            <span>${displayVal}</span>
-                            <div style="display:flex; align-items:center; gap:10px; background:#f8f9fa; padding:5px; border-radius:4px; border:1px solid #ddd; margin-top:5px; justify-content:flex-end;">
-                                <label style="display:flex; align-items:center; gap:5px; margin:0; cursor:pointer; font-size:0.8rem;">
-                                    <input type="checkbox" class="field-approve-cb" data-field="${f}" checked onchange="document.getElementById('feedback-${f}').style.display = this.checked ? 'none' : 'block'">
-                                    Approve
-                                </label>
-                                <input type="text" id="feedback-${f}" class="field-feedback-input" data-field="${f}" placeholder="Reason for rejection..." style="display:none; width:150px; padding:3px 8px; font-size:0.8rem; border:1px solid #ccc; border-radius:3px;">
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    el.innerText = displayVal;
-                }
+                // Simple display — no field-by-field checkboxes
+                el.innerText = displayVal;
             });
 
             // Services
@@ -653,56 +673,41 @@
                 ? l.services.map(s => `<div><i class="fas fa-check text-success"></i> ${s}</div>`).join('') 
                 : 'No specific services requested.';
 
-            // Generate Action buttons inside modal
+            // Generate modal footer action buttons — simplified workflow
             let actionBtns = '';
-            if (l.status === 'pending_payment') {
+            if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
                 actionBtns = `
-                    <button class="btn-action btn-verify" onclick="changeStatus('${l.id}', 'review')">Verify Payment</button>
-                    <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject Completely</button>
-                `;
-            } else if (l.status === 'review') {
-                actionBtns = `
-                    <button class="btn-action btn-approve" onclick="saveReview('${l.id}')">Save Review & Process</button>
-                    <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Reject Completely</button>
+                    <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
+                    <button class="btn-action btn-reject" onclick="rejectListing('${l.id}')">Reject</button>
+                    <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                 `;
             } else if (l.status === 'published') {
-                actionBtns = `<button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>`;
-            } else if (l.status === 'needs_revision') {
-                actionBtns = `<button class="btn-action btn-verify" onclick="changeStatus('${l.id}', 'review')">Mark as Resubmitted (Move to Review)</button>`;
+                const boostBtn = l.boosted ? 
+                    `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
+                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">🚀 Boost</button>`;
+                actionBtns = `
+                    ${boostBtn}
+                    <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
+                    <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                `;
+            } else if (l.status === 'expired') {
+                actionBtns = `
+                    <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
+                    <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                `;
             } else {
-                actionBtns = `<button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>`;
+                // rejected or any other
+                actionBtns = `
+                    <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
+                    <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
+                `;
             }
+
+            // Add PDF button in modal too
+            actionBtns += ` <button class="btn-action btn-edit" onclick="generateListingPDF('${l.id}')" title="Download PDF"><i class="fas fa-file-pdf"></i> PDF</button>`;
 
             document.getElementById('m-actions').innerHTML = actionBtns;
             document.getElementById('detail-modal').style.display = 'flex';
-        };
-
-        window.saveReview = function(id) {
-            const l = store.getById(id);
-            if (!l) return;
-            
-            const fieldFeedback = {};
-            let allApproved = true;
-
-            document.querySelectorAll('.field-approve-cb').forEach(cb => {
-                const field = cb.getAttribute('data-field');
-                if (!cb.checked) {
-                    allApproved = false;
-                    const reason = document.getElementById('feedback-' + field).value;
-                    fieldFeedback[field] = reason || "Needs revision.";
-                }
-            });
-
-            if (allApproved) {
-                store.update(id, { status: 'published', fieldFeedback: null });
-                alert('All fields approved! Ad is now Published.');
-            } else {
-                store.update(id, { status: 'needs_revision', fieldFeedback: fieldFeedback });
-                alert('Feedback saved. Ad status is now Needs Revision.');
-            }
-
-            loadData();
-            document.getElementById('detail-modal').style.display = 'none';
         };
 
         // --- User Management ---

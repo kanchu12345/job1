@@ -446,6 +446,7 @@
 
     </main>
 
+    <script src="app.js"></script>
     <!-- Script for Multi-step logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -600,7 +601,7 @@
                     const formData = new FormData(form);
                     const newListing = Object.fromEntries(formData.entries());
                     newListing.refCode = refCode;
-                    newListing.status = 'pending_payment';
+                    newListing.status = 'pending';
                     
                     const user = authStore.getCurrentUser();
                     if(user) {
@@ -608,8 +609,7 @@
                         newListing.publisherId = user.id;
                     }
 
-                    // Save to store
-                    const store = new ListingStore();
+                    // Save to store (uses global store from app.js)
                     store.save(newListing);
 
                     // Simulate API Call / Submission
@@ -625,6 +625,5 @@
             updateUI();
         });
     </script>
-    <script src="app.js"></script>
 </body>
 </html>

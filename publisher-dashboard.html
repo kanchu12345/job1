@@ -150,6 +150,7 @@
                             <th>Date Submitted</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>PDF</th>
                         </tr>
                     </thead>
                     <tbody id="posts-table-body">
@@ -567,7 +568,7 @@
             const myAds = allAds.filter(ad => ad.publisherEmail === user.email);
 
             if (myAds.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px; color:#888;">No postings yet. Click "Post New Vacancy" to get started.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#888;">No postings yet. Click "Post New Vacancy" to get started.</td></tr>';
                 return;
             }
 
@@ -575,19 +576,35 @@
             [...myAds].reverse().forEach(ad => {
                 let badgeClass = '';
                 let statusText = '';
-                if (ad.status === 'pending_payment') { badgeClass = 'badge-pending'; statusText = 'Payment Verification'; }
-                else if (ad.status === 'review') { badgeClass = 'badge-review'; statusText = 'Admin Review'; }
-                else if (ad.status === 'published') { badgeClass = 'badge-approved'; statusText = 'Approved / Started'; }
-                else { badgeClass = 'badge-pending'; statusText = ad.status; }
+                if (ad.status === 'pending' || ad.status === 'pending_payment' || ad.status === 'review') {
+                    badgeClass = 'badge-pending'; statusText = 'Pending';
+                } else if (ad.status === 'published') {
+                    badgeClass = 'badge-approved'; statusText = 'Published / Active';
+                } else if (ad.status === 'rejected') {
+                    badgeClass = 'badge-pending'; statusText = 'Rejected';
+                } else if (ad.status === 'expired') {
+                    badgeClass = 'badge-pending'; statusText = 'Expired';
+                } else {
+                    badgeClass = 'badge-pending'; statusText = ad.status;
+                }
+
+                // Rejection reason display
+                let rejectionHTML = '';
+                if (ad.rejectionReason) {
+                    rejectionHTML = `<div style="font-size:0.75rem; color:#b91c1c; margin-top:4px;">${ad.rejectionReason}</div>`;
+                }
 
                 const row = `
                     <tr>
                         <td style="font-weight:700; color:#003399;">${ad.refCode}</td>
                         <td style="font-weight:600;">${ad.businessName || 'Business Proposal'}</td>
                         <td>${new Date(ad.submittedAt).toLocaleDateString()}</td>
-                        <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                        <td><span class="badge ${badgeClass}">${statusText}</span>${rejectionHTML}</td>
                         <td>
                             <button style="background:#eee; border:1px solid #ccc; padding:4px 8px; border-radius:3px; cursor:pointer;" onclick="alert('Please view full details via Admin Panel')">View</button>
+                        </td>
+                        <td>
+                            <button style="background:#003399; color:#fff; border:none; padding:4px 10px; border-radius:3px; cursor:pointer; font-weight:600; font-size:0.8rem;" onclick="generateListingPDF('${ad.id}')">Download PDF</button>
                         </td>
                     </tr>
                 `;
@@ -664,7 +681,7 @@
                 services: selectedServices,
                 publisherEmail: user.email,
                 investmentRequired: assetValue,
-                status: 'pending_payment'
+                status: 'pending'
             };
             
             store.save(newAd); // Save to global store

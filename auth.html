@@ -204,17 +204,17 @@
         }
 
         // Standard Login
-        document.getElementById('login-form').addEventListener('submit', (e) => {
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const pass = document.getElementById('login-password').value;
             
             try {
-                const user = authStore.login(email, pass);
+                const user = await authStore.login(email, pass);
                 if (user.role === 'publisher') {
                     window.location.href = 'publisher-dashboard.html';
                 } else {
-                    window.location.href = 'index.html';
+                    window.location.href = 'dashboard.html';
                 }
             } catch (err) {
                 const el = document.getElementById('login-error');
@@ -224,19 +224,19 @@
         });
 
         // Standard Register
-        document.getElementById('register-form').addEventListener('submit', (e) => {
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-password').value;
             
             try {
-                const user = authStore.register(name, email, pass, selectedRole);
-                authStore.login(email, pass); // auto login
+                const user = await authStore.register(name, email, pass, selectedRole);
+                await authStore.login(email, pass); // auto login
                 if (user.role === 'publisher') {
                     window.location.href = 'publisher-dashboard.html';
                 } else {
-                    window.location.href = 'index.html';
+                    window.location.href = 'dashboard.html';
                 }
             } catch (err) {
                 const el = document.getElementById('register-error');
@@ -246,12 +246,12 @@
         });
 
         // Mock Google Sign-In Integration for Demo
-        document.getElementById('mock-google-btn').addEventListener('click', () => {
-            const user = authStore.loginWithGoogle();
+        document.getElementById('mock-google-btn').addEventListener('click', async () => {
+            const user = await authStore.loginWithGoogle(selectedRole);
             if (user.role === 'publisher') {
                 window.location.href = 'publisher-dashboard.html';
             } else {
-                window.location.href = 'index.html';
+                window.location.href = 'dashboard.html';
             }
         });
     </script>

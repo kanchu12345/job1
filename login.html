@@ -87,8 +87,11 @@
             
             try {
                 const user = await authStore.login(email, pass);
-                // Directly redirect to the user's dashboard page
-                window.location.href = 'dashboard.html';
+                if (user.role === 'publisher') {
+                    window.location.href = 'publisher-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } catch (err) {
                 alert("Login failed: " + err.message);
             }
@@ -98,9 +101,11 @@
             try {
                 // We default to 'publisher' if they login via Google on this platform for the first time
                 const user = await authStore.loginWithGoogle('publisher');
-                
-                // Directly redirect to the user's dashboard page
-                window.location.href = 'dashboard.html';
+                if (user.role === 'publisher') {
+                    window.location.href = 'publisher-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } catch (err) {
                 alert("Google Login failed: " + err.message);
             }

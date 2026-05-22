@@ -569,7 +569,7 @@
             }
 
             // If we have data from app.js store
-            if (listing && listing.status === 'published') {
+            if (listing) {
                 const ref = 'HLI' + (1000000 + parseInt(listing.id || '1'));
                 
                 const closeDate = new Date();
