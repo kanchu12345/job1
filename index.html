@@ -59,33 +59,59 @@
         <div class="container">
             <main class="main-listings" style="width: 100%;">
 
-    <!-- Unified Search & Filter Bar -->
-    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:15px; border-bottom:1px solid #ddd; margin-bottom:15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-        
-        <button type="button" id="btn-open-category-modal" style="padding:8px 15px; background:#0044bb; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:5px;">
-            <i class="fas fa-list"></i> Select Industry
-        </button>
-
-        <input type="text" id="sidebar-search-input" placeholder="Search businesses, investors, keywords..." style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:200px; flex-grow: 1;">
-        
-        <select id="filter-industry" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
-            <option value="">All Industries</option>
-        </select>
-        
-        <select id="filter-location" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
-            <option value="">All Locations</option>
-        </select>
-        
-        <div style="display:flex; align-items:center; gap:5px;">
-            <span style="font-size:0.8rem; color:#666;">Investment:</span>
-            <input type="number" id="filter-invest-min" placeholder="Min (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:100px; font-size:0.85rem;">
-            <span style="color:#999;">–</span>
-            <input type="number" id="filter-invest-max" placeholder="Max (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:100px; font-size:0.85rem;">
+    <!-- Ikman Style Unified Search & Filter Bar -->
+    <div class="ikman-filters-container">
+        <!-- Search Row -->
+        <div class="ikman-search-row">
+            <input type="text" id="sidebar-search-input" placeholder="Search for anything..." style="padding:10px 15px; border:1px solid #ccc; border-radius:20px; font-size:0.95rem; flex-grow: 1; outline: none;">
+            <button type="button" id="sidebar-search-btn" style="padding:10px 25px; background:#00a685; color:#fff; border:none; border-radius:20px; cursor:pointer; font-size:0.95rem; font-weight:600;">
+                <i class="fas fa-search"></i>
+            </button>
         </div>
-        
-        <div style="display:flex; gap:5px; margin-left: auto;">
-            <button type="button" id="sidebar-search-btn" style="padding:8px 20px; background:#0b4cb4; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Search</button>
-            <button type="button" id="btn-clear-filters" style="padding:8px 14px; background:#eee; border:1px solid #ccc; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Clear Filters</button>
+
+        <!-- Pill Filters Row -->
+        <div class="ikman-filters-bar">
+            <!-- Refine mapped to clear filters for now -->
+            <button type="button" class="pill-btn pill-btn-refine" id="btn-clear-filters">
+                <i class="fas fa-sliders-h"></i> Refine
+            </button>
+            
+            <select id="filter-location" class="pill-select">
+                <option value="">All of Sri Lanka</option>
+            </select>
+            
+            <!-- Category Modal Trigger -->
+            <button type="button" id="btn-open-category-modal" class="pill-btn">
+                Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
+            </button>
+            
+            <select id="filter-industry" style="display:none;">
+                <option value="">All Industries</option>
+            </select>
+
+            <select id="filter-stage" class="pill-select">
+                <option value="">Type of poster</option>
+                <option value="Idea">Idea Stage</option>
+                <option value="Startup">Startup</option>
+                <option value="SME">SME</option>
+                <option value="Growth">Growth</option>
+            </select>
+
+            <select id="filter-promoted" class="pill-select">
+                <option value="">Promoted Listings</option>
+                <option value="true">Promoted Only</option>
+            </select>
+            
+            <select id="filter-sort" class="pill-select">
+                <option value="">Sort by</option>
+                <option value="newest">Newest First</option>
+                <option value="price-asc">Investment: Low to High</option>
+                <option value="price-desc">Investment: High to Low</option>
+            </select>
+            
+            <!-- Hidden inputs so JS doesn't break -->
+            <input type="hidden" id="filter-invest-min" value="0">
+            <input type="hidden" id="filter-invest-max" value="">
         </div>
     </div>
 
@@ -194,17 +220,15 @@ document.addEventListener('DOMContentLoaded', () => {
         selectedSubcategory = subcat;
         filterIndustry.value = ''; // Clear dropdown
         
-        // Filter logic
-        const filtered = allListings.filter(l => 
-            l.industry && (
-                l.industry.toLowerCase() === subcat.toLowerCase() || 
-                subcat.toLowerCase().includes(l.industry.toLowerCase()) ||
-                l.industry.toLowerCase().includes(subcat.toLowerCase())
-            )
-        );
-        renderListings(filtered);
+        // Update button text to show selected category
+        if (btnOpenCategoryModal) {
+            let shortCat = subcat.length > 20 ? subcat.substring(0, 18) + '...' : subcat;
+            btnOpenCategoryModal.innerHTML = shortCat + ' <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
+        }
+
+        // Apply filters
+        applyFilters();
         
-        if (searchInput) searchInput.value = '';
         closeCategoryModal();
     };
 
@@ -276,16 +300,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render
     renderListings(allListings);
 
-    // Combined filter + search function
+    const filterStage = document.getElementById('filter-stage');
+    const filterPromoted = document.getElementById('filter-promoted');
+    const filterSort = document.getElementById('filter-sort');
+
     // Combined filter + search function
     function applyFilters() {
         const keyword = (searchInput ? searchInput.value : '').toLowerCase().trim();
         const industry = filterIndustry.value || selectedSubcategory; // Include selectedSubcategory
         const location = filterLocation.value;
         const investMin = Number(filterInvestMin.value) || 0;
-        const investMax = Number(filterInvestMax.value) || Infinity;
+        const investMax = filterInvestMax.value ? Number(filterInvestMax.value) : Infinity;
+        const stage = filterStage ? filterStage.value : '';
+        const promoted = filterPromoted ? filterPromoted.value : '';
+        const sort = filterSort ? filterSort.value : '';
 
-        const filtered = allListings.filter(l => {
+        let filtered = allListings.filter(l => {
             // Keyword filter
             if (keyword) {
                 const matchKeyword = (l.businessName && l.businessName.toLowerCase().includes(keyword)) ||
@@ -306,12 +336,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             // Location filter
             if (location && l.district !== location) return false;
+            
+            // Stage filter
+            if (stage && l.businessStage !== stage) return false;
+            
+            // Promoted filter
+            if (promoted === 'true' && !l.boosted) return false;
+
             // Investment range filter
             const investAmt = Number(l.investmentRequired) || 0;
             if (investAmt < investMin) return false;
             if (investMax !== Infinity && investAmt > investMax) return false;
             return true;
         });
+
+        // Sorting
+        if (sort === 'newest') {
+            filtered.sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
+        } else if (sort === 'price-asc') {
+            filtered.sort((a, b) => (Number(a.investmentRequired) || 0) - (Number(b.investmentRequired) || 0));
+        } else if (sort === 'price-desc') {
+            filtered.sort((a, b) => (Number(b.investmentRequired) || 0) - (Number(a.investmentRequired) || 0));
+        }
+
         renderListings(filtered);
     }
 
@@ -320,19 +367,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) searchInput.addEventListener('keyup', applyFilters);
     filterIndustry.addEventListener('change', () => {
         selectedSubcategory = ''; // clear modal selection if dropdown used
+        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
         applyFilters();
     });
     filterLocation.addEventListener('change', applyFilters);
     filterInvestMin.addEventListener('input', applyFilters);
     filterInvestMax.addEventListener('input', applyFilters);
+    if (filterStage) filterStage.addEventListener('change', applyFilters);
+    if (filterPromoted) filterPromoted.addEventListener('change', applyFilters);
+    if (filterSort) filterSort.addEventListener('change', applyFilters);
     
     btnClearFilters.addEventListener('click', () => {
         if (searchInput) searchInput.value = '';
         filterIndustry.value = '';
         filterLocation.value = '';
-        filterInvestMin.value = '';
+        filterInvestMin.value = '0';
         filterInvestMax.value = '';
+        if (filterStage) filterStage.value = '';
+        if (filterPromoted) filterPromoted.value = '';
+        if (filterSort) filterSort.value = '';
         selectedSubcategory = '';
+        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
         renderListings(allListings);
     });
 });

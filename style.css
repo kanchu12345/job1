@@ -1620,3 +1620,62 @@ a:hover {
     background: #00a685; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
 }
 .cat-modal-show:hover { background: #008f73; }
+
+/* Ikman Style Pill Filters */
+.ikman-filters-container {
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #fff; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-bottom: 1px solid #ddd;
+}
+.ikman-search-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.ikman-filters-bar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.pill-btn, .pill-select {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 500px;
+    background: #fff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.pill-select {
+    padding-right: 30px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+.pill-btn:hover, .pill-select:hover {
+    border-color: #999;
+    background: #fdfdfd;
+}
+.pill-btn-refine {
+    border-color: #009877;
+    color: #009877;
+}
+.pill-btn-refine i {
+    color: #009877;
+}
+.pill-btn-refine:hover {
+    background: #f0fbf8;
+    border-color: #009877;
+}
