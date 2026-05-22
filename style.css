@@ -1741,3 +1741,83 @@ a:hover {
     background: #f8fafc;
     border-color: #0f172a;
 }
+
+/* Modern Footer Styles */
+.hela-footer {
+    background: linear-gradient(135deg, #0d47a1 0%, #083a8c 100%);
+    color: #e2e8f0;
+    padding: 60px 0 20px;
+    font-family: 'Inter', sans-serif;
+    margin-top: 60px;
+}
+.hela-footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+.hela-footer-about h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+.hela-footer-about h3 span.invest {
+    color: #00a685;
+}
+.hela-footer-about p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+    max-width: 300px;
+}
+.hela-footer-links h4 {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.hela-footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.hela-footer-links li {
+    margin-bottom: 12px;
+}
+.hela-footer-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+.hela-footer-links a:hover {
+    color: #00a685;
+    padding-left: 5px;
+}
+.hela-footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+.hela-footer-bottom a {
+    color: #00a685;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.hela-footer-bottom a:hover {
+    color: #059669;
+}
+@media (max-width: 768px) {
+    .hela-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
