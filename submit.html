@@ -452,11 +452,13 @@
                 categories.forEach(cat => {
                     const optgroup = document.createElement('optgroup');
                     optgroup.label = cat.name;
-                    (cat.subcategories || []).forEach(sub => {
-                        const opt = document.createElement('option');
-                        opt.value = sub;
-                        opt.textContent = sub;
-                        optgroup.appendChild(opt);
+                    (cat.subgroups || []).forEach(group => {
+                        (group.items || []).forEach(item => {
+                            const opt = document.createElement('option');
+                            opt.value = item;
+                            opt.textContent = item;
+                            optgroup.appendChild(opt);
+                        });
                     });
                     indSelect.appendChild(optgroup);
                 });

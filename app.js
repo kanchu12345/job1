@@ -440,75 +440,133 @@ class CategoryStore {
   }
 
   initSeedData() {
-    const versionKey = 'hela_categories_v3';
+    const versionKey = 'hela_categories_v5';
     if (!localStorage.getItem(versionKey) || !localStorage.getItem(this.categoriesKey)) {
       const seedData = [
-        { 
-          id: '1', 
-          name: 'Primary Sectors & Production', 
+        {
+          id: '1',
+          name: "PRIMARY SECTORS & PRODUCTION",
           active: true,
-          subcategories: [
-            'Agriculture, Plantation & Agribusiness (Tea, Rubber, Coconut, etc.)',
-            'Livestock, Poultry & Fisheries',
-            'Mining, Minerals & Gem Mining',
-            'Apparel, Textiles & Garment Manufacturing'
+          subgroups: [
+            {
+              name: "Agriculture & Plantation",
+              items: ["Tea Plantation", "Tea Processing", "Rubber Cultivation", "Rubber Products", "Coconut Industries", "Cinnamon", "Spices", "Essential Oils", "Paddy Farming", "Rice Mills", "Fruits", "Vegetables", "Organic Farming", "Hydroponics", "Greenhouse Farming"]
+            },
+            {
+              name: "Livestock, Poultry & Fisheries",
+              items: ["Dairy Farming", "Milk Processing", "Poultry", "Egg Production", "Inland Fisheries", "Aquaculture", "Deep Sea Fishing", "Seafood Export", "Ornamental Fish Breeding"]
+            },
+            {
+              name: "Mining, Minerals & Materials",
+              items: ["Gem Mining", "Gem Cutting", "Jewelry", "Graphite Mining", "Mica Mining", "Ilmenite", "Rutile", "Mineral Sands", "Quarrying", "Sand Mining", "Construction Aggregates"]
+            },
+            {
+              name: "Apparel & Textiles",
+              items: ["Garment Manufacturing", "Buying Houses", "Fabric Weaving", "Textile Mills", "Batik", "Handloom", "Traditional Crafts", "Fashion Design", "Clothing Brands"]
+            }
           ]
         },
-        { 
-          id: '2', 
-          name: 'Technology & Digital Infrastructure', 
+        {
+          id: '2',
+          name: "TECHNOLOGY & DIGITAL INFRASTRUCTURE",
           active: true,
-          subcategories: [
-            'Technology, IT & Software Development',
-            'E-commerce, Digital Platforms & FinTech',
-            'Telecommunications & Network Infrastructure',
-            'AI, DeepTech & Automation'
+          subgroups: [
+            {
+              name: "IT & Software Development",
+              items: ["Custom Software", "Enterprise Solutions (SaaS)", "Mobile App Development", "Web Development", "Cloud Computing", "DevOps Services", "Cybersecurity", "Managed IT Services"]
+            },
+            {
+              name: "Digital Platforms & FinTech",
+              items: ["E-commerce Stores", "Multi-vendor Marketplaces", "Payment Gateways", "Digital Wallets", "Peer-to-Peer (P2P) Lending", "Micro-crowdfunding Platforms", "Logistics Tech", "Delivery Fleet Tech"]
+            },
+            {
+              name: "Telecommunications & Hardware",
+              items: ["Network Infrastructure", "Telecom Infrastructure", "IoT", "Smart Devices", "Hardware Assembly", "Computer Hardware Retail", "Computer Repairs"]
+            }
           ]
         },
-        { 
-          id: '3', 
-          name: 'Manufacturing & Heavy Industrial', 
+        {
+          id: '3',
+          name: "MANUFACTURING & HEAVY INDUSTRIAL",
           active: true,
-          subcategories: [
-            'Manufacturing & Industrial Processing',
-            'Fast-Moving Consumer Goods (FMCG) Production',
-            'Chemical, Plastic & Rubber Products',
-            'Engineering, Machinery & Hardware'
+          subgroups: [
+            {
+              name: "Food & Beverage Processing",
+              items: ["Packaged Snacks", "Confectionery", "Beverage Production", "Bakery Products", "Food Processing Plants", "Dehydrated Food Export", "Frozen Food Export"]
+            },
+            {
+              name: "Fast-Moving Consumer Goods (FMCG)",
+              items: ["Cosmetics", "Soaps", "Detergents", "Plastic Products", "Packaging Products", "Polythene Products", "Paper Manufacturing", "Printing", "Stationery Manufacturing"]
+            },
+            {
+              name: "Heavy Engineering & Industrial",
+              items: ["Chemical Manufacturing", "Fertilizer Manufacturing", "Metal Fabrication", "Machinery Assembly", "Automotive Components", "Tyre Manufacturing", "Boat Building", "Marine Engineering"]
+            }
           ]
         },
-        { 
-          id: '4', 
-          name: 'Food, Hospitality & Entertainment', 
+        {
+          id: '4',
+          name: "HOSPITALITY, TOURISM & LEISURE",
           active: true,
-          subcategories: [
-            'Food & Beverage Production / Processing',
-            'HORECA (Hotels, Restaurants, Cafés & Catering)',
-            'Tourism, Travel, Eco-Lodges & Leisure',
-            'Entertainment, Media & Event Management'
+          subgroups: [
+            {
+              name: "HORECA (Food Services)",
+              items: ["Fine Dining Restaurants", "Casual Restaurants", "Cafés", "Coffee Shops", "Bakeries", "Catering Services", "Cloud Kitchens", "Pubs", "Bars", "Nightlife Venues"]
+            },
+            {
+              name: "Tourism & Lodging",
+              items: ["Boutique Hotels", "Luxury Resorts", "Guest Houses", "Homestays", "Hostels", "Eco-Tourism", "Glamping", "Wildlife Lodges", "Villa Rentals", "Wellness Retreats"]
+            },
+            {
+              name: "Travel & Experiences",
+              items: ["Travel Agencies", "Tour Operators", "Adventure Sports", "Destination Wedding Management", "Event Management", "Rent-a-Car Fleets", "Tourist Transport Fleets"]
+            }
           ]
         },
-        { 
-          id: '5', 
-          name: 'Trade, Logistics & Infrastructure', 
+        {
+          id: '5',
+          name: "TRADE, LOGISTICS & INFRASTRUCTURE",
           active: true,
-          subcategories: [
-            'Wholesale, Retail Trade & Supermarkets',
-            'Import, Export & International Trading',
-            'Logistics, Warehousing & Supply Chain',
-            'Construction, Real Estate & Property Development',
-            'Renewable Energy, Solar & Power Generation'
+          subgroups: [
+            {
+              name: "Wholesale & Retail Trade",
+              items: ["Supermarkets", "Grocery Chains", "Consumer Electronics Stores", "Appliance Stores", "Furniture Showrooms", "Home Decor Showrooms", "Automobile Dealerships"]
+            },
+            {
+              name: "Import, Export & Supply Chain",
+              items: ["Commodity Importing", "Export Trading Houses", "Freight Forwarding", "Customs Clearing", "Warehousing", "Cold Storage", "Fulfillment Centers"]
+            },
+            {
+              name: "Real Estate & Construction",
+              items: ["Residential Apartments", "Condominiums", "Commercial Property Development", "Construction Contracting", "Interior Fitting", "Building Material Retail"]
+            },
+            {
+              name: "Energy & Utilities",
+              items: ["Solar PV Installation", "Net Metering", "Mini-Hydro Power Plants", "Wind Power Plants", "Waste Management", "Recycling Plants"]
+            }
           ]
         },
-        { 
-          id: '6', 
-          name: 'Services, Finance & Healthcare', 
+        {
+          id: '6',
+          name: "SERVICES, FINANCE & HEALTHCARE",
           active: true,
-          subcategories: [
-            'Banking, Finance, Insurance & Microfinance',
-            'Corporate Management, Legal & Business Services',
-            'Healthcare, Pharmaceuticals & Medical Clinics',
-            'Education, Training, Academy & EdTech',
-            'Beauty, Wellness, Fitness & Lifestyle Services'
+          subgroups: [
+            {
+              name: "Banking & Finance",
+              items: ["Microfinance Companies", "Leasing Companies", "Insurance Brokerages", "Insurance Advisory", "Investment Funds", "Wealth Management"]
+            },
+            {
+              name: "Professional & Corporate Services",
+              items: ["Legal Firms", "Auditing Firms", "Accounting Firms", "Digital Marketing", "SEO Agencies", "Ad Agencies", "Recruitment Consultancies", "HR Consultancies", "Printing Houses", "Publishing Houses", "Media Houses"]
+            },
+            {
+              name: "Healthcare & Wellness",
+              items: ["Private Hospitals", "Medical Clinics", "Medical Laboratories", "Diagnostic Centers", "Pharmaceuticals", "Pharmacy Chains", "Ayurveda Centers", "Spas", "Wellness Clinics", "Fitness Centers", "Gyms", "Sports Academies"]
+            },
+            {
+              name: "Education & EdTech",
+              items: ["International Schools", "Preschools", "Higher Education Colleges", "Vocational Institutes", "Online Learning Platforms", "Tuition Centers"]
+            }
           ]
         }
       ];
