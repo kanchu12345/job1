@@ -327,85 +327,92 @@ function generateListingPDF(listingId) {
   const pdfHTML = `<!DOCTYPE html>
 <html><head><title>HelaInvest - ${l.businessName || 'Business Proposal'}</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; color: #333; padding: 40px; font-size: 14px; }
-  .pdf-header { text-align: center; border-bottom: 3px solid #003399; padding-bottom: 20px; margin-bottom: 30px; }
-  .pdf-header h1 { color: #003399; font-size: 28px; margin-bottom: 5px; }
+  * { box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+  body { padding: 40px; color: #1f2937; margin: 0; }
+  .pdf-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 20px; margin-bottom: 30px; }
+  .pdf-header h1 { margin: 0; color: #003399; font-size: 24px; }
   .pdf-header h1 span { color: #cc9900; }
-  .pdf-header p { color: #666; font-size: 12px; }
-  .pdf-meta { display: flex; justify-content: space-between; background: #f4f6f9; padding: 15px; border-radius: 4px; margin-bottom: 25px; border-left: 4px solid #003399; }
-  .pdf-meta div { font-size: 13px; }
-  .pdf-meta strong { color: #003399; }
-  .section-title { color: #003399; font-size: 16px; font-weight: 700; border-bottom: 2px solid #eee; padding-bottom: 8px; margin: 25px 0 15px; }
-  .detail-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-  .detail-table td { padding: 8px 12px; border-bottom: 1px solid #eee; vertical-align: top; }
-  .detail-table td:first-child { font-weight: 600; color: #555; width: 200px; }
-  .detail-table td:last-child { color: #111; }
-  .desc-block { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 15px; white-space: pre-line; line-height: 1.6; }
-  .pdf-footer { margin-top: 40px; text-align: center; color: #999; font-size: 11px; border-top: 1px solid #eee; padding-top: 15px; }
-  .status-label { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
-  .status-pending { background: #fff3cd; color: #856404; }
-  .status-published { background: #d4edda; color: #155724; }
-  .status-rejected { background: #f8d7da; color: #721c24; }
-  .status-expired { background: #e2e3e5; color: #383d41; }
+  .pdf-meta { text-align: right; font-size: 14px; color: #6b7280; }
+  .status-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-weight: bold; font-size: 12px; margin-top: 5px; }
+  .status-published { background: #dcfce7; color: #166534; }
+  .status-rejected { background: #fee2e2; color: #991b1b; }
+  .status-pending { background: #fef9c3; color: #854d0e; }
+  
+  .step-section { margin-bottom: 40px; }
+  .step-title { font-size: 18px; font-weight: 700; color: #111827; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; margin-bottom: 20px; }
+  
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .full-width { grid-column: span 2; }
+  
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: #4b5563; margin-bottom: 6px; }
+  .form-input-box { border: 1px solid #d1d5db; padding: 10px 14px; border-radius: 6px; background-color: #f9fafb; font-size: 14px; color: #111827; min-height: 42px; white-space: pre-wrap; word-break: break-word; }
+  
+  .pdf-footer { text-align: center; color: #9ca3af; font-size: 12px; border-top: 1px solid #e5e7eb; padding-top: 20px; margin-top: 40px; }
   @media print { body { padding: 20px; } }
 </style></head><body>
   <div class="pdf-header">
-    <h1>Hela<span>Invest</span></h1>
-    <p>Business Listing & Investment Platform — Sri Lanka</p>
+    <div>
+      <h1>Hela<span>Invest</span></h1>
+      <div style="font-size: 12px; color: #6b7280; margin-top: 4px;">Business Submission Details</div>
+    </div>
+    <div class="pdf-meta">
+      <div>Ref: <strong>${l.refCode || 'N/A'}</strong></div>
+      <div>Date: ${submittedDate}</div>
+      <div class="status-badge status-${l.status === 'published' ? 'published' : l.status === 'rejected' ? 'rejected' : 'pending'}">${statusText}</div>
+    </div>
   </div>
 
-  <div class="pdf-meta">
-    <div><strong>Rating Code:</strong> ${l.refCode || 'N/A'}</div>
-    <div><strong>Submitted:</strong> ${submittedDate}</div>
-    <div><strong>Status:</strong> <span class="status-label status-${l.status === 'published' ? 'published' : l.status === 'rejected' ? 'rejected' : l.status === 'expired' ? 'expired' : 'pending'}">${statusText}</span></div>
+  <div class="step-section">
+    <div class="step-title">Step 1: Business Information</div>
+    <div class="form-grid">
+      <div><label class="form-label">You are a/an</label><div class="form-input-box">${l.role || ''}</div></div>
+      <div><label class="form-label">You are interested in</label><div class="form-input-box">${l.interest || ''}</div></div>
+      <div><label class="form-label">When was the business established?</label><div class="form-input-box">${l.established || ''}</div></div>
+      <div><label class="form-label">Select Business Industry</label><div class="form-input-box">${l.industry || ''}</div></div>
+      <div class="full-width"><label class="form-label">Where is the business located/headquartered?</label><div class="form-input-box">${l.district || ''}</div></div>
+      <div><label class="form-label">How many permanent employees does the business have?</label><div class="form-input-box">${l.employees || ''}</div></div>
+      <div><label class="form-label">Select Business Legal Entity Type</label><div class="form-input-box">${l.entity || l.entityType || ''}</div></div>
+      <div class="full-width"><label class="form-label">Business Name</label><div class="form-input-box">${l.businessName || ''}</div></div>
+      <div class="full-width"><label class="form-label">Describe the business in a single line</label><div class="form-input-box">${l.shortDescription || l.shortdesc || ''}</div></div>
+    </div>
   </div>
 
-  <h2 style="text-align:center; font-size:22px; margin-bottom:25px; color:#111;">${l.businessName || 'Business Proposal'}</h2>
+  <div class="step-section">
+    <div class="step-title">Contact Information</div>
+    <div class="form-grid">
+      <div><label class="form-label">Contact Person Name</label><div class="form-input-box">${l.contactName || l.contactname || ''}</div></div>
+      <div><label class="form-label">Contact Number</label><div class="form-input-box">${l.phone || ''}</div></div>
+      <div class="full-width"><label class="form-label">Business Email Address</label><div class="form-input-box">${l.email || ''}</div></div>
+    </div>
+  </div>
 
-  <div class="section-title">Business Information</div>
-  <table class="detail-table">
-    <tr><td>Role</td><td>${l.role || 'N/A'}</td></tr>
-    <tr><td>Interested In</td><td>${l.interest || 'N/A'}</td></tr>
-    <tr><td>Established</td><td>${l.established || 'N/A'}</td></tr>
-    <tr><td>Industry</td><td>${l.industry || 'N/A'}</td></tr>
-    <tr><td>Location</td><td>${l.district || 'N/A'}</td></tr>
-    <tr><td>Employees</td><td>${l.employees || 'N/A'}</td></tr>
-    <tr><td>Legal Entity</td><td>${l.entity || l.entityType || 'N/A'}</td></tr>
-    <tr><td>Short Description</td><td>${l.shortDescription || l.shortdesc || 'N/A'}</td></tr>
-  </table>
+  <div class="step-section">
+    <div class="step-title">Step 2: Financial Details</div>
+    <div class="form-grid">
+      <div><label class="form-label">Average Monthly Sales</label><div class="form-input-box">${fmtMoney(l.monthlySales || l.monthlysales)}</div></div>
+      <div><label class="form-label">Average Yearly Sales</label><div class="form-input-box">${fmtMoney(l.yearlySales || l.yearlysales)}</div></div>
+      <div><label class="form-label">Investment Required</label><div class="form-input-box">${fmtMoney(l.investmentRequired)}</div></div>
+      <div><label class="form-label">% Willing to Sell</label><div class="form-input-box">${l.percentToSell || l.percent || ''}%</div></div>
+      <div class="full-width"><label class="form-label">Value of Physical Assets</label><div class="form-input-box">${fmtMoney(l.assetValue || l.assetvalue)}</div></div>
+      <div class="full-width"><label class="form-label">Products & Services</label><div class="form-input-box" style="min-height: 80px;">${l.products || ''}</div></div>
+      <div class="full-width"><label class="form-label">Business Highlights</label><div class="form-input-box" style="min-height: 80px;">${l.highlights || ''}</div></div>
+    </div>
+  </div>
 
-  <div class="section-title">Financial Information</div>
-  <table class="detail-table">
-    <tr><td>Monthly Sales</td><td>${fmtMoney(l.monthlySales || l.monthlysales)}</td></tr>
-    <tr><td>Yearly Sales</td><td>${fmtMoney(l.yearlySales || l.yearlysales)}</td></tr>
-    <tr><td>Investment Required</td><td>${fmtMoney(l.investmentRequired)}</td></tr>
-    <tr><td>% Willing to Sell</td><td>${l.percentToSell || l.percent || 'N/A'}%</td></tr>
-    <tr><td>Physical Asset Value</td><td>${fmtMoney(l.assetValue || l.assetvalue)}</td></tr>
-  </table>
-
-  ${l.products ? '<div class="section-title">Products & Services</div><div class="desc-block">' + l.products + '</div>' : ''}
-  ${l.highlights ? '<div class="section-title">Business Highlights</div><div class="desc-block">' + l.highlights + '</div>' : ''}
-  ${l.facility ? '<div class="section-title">Facility Details</div><div class="desc-block">' + l.facility + '</div>' : ''}
-  ${l.funding ? '<div class="section-title">Funding Details</div><div class="desc-block">' + l.funding + '</div>' : ''}
-  ${l.assets ? '<div class="section-title">Assets</div><div class="desc-block">' + l.assets + '</div>' : ''}
-
-  <div class="section-title">Contact Details</div>
-  <table class="detail-table">
-    <tr><td>Contact Name</td><td>${l.contactName || l.contactname || 'N/A'}</td></tr>
-    <tr><td>Phone</td><td>${l.phone || 'N/A'}</td></tr>
-    <tr><td>Email</td><td>${l.email || 'N/A'}</td></tr>
-  </table>
-
-  ${(l.services && l.services.length > 0) ? '<div class="section-title">Selected Professional Services</div><table class="detail-table">' + l.services.map(s => '<tr><td>✓ ' + s + '</td><td></td></tr>').join('') + '</table>' : ''}
-
-  ${l.rejectionReason ? '<div class="section-title" style="color:#dc3545;">Rejection Reason</div><div class="desc-block" style="background:#fff5f5; border-left: 4px solid #dc3545;">' + l.rejectionReason + '</div>' : ''}
+  <div class="step-section">
+    <div class="step-title">Step 3: Additional Details</div>
+    <div class="form-grid">
+      <div class="full-width"><label class="form-label">Facility Details</label><div class="form-input-box" style="min-height: 80px;">${l.facility || ''}</div></div>
+      <div class="full-width"><label class="form-label">Funding Details</label><div class="form-input-box" style="min-height: 80px;">${l.funding || ''}</div></div>
+      <div class="full-width"><label class="form-label">Assets Details</label><div class="form-input-box" style="min-height: 80px;">${l.assets || ''}</div></div>
+      ${(l.services && l.services.length > 0) ? `<div class="full-width"><label class="form-label">Selected Professional Services</label><div class="form-input-box" style="background:#fff;">${l.services.map(s => '<div>☑ ' + s + '</div>').join('')}</div></div>` : ''}
+      ${l.rejectionReason ? `<div class="full-width"><label class="form-label" style="color:#b91c1c;">Rejection Reason</label><div class="form-input-box" style="background:#fef2f2; border-color:#f87171; color:#991b1b;">${l.rejectionReason}</div></div>` : ''}
+    </div>
+  </div>
 
   <div class="pdf-footer">
-    <p>Generated by HelaInvest Platform | Rating Code: ${l.refCode || 'N/A'} | Date: ${new Date().toLocaleDateString()}</p>
-    <p>This document is auto-generated and valid for reference purposes only.</p>
+    Generated securely via HelaInvest Platform
   </div>
-
   <script>window.onload = function() { window.print(); }</script>
 </body></html>`;
 
