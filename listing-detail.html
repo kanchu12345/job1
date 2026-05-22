@@ -441,6 +441,7 @@
                     <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">—</span></div>
                 </div>
 
+                <div id="pub-image-container" style="display:none; margin-bottom: 20px;"></div>
                 <div class="ad-desc-area" id="ad-desc">
                     Loading description...
                 </div>
@@ -598,6 +599,43 @@
                     fullDesc += '<br><br><strong>Services Requested:</strong><br>' + listing.services.join(', ');
                 }
                 setEl('ad-desc', fullDesc);
+                
+                // Handle Images
+                const imgContainer = document.getElementById('pub-image-container');
+                if (listing.images && listing.images.length > 0) {
+                    imgContainer.style.display = 'block';
+                    let imgHTML = `<div style="position:relative; width:100%; height:400px; border-radius:8px; overflow:hidden; background:#111; margin-bottom:15px;">`;
+                    listing.images.forEach((img, idx) => {
+                        imgHTML += `<img class="p-slider-img" id="p-slider-img-${idx}" src="${img}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; opacity:${idx === 0 ? 1 : 0}; transition: opacity 0.5s;">`;
+                    });
+                    imgHTML += `</div>`;
+                    
+                    if(listing.images.length > 1) {
+                        imgHTML += `<div style="text-align:center; margin-bottom:20px;">`;
+                        listing.images.forEach((_, idx) => {
+                            imgHTML += `<span class="p-slider-dot" id="p-slider-dot-${idx}" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${idx === 0 ? '#003399' : '#ddd'}; margin:0 5px; cursor:pointer;" onclick="window.setPubSlider(${idx})"></span>`;
+                        });
+                        imgHTML += `</div>`;
+                    }
+                    imgContainer.innerHTML = imgHTML;
+                    
+                    if(listing.images.length > 1) {
+                        window.currentPubSlide = 0;
+                        window.pubSliderTotal = listing.images.length;
+                        window.setPubSlider = function(idx) {
+                            for(let i=0; i<window.pubSliderTotal; i++) {
+                                document.getElementById('p-slider-img-'+i).style.opacity = (i === idx) ? 1 : 0;
+                                const dot = document.getElementById('p-slider-dot-'+i);
+                                if(dot) dot.style.background = (i === idx) ? '#003399' : '#ddd';
+                            }
+                            window.currentPubSlide = idx;
+                        };
+                        setInterval(() => {
+                            let next = (window.currentPubSlide + 1) % window.pubSliderTotal;
+                            window.setPubSlider(next);
+                        }, 3000);
+                    }
+                }
 
                 // All data fields section (Smergers-like)
                 const allWrap = document.getElementById('ad-all-fields');

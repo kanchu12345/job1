@@ -272,6 +272,7 @@
                 <button onclick="document.getElementById('detail-modal').style.display='none'" style="background:transparent; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
             <div class="modal-body">
+                <div id="m-image-container" style="display:none; margin-bottom: 20px;"></div>
                 <div class="detail-grid">
                     <!-- Column 1 -->
                     <div>
@@ -622,6 +623,47 @@
             if(!l) return;
 
             document.getElementById('m-refcode').innerText = l.refCode || 'N/A';
+            
+            // Handle Images
+            const imgContainer = document.getElementById('m-image-container');
+            if (l.images && l.images.length > 0) {
+                imgContainer.style.display = 'block';
+                let imgHTML = `<div style="position:relative; width:100%; height:300px; border-radius:8px; overflow:hidden; background:#eee;">`;
+                l.images.forEach((img, idx) => {
+                    imgHTML += `<img class="m-slider-img" id="m-slider-img-${idx}" src="${img}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; opacity:${idx === 0 ? 1 : 0}; transition: opacity 0.5s;">`;
+                });
+                imgHTML += `</div>`;
+                
+                if(l.images.length > 1) {
+                    imgHTML += `<div style="text-align:center; margin-top:10px;">`;
+                    l.images.forEach((_, idx) => {
+                        imgHTML += `<span class="m-slider-dot" id="m-slider-dot-${idx}" style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${idx === 0 ? '#003399' : '#ccc'}; margin:0 5px; cursor:pointer;" onclick="window.setAdminSlider(${idx})"></span>`;
+                    });
+                    imgHTML += `</div>`;
+                }
+                imgContainer.innerHTML = imgHTML;
+                
+                if(window.adminSliderInterval) clearInterval(window.adminSliderInterval);
+                if(l.images.length > 1) {
+                    window.currentAdminSlide = 0;
+                    window.adminSliderTotal = l.images.length;
+                    window.setAdminSlider = function(idx) {
+                        for(let i=0; i<window.adminSliderTotal; i++) {
+                            document.getElementById('m-slider-img-'+i).style.opacity = (i === idx) ? 1 : 0;
+                            const dot = document.getElementById('m-slider-dot-'+i);
+                            if(dot) dot.style.background = (i === idx) ? '#003399' : '#ccc';
+                        }
+                        window.currentAdminSlide = idx;
+                    };
+                    window.adminSliderInterval = setInterval(() => {
+                        let next = (window.currentAdminSlide + 1) % window.adminSliderTotal;
+                        window.setAdminSlider(next);
+                    }, 3000);
+                }
+            } else {
+                imgContainer.style.display = 'none';
+                imgContainer.innerHTML = '';
+            }
             
             // Map all the massive form details (supports older + newer field names)
             const fieldValues = {
