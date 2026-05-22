@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelaInvest Sidebar Component</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0044bb',
+                        primaryHover: '#003399'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS Grid technique for smooth height transition */
+        .accordion-content {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-in-out;
+        }
+        .accordion-content.open {
+            grid-template-rows: 1fr;
+        }
+        .accordion-inner {
+            overflow: hidden;
+        }
+        
+        /* Custom scrollbar for inner content if it gets too long */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8 flex justify-center font-sans">
+
+    <!-- Sidebar Component Container -->
+    <aside class="w-full max-w-sm bg-white border border-gray-200 rounded-xl shadow-md overflow-hidden flex flex-col max-h-[85vh]">
+        
+        <!-- Header -->
+        <div class="px-5 py-4 bg-primary flex items-center justify-between shrink-0">
+            <h2 class="text-white font-bold text-lg tracking-wide">Explore Industries</h2>
+            <svg class="w-5 h-5 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
+        </div>
+
+        <!-- Scrollable Accordion Wrapper -->
+        <div id="accordion-container" class="divide-y divide-gray-100 overflow-y-auto custom-scrollbar flex-grow">
+            <!-- Dynamic Content will be injected here via JavaScript -->
+        </div>
+
+    </aside>
+
+    <script>
+        // Data Structure for all Industries & Sub-categories
+        const taxonomyData = [
+            {
+                main: "1. PRIMARY SECTORS & PRODUCTION",
+                groups: [
+                    {
+                        title: "Agriculture & Plantation",
+                        items: ["Tea Plantation & Processing", "Rubber Cultivation & Products", "Coconut & Allied Industries", "Cinnamon, Spices & Essential Oils", "Paddy Farming & Rice Mills", "Fruits, Vegetables & Organic Farming", "Hydroponics & Greenhouse Farming"]
+                    },
+                    {
+                        title: "Livestock, Poultry & Fisheries",
+                        items: ["Dairy Farming & Milk Processing", "Poultry & Egg Production", "Inland Fisheries & Aquaculture", "Deep Sea Fishing & Seafood Export", "Ornamental Fish Breeding"]
+                    },
+                    {
+                        title: "Mining, Minerals & Materials",
+                        items: ["Gem Mining, Cutting & Jewelry", "Graphite & Mica Mining", "Ilmenite, Rutile & Mineral Sands", "Quarrying, Sand Mining & Construction Aggregates"]
+                    },
+                    {
+                        title: "Apparel & Textiles",
+                        items: ["Garment Manufacturing & Buying Houses", "Fabric Weaving & Textile Mills", "Batik, Handloom & Traditional Crafts", "Fashion Design & Clothing Brands"]
+                    }
+                ]
+            },
+            {
+                main: "2. TECHNOLOGY & DIGITAL INFRASTRUCTURE",
+                groups: [
+                    {
+                        title: "IT & Software Development",
+                        items: ["Custom Software & Enterprise Solutions (SaaS)", "Mobile App & Web Development", "Cloud Computing & DevOps Services", "Cybersecurity & Managed IT Services"]
+                    },
+                    {
+                        title: "Digital Platforms & FinTech",
+                        items: ["E-commerce Stores & Multi-vendor Marketplaces", "Payment Gateways & Digital Wallets", "Peer-to-Peer (P2P) Lending & Micro-crowdfunding Platforms", "Logistics & Delivery Fleet Tech"]
+                    },
+                    {
+                        title: "Telecommunications & Hardware",
+                        items: ["Network & Telecom Infrastructure", "IoT, Smart Devices & Hardware Assembly", "Computer Hardware Retail & Repairs"]
+                    }
+                ]
+            },
+            {
+                main: "3. MANUFACTURING & HEAVY INDUSTRIAL",
+                groups: [
+                    {
+                        title: "Food & Beverage Processing",
+                        items: ["Packaged Snacks & Confectionery", "Beverage Production (Bottled Water, Juices, Soft Drinks)", "Bakery Products & Processing Plants", "Dehydrated & Frozen Food Export"]
+                    },
+                    {
+                        title: "Fast-Moving Consumer Goods (FMCG)",
+                        items: ["Cosmetics, Soaps & Detergents", "Plastic, Packaging & Polythene Products", "Paper, Printing & Stationery Manufacturing"]
+                    },
+                    {
+                        title: "Heavy Engineering & Industrial",
+                        items: ["Chemical & Fertilizer Manufacturing", "Metal Fabrication & Machinery Assembly", "Automotive Components & Tyre Manufacturing", "Boat Building & Marine Engineering"]
+                    }
+                ]
+            },
+            {
+                main: "4. HOSPITALITY, TOURISM & LEISURE",
+                groups: [
+                    {
+                        title: "HORECA (Food Services)",
+                        items: ["Fine Dining & Casual Restaurants", "Cafés, Coffee Shops & Bakeries", "Catering Services & Cloud Kitchens", "Pubs, Bars & Nightlife Venues"]
+                    },
+                    {
+                        title: "Tourism & Lodging",
+                        items: ["Boutique Hotels & Luxury Resorts", "Guest Houses, Homestays & Hostels", "Eco-Tourism, Glamping & Wildlife Lodges", "Villa Rentals & Wellness Retreats"]
+                    },
+                    {
+                        title: "Travel & Experiences",
+                        items: ["Travel Agencies & Tour Operators", "Adventure Sports (Surfing, Diving, Trekking)", "Destination Wedding & Event Management", "Rent-a-Car & Tourist Transport Fleets"]
+                    }
+                ]
+            },
+            {
+                main: "5. TRADE, LOGISTICS & INFRASTRUCTURE",
+                groups: [
+                    {
+                        title: "Wholesale & Retail Trade",
+                        items: ["Supermarkets & Grocery Chains", "Consumer Electronics & Appliance Stores", "Furniture & Home Decor Showrooms", "Automobile Dealerships (Vehicles & Spare Parts)"]
+                    },
+                    {
+                        title: "Import, Export & Supply Chain",
+                        items: ["Commodity Importing (Essential Foods, Sugar, Lentils)", "Export Trading Houses", "Freight Forwarding & Customs Clearing", "Warehousing, Cold Storage & Fulfillment Centers"]
+                    },
+                    {
+                        title: "Real Estate & Construction",
+                        items: ["Residential Apartments & Condominiums", "Commercial Property Development (Offices, Malls)", "Construction Contracting & Interior Fitting", "Building Material Retail (Cement, Tiles, Steel)"]
+                    },
+                    {
+                        title: "Energy & Utilities",
+                        items: ["Solar PV Installation & Net Metering", "Mini-Hydro & Wind Power Plants", "Waste Management & Recycling Plants"]
+                    }
+                ]
+            },
+            {
+                main: "6. SERVICES, FINANCE & HEALTHCARE",
+                groups: [
+                    {
+                        title: "Banking & Finance",
+                        items: ["Microfinance & Leasing Companies", "Insurance Brokerages & Advisory", "Investment Funds & Wealth Management"]
+                    },
+                    {
+                        title: "Professional & Corporate Services",
+                        items: ["Legal, Auditing & Accounting Firms", "Digital Marketing, SEO & Ad Agencies", "Recruitment, Staffing & HR Consultancies", "Printing, Publishing & Media Houses"]
+                    },
+                    {
+                        title: "Healthcare & Wellness",
+                        items: ["Private Hospitals & Medical Clinics", "Medical Laboratories & Diagnostic Centers", "Pharmaceuticals & Pharmacy Chains", "Ayurveda Centers, Spas & Wellness Clinics", "Fitness Centers, Gyms & Sports Academies"]
+                    },
+                    {
+                        title: "Education & EdTech",
+                        items: ["International Schools & Preschools", "Higher Education Colleges & Vocational Institutes", "Online Learning Platforms & Tuition Centers"]
+                    }
+                ]
+            }
+        ];
+
+        // 1. Render the HTML dynamically
+        const container = document.getElementById('accordion-container');
+        
+        taxonomyData.forEach((category, index) => {
+            
+            // Build the inner HTML for sub-groups and items
+            let innerHTML = '';
+            category.groups.forEach(group => {
+                innerHTML += `
+                    <div class="py-3 px-5 border-b border-gray-50 last:border-0">
+                        <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wide mb-2">${group.title}</h3>
+                        <ul class="space-y-1.5 ml-2 border-l-2 border-gray-100 pl-3">
+                            ${group.items.map(item => `
+                                <li>
+                                    <label class="group flex items-start text-sm text-gray-600 hover:text-primary cursor-pointer transition-colors leading-snug py-1">
+                                        <input type="checkbox" class="mt-0.5 mr-2.5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"> 
+                                        <span class="group-hover:translate-x-0.5 transition-transform">${item}</span>
+                                    </label>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+
+            // Construct the Accordion Item
+            const itemHTML = `
+                <div class="accordion-item" data-index="${index}">
+                    <button class="accordion-trigger w-full flex justify-between items-center px-5 py-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left focus:outline-none">
+                        <span class="font-bold text-gray-700 text-xs tracking-wider uppercase pr-4 leading-tight">${category.main}</span>
+                        <svg class="icon w-5 h-5 text-gray-400 shrink-0 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="accordion-content bg-white">
+                        <div class="accordion-inner">
+                            ${innerHTML}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', itemHTML);
+        });
+
+        // 2. Add Event Listeners for the Accordion Logic
+        const triggers = document.querySelectorAll('.accordion-trigger');
+        
+        triggers.forEach(trigger => {
+            trigger.addEventListener('click', function() {
+                const parent = this.parentElement;
+                const content = parent.querySelector('.accordion-content');
+                const icon = this.querySelector('.icon');
+                const isOpen = content.classList.contains('open');
+
+                // Close all currently open accordions (exclusive open logic)
+                document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                    if (openContent !== content) {
+                        openContent.classList.remove('open');
+                        // Reset parent styles
+                        const openParent = openContent.parentElement;
+                        openParent.querySelector('.icon').classList.remove('rotate-180');
+                        openParent.querySelector('.accordion-trigger').classList.remove('bg-blue-50', 'text-primary');
+                    }
+                });
+
+                // Toggle current accordion
+                if (!isOpen) {
+                    content.classList.add('open');
+                    icon.classList.add('rotate-180');
+                    this.classList.add('bg-blue-50', 'text-primary');
+                } else {
+                    content.classList.remove('open');
+                    icon.classList.remove('rotate-180');
+                    this.classList.remove('bg-blue-50', 'text-primary');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
