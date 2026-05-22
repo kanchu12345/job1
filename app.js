@@ -297,7 +297,7 @@ function handlePostListing(e) {
   if (user.role === 'publisher') {
       window.location.href = 'publisher-dashboard.html';
   } else {
-      window.location.href = 'submit.html';
+      window.location.href = 'dashboard.html';
   }
 }
 
