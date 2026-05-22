@@ -489,14 +489,17 @@
 
     <script src="app.js"></script>
     <script>
+        let user; // Declare globally for this script
         document.addEventListener('DOMContentLoaded', () => {
-            const user = authStore.getCurrentUser();
+            user = authStore.getCurrentUser();
             if(!user || user.role !== 'publisher') {
                 alert('Unauthorized Access.');
                 window.location.href = 'index.html';
                 return;
             }
-            document.getElementById('pub-name').innerText = user.name;
+            // Fix: the id is 'welcome-user', not 'pub-name'
+            const welcomeEl = document.getElementById('welcome-user');
+            if (welcomeEl) welcomeEl.innerText = 'Welcome, ' + user.name;
             
             populateIndustryDropdown();
 
@@ -511,6 +514,8 @@
                 document.getElementById('dynamic-payment').innerText = settings.paymentInstructions;
             }
 
+            // Initial render
+            renderTable();
         });
 
         function showForm() {
@@ -672,16 +677,13 @@
             // Reset form and show landing page
             this.reset();
             hideForm();
-            loadMyPosts();
+            renderTable();
         });
 
         function closeModal() {
             document.getElementById('payment-modal').style.display = 'none';
             switchTab('my-posts');
         }
-
-        // Initial render
-        renderTable();
     </script>
 </body>
 </html>
