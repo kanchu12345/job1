@@ -61,7 +61,7 @@
                 <!-- Sidebar -->
                 <aside class="sidebar-categories">
                     <div class="sidebar-header">
-                        Select Job Category
+                        Select Industry
                     </div>
                     <ul class="category-list" id="dynamic-category-list">
                         <!-- Populated dynamically via JS -->
@@ -138,7 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const catListEl = document.getElementById('dynamic-category-list');
     const categories = categoryStore.getAll();
     if(categories && categories.length > 0) {
-        catListEl.innerHTML = categories.map(c => `<li><a href="#" class="cat-link">${c.name}</a></li>`).join('');
+        catListEl.innerHTML = categories.map(c => `
+            <li class="cat-group">
+                <div style="font-weight:700; color:#475569; padding:10px 15px; border-bottom:1px solid #e2e8f0; background:#f8fafc; font-size: 0.8rem; text-transform: uppercase;">${c.name}</div>
+                ${(c.subcategories || []).map(sub => `
+                    <a href="#" class="cat-link" style="padding: 8px 15px 8px 25px; display:block; color:#334155; text-decoration:none; font-size:0.85rem; border-bottom:1px solid #f1f5f9; transition: background 0.2s;" onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='transparent'">${sub}</a>
+                `).join('')}
+            </li>
+        `).join('');
     } else {
         catListEl.innerHTML = '<li><span style="color:#999; padding:10px 15px; display:block;">No categories</span></li>';
     }

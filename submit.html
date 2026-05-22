@@ -181,14 +181,9 @@
 
                             <div>
                                 <label class="form-label">Select Business Industry</label>
-                                <select name="industry" class="form-input" required>
+                                <select id="industry-select" name="industry" class="form-input" required>
                                     <option value="" disabled selected>Select industry...</option>
-                                    <option value="IT & Software">IT & Software</option>
-                                    <option value="Manufacturing">Manufacturing</option>
-                                    <option value="Hotels & Hospitality">Hotels & Hospitality</option>
-                                    <option value="Agriculture">Agriculture</option>
-                                    <option value="Retail & E-commerce">Retail & E-commerce</option>
-                                    <option value="Other">Other</option>
+                                    <!-- Populated dynamically via JS -->
                                 </select>
                             </div>
 
@@ -450,6 +445,22 @@
     <!-- Script for Multi-step logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Populate industry dropdown from categoryStore
+            const indSelect = document.getElementById('industry-select');
+            if (indSelect && typeof categoryStore !== 'undefined') {
+                const categories = categoryStore.getAll();
+                categories.forEach(cat => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = cat.name;
+                    (cat.subcategories || []).forEach(sub => {
+                        const opt = document.createElement('option');
+                        opt.value = sub;
+                        opt.textContent = sub;
+                        optgroup.appendChild(opt);
+                    });
+                    indSelect.appendChild(optgroup);
+                });
+            }
             const steps = [
                 { id: 'step-1', title: 'Business Information', btnText: 'Continue to Details' },
                 { id: 'step-2', title: 'Business Details', btnText: 'Continue to Plans' },

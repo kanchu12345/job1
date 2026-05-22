@@ -539,7 +539,18 @@
             const indSelect = document.getElementById('f-industry');
             const cats = categoryStore.getAll();
             if (cats.length > 0) {
-                indSelect.innerHTML = '<option value="">Select Industry...</option>' + cats.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+                indSelect.innerHTML = '<option value="">Select Industry...</option>';
+                cats.forEach(cat => {
+                    const optgroup = document.createElement('optgroup');
+                    optgroup.label = cat.name;
+                    (cat.subcategories || []).forEach(sub => {
+                        const opt = document.createElement('option');
+                        opt.value = sub;
+                        opt.textContent = sub;
+                        optgroup.appendChild(opt);
+                    });
+                    indSelect.appendChild(optgroup);
+                });
             } else {
                 indSelect.innerHTML = '<option value="Other">Other</option>';
             }

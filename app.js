@@ -440,20 +440,80 @@ class CategoryStore {
   }
 
   initSeedData() {
-    if (!localStorage.getItem(this.categoriesKey)) {
+    const versionKey = 'hela_categories_v3';
+    if (!localStorage.getItem(versionKey) || !localStorage.getItem(this.categoriesKey)) {
       const seedData = [
-        { id: '1', name: 'IT & Software', active: true },
-        { id: '2', name: 'Finance, Accounting & Audit', active: false },
-        { id: '3', name: 'Banking & Insurance', active: false },
-        { id: '4', name: 'Sales, Marketing & Business Dev.', active: false },
-        { id: '5', name: 'HR, Training & Recruitment', active: false },
-        { id: '6', name: 'Corporate Management / Strategy', active: false },
-        { id: '7', name: 'Office Admin & Secretarial', active: false },
-        { id: '8', name: 'Technical, Engineering & Industrial', active: false },
-        { id: '9', name: 'Hospitality, Tourism & Logistics', active: false },
-        { id: '10', name: 'Medical, Nursing & Legal', active: false }
+        { 
+          id: '1', 
+          name: 'Primary Sectors & Production', 
+          active: true,
+          subcategories: [
+            'Agriculture, Plantation & Agribusiness (Tea, Rubber, Coconut, etc.)',
+            'Livestock, Poultry & Fisheries',
+            'Mining, Minerals & Gem Mining',
+            'Apparel, Textiles & Garment Manufacturing'
+          ]
+        },
+        { 
+          id: '2', 
+          name: 'Technology & Digital Infrastructure', 
+          active: true,
+          subcategories: [
+            'Technology, IT & Software Development',
+            'E-commerce, Digital Platforms & FinTech',
+            'Telecommunications & Network Infrastructure',
+            'AI, DeepTech & Automation'
+          ]
+        },
+        { 
+          id: '3', 
+          name: 'Manufacturing & Heavy Industrial', 
+          active: true,
+          subcategories: [
+            'Manufacturing & Industrial Processing',
+            'Fast-Moving Consumer Goods (FMCG) Production',
+            'Chemical, Plastic & Rubber Products',
+            'Engineering, Machinery & Hardware'
+          ]
+        },
+        { 
+          id: '4', 
+          name: 'Food, Hospitality & Entertainment', 
+          active: true,
+          subcategories: [
+            'Food & Beverage Production / Processing',
+            'HORECA (Hotels, Restaurants, Cafés & Catering)',
+            'Tourism, Travel, Eco-Lodges & Leisure',
+            'Entertainment, Media & Event Management'
+          ]
+        },
+        { 
+          id: '5', 
+          name: 'Trade, Logistics & Infrastructure', 
+          active: true,
+          subcategories: [
+            'Wholesale, Retail Trade & Supermarkets',
+            'Import, Export & International Trading',
+            'Logistics, Warehousing & Supply Chain',
+            'Construction, Real Estate & Property Development',
+            'Renewable Energy, Solar & Power Generation'
+          ]
+        },
+        { 
+          id: '6', 
+          name: 'Services, Finance & Healthcare', 
+          active: true,
+          subcategories: [
+            'Banking, Finance, Insurance & Microfinance',
+            'Corporate Management, Legal & Business Services',
+            'Healthcare, Pharmaceuticals & Medical Clinics',
+            'Education, Training, Academy & EdTech',
+            'Beauty, Wellness, Fitness & Lifestyle Services'
+          ]
+        }
       ];
       localStorage.setItem(this.categoriesKey, JSON.stringify(seedData));
+      localStorage.setItem(versionKey, 'true');
     }
   }
 
