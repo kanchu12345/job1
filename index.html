@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${listing.industry || 'N/A'}</td>
                 <td style="font-weight:600;">${formatLKR(listing.investmentRequired)}</td>
                 <td>${listing.businessStage || 'N/A'}</td>
-                <td><a href="listing-detail.html?id=${listing.id}" class="btn-detail" style="background:#0b4cb4; color:#fff; padding:6px 14px; border-radius:4px; text-decoration:none; font-size:0.8rem; font-weight:600;">View Details</a></td>
+                <td><a href="listing-detail.html?id=${listing.id}" class="btn-detail" style="display:inline-block; background:#f0fdf4; color:#166534; padding:8px 16px; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600; border:1px solid #bbf7d0; transition:all 0.2s;">View Details</a></td>
             `;
             tbody.appendChild(tr);
         });
