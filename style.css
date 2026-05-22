@@ -869,8 +869,9 @@ a:hover {
 
 .tj-table-wrap { border: 1px solid #eaeaea; background: #fff; max-height: 700px; overflow-y: auto; overflow-x: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-top: 10px; }
 .tj-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
-.tj-table thead th { background: #f8fafc; color: #475569; padding: 16px 20px; text-align: left; font-weight: 700; border-bottom: 2px solid #e2e8f0; position: sticky; top: 0; z-index: 2; white-space: nowrap; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
-.tj-table tbody tr { background-color: #ffffff; border-bottom: 1px solid #f1f5f9; transition: all 0.2s ease; }
+.tj-table th, .tj-table td { border: 1px solid #e2e8f0; }
+.tj-table thead th { background: #f8fafc; color: #475569; padding: 16px 20px; text-align: left; font-weight: 700; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2; white-space: nowrap; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.tj-table tbody tr { background-color: #ffffff; transition: all 0.2s ease; }
 .tj-table tbody tr:nth-child(even) { background-color: #f8fafc; }
 .tj-table tbody tr:hover { background-color: #f0fdf4; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.03); z-index: 1; position: relative; }
 .tj-table td { padding: 20px; vertical-align: middle; color: #334155; font-size: 0.95rem; }
@@ -1389,7 +1390,7 @@ a:hover {
 }
 
 .sidebar-header {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, #083a8c 100%);
     color: white;
     font-weight: 700;
     padding: 18px 20px;
