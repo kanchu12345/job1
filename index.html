@@ -67,30 +67,35 @@
                         <!-- Populated dynamically via JS -->
                     </ul>
 
-                    <!-- Search Bar inside Sidebar -->
-                    <div class="search-container-new" style="width: 100%; display: flex; flex-direction: column; border-top: 1px solid var(--border-color);">
-                        <input type="text" id="sidebar-search-input" placeholder="Search businesses, investors, franchises..." class="search-input-new" style="width: 100%; border-radius: 0; border: none; border-bottom: 1px solid var(--border-color); padding: 12px 15px;">
-                        <button type="button" id="sidebar-search-btn" class="search-btn-new" style="width: 100%; border-radius: 0 0 4px 4px; padding: 12px; font-size: 1rem;">Search</button>
-                    </div>
+                    <!-- Search moved to unified filter bar -->
                 </aside>
 
     <main class="main-listings">
 
-    <!-- Filter Bar -->
-    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:10px 0; border-bottom:1px solid #ddd; margin-bottom:10px;">
+    <!-- Unified Search & Filter Bar -->
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; padding:15px; border-bottom:1px solid #ddd; margin-bottom:15px; background: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        
+        <input type="text" id="sidebar-search-input" placeholder="Search businesses, investors, keywords..." style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:200px; flex-grow: 1;">
+        
         <select id="filter-industry" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
             <option value="">All Industries</option>
         </select>
+        
         <select id="filter-location" style="padding:8px 12px; border:1px solid #ccc; border-radius:4px; font-size:0.85rem; min-width:150px;">
             <option value="">All Locations</option>
         </select>
+        
         <div style="display:flex; align-items:center; gap:5px;">
             <span style="font-size:0.8rem; color:#666;">Investment:</span>
-            <input type="number" id="filter-invest-min" placeholder="Min (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:120px; font-size:0.85rem;">
+            <input type="number" id="filter-invest-min" placeholder="Min (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:100px; font-size:0.85rem;">
             <span style="color:#999;">–</span>
-            <input type="number" id="filter-invest-max" placeholder="Max (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:120px; font-size:0.85rem;">
+            <input type="number" id="filter-invest-max" placeholder="Max (LKR)" style="padding:8px; border:1px solid #ccc; border-radius:4px; width:100px; font-size:0.85rem;">
         </div>
-        <button id="btn-clear-filters" style="padding:8px 14px; background:#eee; border:1px solid #ccc; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Clear Filters</button>
+        
+        <div style="display:flex; gap:5px; margin-left: auto;">
+            <button type="button" id="sidebar-search-btn" style="padding:8px 20px; background:#0b4cb4; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Search</button>
+            <button type="button" id="btn-clear-filters" style="padding:8px 14px; background:#eee; border:1px solid #ccc; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">Clear Filters</button>
+        </div>
     </div>
 
     <table class="tj-table">
