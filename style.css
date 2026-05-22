@@ -1827,3 +1827,76 @@ a:hover {
         gap: 30px;
     }
 }
+
+/* ==========================================================================
+   Mobile Responsive Adjustments (Android & iPhone)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Top Bar & Header */
+    .top-bar-new .container > div {
+        justify-content: center !important;
+        font-size: 0.85rem;
+    }
+    .header-inner-new {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .header-scroller {
+        display: none !important; /* Hide scroller on mobile to save space */
+    }
+    .header-actions-new {
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* Search & Filters */
+    .ikman-search-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .ikman-search-row input[type="text"], 
+    .ikman-search-row button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .ikman-filters-bar {
+        justify-content: center;
+    }
+    .pill-btn, .pill-select, #filter-location {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Table Adjustments */
+    .tj-table td, .tj-table thead th {
+        padding: 12px 10px;
+        font-size: 0.85rem;
+    }
+    .tj-table .biz-title a {
+        font-size: 0.95rem;
+    }
+    
+    /* Footer Adjustments */
+    .hela-footer {
+        padding: 40px 0 20px;
+        text-align: center;
+    }
+    .hela-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .hela-footer-about h3.footer-logo-badge {
+        margin: 0 auto 15px;
+    }
+    .hela-footer-about p {
+        margin: 0 auto;
+    }
+    .hela-footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
