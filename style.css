@@ -678,6 +678,17 @@ a:hover {
   .services-banner { flex-direction: column; text-align: center; gap: 30px; padding: 30px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   nav.main-nav { display: none; }
+  /* Mobile layout adjustments */
+  .tj-page { flex-direction: column; }
+  .tj-sidebar { display: none; }
+  .header-inner-new { flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .header-scroller { width: 100%; margin: 8px 0; }
+/* Mobile table responsive adjustments */
+.tj-table thead { display: none; }
+.tj-table tbody tr { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-color); }
+.tj-table td { border: none; padding: 8px; }
+.tj-table td:first-child { font-weight: 700; }
+
 }
 
 /* ── Topjobs Specific Styles (Full Set) ── */
