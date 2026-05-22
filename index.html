@@ -57,7 +57,12 @@
     <!-- Main Listings Layout -->
     <section class="section section-white" style="padding-top: 40px; padding-bottom: 40px;">
         <div class="container">
-            <main class="main-listings" style="width: 100%;">
+            <div class="layout-container" style="display: flex; gap: 20px; align-items: flex-start;">
+                <aside id="sidebar-container" class="sidebar-categories" style="flex: 0 0 250px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #ddd;">
+                    <!-- JS will populate this -->
+                </aside>
+
+                <main class="main-listings" style="flex-grow: 1; min-width: 0;">
 
     <!-- Ikman Style Unified Search & Filter Bar -->
     <div class="ikman-filters-container">
@@ -138,31 +143,9 @@
         </tbody>
     </table>
 </main>
-        </div>
-    </section>
-
-<!-- Category Selection Modal -->
-<div id="category-modal" class="cat-modal-overlay">
-    <div class="cat-modal-box" style="max-width: 450px;">
-        <div class="cat-modal-header" style="justify-content: flex-start; padding-bottom: 10px; border-bottom: 1px solid #eee;">
-            <button id="modal-back-btn" style="display:none; background:none; border:none; cursor:pointer; font-size:1.1rem; margin-right:15px; color:#666;" onclick="renderModalMain()">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <h3 id="modal-title" style="flex: 1; border: none; padding: 0; font-size: 1.1rem; margin: 0;">Select a Category</h3>
-            <button class="cat-modal-close" onclick="closeCategoryModal()">&times;</button>
-        </div>
-        <div class="cat-modal-body" style="flex-direction: column; height: auto; max-height: 500px; padding: 10px; display: block;">
-            <div id="modal-content-container" style="width:100%;">
-                <!-- Drilldown content goes here -->
             </div>
         </div>
-        <div class="cat-modal-footer">
-            <button class="cat-modal-reset" onclick="resetCategoryFilter()">Reset Filter</button>
-            <button class="cat-modal-show" id="modal-show-posts-btn" onclick="closeCategoryModal()">Show posts</button>
-        </div>
-    </div>
-</div>
-
+    </section>
 <script src="app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,43 +172,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const icons = ['fa-leaf', 'fa-laptop-code', 'fa-industry', 'fa-hotel', 'fa-truck', 'fa-briefcase-medical', 'fa-bars'];
     const iconColors = ['#16a34a', '#2563eb', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#64748b'];
 
-    const modalContentContainer = document.getElementById('modal-content-container');
-    const modalBackBtn = document.getElementById('modal-back-btn');
-    const modalTitle = document.getElementById('modal-title');
+    const sidebarContainer = document.getElementById('sidebar-container');
 
-    window.renderModalMain = function() {
-        if (!modalContentContainer) return;
-        modalBackBtn.style.display = 'none';
-        modalTitle.innerText = 'All Categories';
-        
-        let html = `<ul style="list-style: none; padding: 0; margin: 0;">`;
+    window.renderSidebarMain = function() {
+        if (!sidebarContainer) return;
+        let html = `
+            <h3 style="font-size: 1rem; color: #333; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">All Categories</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+        `;
         html += categories.map((c, index) => `
             <li style="margin-bottom: 2px;">
-                <a href="#" onclick="renderModalSub(event, ${index})" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; color: #444; text-decoration: none; border-radius: 4px; border-bottom: 1px solid #f9f9f9; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                <a href="#" onclick="openSidebarCategory(event, ${index})" style="display: flex; align-items: center; justify-content: space-between; padding: 10px; color: #444; text-decoration: none; border-radius: 4px; border-bottom: 1px solid #f9f9f9; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                     <span>
-                        <i class="fas ${icons[index] || 'fa-folder'}" style="width: 25px; color: ${iconColors[index] || '#00a685'}; text-align: center; margin-right: 10px; font-size: 1.1rem;"></i>
-                        <span style="font-size: 1rem; font-weight: 500;">${c.name}</span>
+                        <i class="fas ${icons[index] || 'fa-folder'}" style="width: 25px; color: ${iconColors[index] || '#00a685'}; text-align: center; margin-right: 8px; font-size: 1.1rem;"></i>
+                        <span style="font-size: 0.95rem; font-weight: 500;">${c.name}</span>
                     </span>
-                    <i class="fas fa-chevron-right" style="color: #ccc; font-size: 0.9rem;"></i>
+                    <i class="fas fa-chevron-right" style="color: #ccc; font-size: 0.8rem;"></i>
                 </a>
             </li>
         `).join('');
         html += `</ul>`;
-        modalContentContainer.innerHTML = html;
+        sidebarContainer.innerHTML = html;
     };
 
-    window.renderModalSub = function(e, index) {
-        if (e) e.preventDefault();
-        if (!modalContentContainer) return;
+    window.renderSidebarSub = function(index) {
+        if (!sidebarContainer) return;
         const c = categories[index];
         if (!c) return;
         
-        modalBackBtn.style.display = 'block';
-        modalTitle.innerText = c.name;
+        let html = `
+            <a href="#" onclick="goBackToMainCategories(event)" style="display: inline-block; color: #00a685; font-size: 0.85rem; text-decoration: none; margin-bottom: 15px; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> All Categories
+            </a>
+            <h3 style="font-size: 1rem; color: #333; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                <i class="fas ${icons[index] || 'fa-folder'}" style="color: ${iconColors[index] || '#00a685'}; margin-right: 5px;"></i> ${c.name}
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; max-height: 500px; overflow-y: auto;">
+        `;
         
-        let html = `<ul style="list-style: none; padding: 0; margin: 0;">`;
         (c.subgroups || []).forEach(group => {
-            html += `<li style="font-weight: 700; color: #666; font-size: 0.85rem; text-transform: uppercase; margin: 15px 0 5px 0; padding-left: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px;">${group.name}</li>`;
+            html += `<li style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; margin: 15px 0 5px 0; padding-left: 10px;">${group.name}</li>`;
             (group.items || []).forEach(item => {
                 const catColor = iconColors[index] || '#00a685';
                 const isActive = (selectedSubcategory === item);
@@ -234,19 +220,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fw = isActive ? '700' : 'normal';
                 
                 html += `
-                <li>
-                    <a href="#" onclick="selectModalSubcategory(event, '${item.replace(/'/g, "\\'")}', ${index})" style="display: block; padding: 10px 10px 10px 20px; color: ${col}; font-weight: ${fw}; text-decoration: none; border-radius: 4px; font-size: 0.95rem; background: ${bg}; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc'; this.style.color='${catColor}'" onmouseout="if(!${isActive}){this.style.background='transparent'; this.style.color='#444'}">
+                <li style="margin-bottom: 2px;">
+                    <a href="#" onclick="selectSidebarSubcategory(event, '${item.replace(/'/g, "\\'")}', ${index})" style="display: block; padding: 8px 10px 8px 20px; color: ${col}; font-weight: ${fw}; text-decoration: none; border-radius: 4px; transition: background 0.2s, color 0.2s; font-size: 0.9rem; background: ${bg};" onmouseover="this.style.background='#f8fafc'; this.style.color='${catColor}'" onmouseout="if(!${isActive}){this.style.background='transparent'; this.style.color='#444'}">
                         ${item}
                     </a>
                 </li>`;
             });
         });
+        
         html += `</ul>`;
-        modalContentContainer.innerHTML = html;
+        sidebarContainer.innerHTML = html;
     };
 
-    window.selectModalSubcategory = function(e, subcat, mainIndex) {
+    window.openSidebarCategory = function(e, index) {
+        e.preventDefault();
+        renderSidebarSub(index);
+    };
+
+    window.goBackToMainCategories = function(e) {
         if (e) e.preventDefault();
+        selectedSubcategory = '';
+        renderSidebarMain();
+        
+        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
+        applyFilters();
+    };
+
+    window.selectSidebarSubcategory = function(e, subcat, mainIndex) {
+        e.preventDefault();
         selectedSubcategory = subcat;
         filterIndustry.value = ''; // Clear dropdown
         
@@ -256,29 +257,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         applyFilters();
-        closeCategoryModal();
+        renderSidebarSub(mainIndex); // re-render to highlight selection
     };
 
-    window.openCategoryModal = function() {
-        categoryModal.classList.add('active');
-        if (!selectedSubcategory) {
-            renderModalMain();
-        }
-    };
-
-    window.closeCategoryModal = function() {
-        categoryModal.classList.remove('active');
-    };
-
-    window.resetCategoryFilter = function() {
-        selectedSubcategory = '';
-        renderListings(allListings);
-        closeCategoryModal();
-    };
-
-    if (btnOpenCategoryModal) {
-        btnOpenCategoryModal.addEventListener('click', openCategoryModal);
-    }
+    // Initial render
+    renderSidebarMain();
     
     // Get listings from store
     let allListings = store.getPublished();
