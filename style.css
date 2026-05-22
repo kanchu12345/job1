@@ -1756,16 +1756,22 @@ a:hover {
     gap: 40px;
     margin-bottom: 40px;
 }
-.hela-footer-about h3 {
-    color: #ffffff;
-    font-size: 1.5rem;
+.hela-footer-about h3.footer-logo-badge {
+    background: #ffffff;
+    display: inline-flex;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 1.6rem;
     font-weight: 800;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    letter-spacing: -0.5px;
 }
-.hela-footer-about h3 span.invest {
-    color: #00a685;
+.hela-footer-about h3.footer-logo-badge .hela {
+    color: #0d47a1;
+}
+.hela-footer-about h3.footer-logo-badge .invest {
+    color: #ffb300;
 }
 .hela-footer-about p {
     font-size: 0.95rem;
