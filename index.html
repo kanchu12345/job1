@@ -57,7 +57,13 @@
     <!-- Main Listings Layout -->
     <section class="section section-white" style="padding-top: 40px; padding-bottom: 40px;">
         <div class="container">
-            <main class="main-listings" style="width: 100%;">
+            <div class="layout-container" style="display: flex; gap: 20px; align-items: flex-start;">
+                <!-- Restored Left Sidebar -->
+                <aside id="sidebar-container" class="sidebar-categories" style="flex: 0 0 250px; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border: 1px solid #ddd;">
+                    <!-- JS will populate this -->
+                </aside>
+
+                <main class="main-listings" style="flex-grow: 1; min-width: 0;">
 
     <!-- Ikman Style Unified Search & Filter Bar -->
     <div class="ikman-filters-container">
@@ -138,6 +144,7 @@
         </tbody>
     </table>
 </main>
+            </div>
         </div>
     </section>
 
@@ -189,6 +196,94 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const categories = categoryStore.getAll() || [];
     const icons = ['fa-leaf', 'fa-laptop-code', 'fa-industry', 'fa-hotel', 'fa-truck', 'fa-briefcase-medical', 'fa-bars'];
+
+    // Sidebar Drill-down Logic
+    const sidebarContainer = document.getElementById('sidebar-container');
+    
+    window.renderSidebarMain = function() {
+        if (!sidebarContainer) return;
+        let html = `
+            <h3 style="font-size: 1rem; color: #333; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">All Categories</h3>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+        `;
+        html += categories.map((c, index) => `
+            <li style="margin-bottom: 2px;">
+                <a href="#" onclick="openSidebarCategory(event, ${index})" style="display: flex; align-items: center; padding: 8px 10px; color: #444; text-decoration: none; border-radius: 4px; transition: background 0.2s, color 0.2s; font-size: 0.9rem;" onmouseover="this.style.background='#f0f4f8'; this.style.color='#0044bb'" onmouseout="this.style.background='transparent'; this.style.color='#444'">
+                    <i class="fas ${icons[index] || 'fa-folder'}" style="width: 20px; color: #00a685; text-align: center; margin-right: 8px;"></i>
+                    ${c.name}
+                </a>
+            </li>
+        `).join('');
+        html += `</ul>`;
+        sidebarContainer.innerHTML = html;
+    };
+
+    window.renderSidebarSub = function(index) {
+        if (!sidebarContainer) return;
+        const c = categories[index];
+        if (!c) return;
+        
+        let html = `
+            <a href="#" onclick="goBackToMainCategories(event)" style="display: inline-block; color: #00a685; font-size: 0.85rem; text-decoration: none; margin-bottom: 15px; font-weight: 600;">
+                <i class="fas fa-arrow-left"></i> All Categories
+            </a>
+            <h3 style="font-size: 1rem; color: #333; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                <i class="fas ${icons[index] || 'fa-folder'}" style="color: #00a685; margin-right: 5px;"></i> ${c.name}
+            </h3>
+            <ul style="list-style: none; padding: 0; margin: 0; max-height: 500px; overflow-y: auto;">
+        `;
+        
+        (c.subgroups || []).forEach(group => {
+            html += `<li style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; margin: 15px 0 5px 0; padding-left: 10px;">${group.name}</li>`;
+            (group.items || []).forEach(item => {
+                const isActive = (selectedSubcategory === item);
+                const bg = isActive ? '#f0f4f8' : 'transparent';
+                const col = isActive ? '#0044bb' : '#444';
+                const fw = isActive ? '700' : 'normal';
+                
+                html += `
+                <li style="margin-bottom: 2px;">
+                    <a href="#" onclick="selectSidebarSubcategory(event, '${item.replace(/'/g, "\\'")}', ${index})" style="display: block; padding: 6px 10px 6px 20px; color: ${col}; font-weight: ${fw}; text-decoration: none; border-radius: 4px; transition: background 0.2s, color 0.2s; font-size: 0.85rem; background: ${bg};" onmouseover="this.style.background='#f0f4f8'; this.style.color='#0044bb'" onmouseout="if(!${isActive}){this.style.background='transparent'; this.style.color='#444'}">
+                        ${item}
+                    </a>
+                </li>`;
+            });
+        });
+        
+        html += `</ul>`;
+        sidebarContainer.innerHTML = html;
+    };
+
+    window.openSidebarCategory = function(e, index) {
+        e.preventDefault();
+        renderSidebarSub(index);
+    };
+
+    window.goBackToMainCategories = function(e) {
+        if (e) e.preventDefault();
+        selectedSubcategory = '';
+        renderSidebarMain();
+        
+        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
+        applyFilters();
+    };
+
+    window.selectSidebarSubcategory = function(e, subcat, mainIndex) {
+        e.preventDefault();
+        selectedSubcategory = subcat;
+        filterIndustry.value = ''; // Clear dropdown
+        
+        if (btnOpenCategoryModal) {
+            let shortCat = subcat.length > 20 ? subcat.substring(0, 18) + '...' : subcat;
+            btnOpenCategoryModal.innerHTML = shortCat + ' <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
+        }
+
+        applyFilters();
+        renderSidebarSub(mainIndex); // re-render to highlight selection
+    };
+
+    // Initial render
+    renderSidebarMain();
 
     function renderModalLeft() {
         modalLeftCol.innerHTML = categories.map((c, index) => `
