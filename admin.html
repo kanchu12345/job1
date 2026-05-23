@@ -17,7 +17,7 @@
         /* Login Screen */
         .admin-login-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #003399; display: flex; justify-content: center; align-items: center; z-index: 2000;
+            background: #003399; display: flex; justify-content: center; align-items: center; z-index: 999999;
         }
         .admin-login {
             background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.2);
@@ -109,29 +109,32 @@
     <!-- Self-contained resilient login handler -->
     <script>
     function handleSecureLoginClick() {
-        var pinInput = document.getElementById('admin-pin');
-        if (!pinInput) return;
-        var pinVal = pinInput.value.trim();
-        if (pinVal === 'hela2024') {
-            var screen = document.getElementById('login-screen');
-            if (screen) screen.style.display = 'none';
-            if (typeof loadData === 'function') {
-                loadData();
+        try {
+            var pinInput = document.getElementById('admin-pin');
+            if (!pinInput) return;
+            var pinVal = pinInput.value.trim();
+            if (pinVal === 'hela2024') {
+                var screen = document.getElementById('login-screen');
+                if (screen) screen.style.display = 'none';
+                if (typeof loadData === 'function') {
+                    loadData();
+                } else {
+                    console.warn("loadData is not loaded yet...");
+                    var checkInterval = setInterval(function() {
+                        if (typeof loadData === 'function') {
+                            loadData();
+                            clearInterval(checkInterval);
+                        }
+                    }, 200);
+                    setTimeout(function() { clearInterval(checkInterval); }, 10000);
+                }
             } else {
-                console.warn("loadData is not loaded yet, will refresh data when application scripts finish initializing.");
-                // Set a recurring check to load data once loadData is ready
-                var checkInterval = setInterval(function() {
-                    if (typeof loadData === 'function') {
-                        loadData();
-                        clearInterval(checkInterval);
-                    }
-                }, 200);
-                // Clear the interval after 10 seconds to avoid infinite loop
-                setTimeout(function() { clearInterval(checkInterval); }, 10000);
+                var err = document.getElementById('login-error');
+                if (err) err.style.display = 'block';
             }
-        } else {
-            var err = document.getElementById('login-error');
-            if (err) err.style.display = 'block';
+        } catch (error) {
+            alert("Login Handler Error: " + error.message);
+            console.error(error);
         }
     }
     </script>
@@ -437,15 +440,6 @@
         }
 
         // --- Login Logic ---
-        document.getElementById('login-btn').addEventListener('click', () => {
-            if (document.getElementById('admin-pin').value.trim() === 'hela2024') {
-                document.getElementById('login-screen').style.display = 'none';
-                loadData();
-            } else {
-                document.getElementById('login-error').style.display = 'block';
-            }
-        });
-        
         document.getElementById('admin-pin').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 document.getElementById('login-btn').click();
