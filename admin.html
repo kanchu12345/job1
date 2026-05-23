@@ -22,9 +22,10 @@
         .admin-login {
             background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.2);
             width: 100%; max-width: 400px; text-align: center;
+            position: relative; z-index: 10; pointer-events: auto;
         }
-        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
-        .admin-login button { width: 100%; padding: 15px; background: #f1c40f; border: none; font-weight: 700; border-radius: 6px; font-size: 1.1rem; cursor: pointer; color: #333; }
+        .admin-login input { width: 100%; padding: 15px; margin: 20px 0; border: 2px solid #eee; border-radius: 6px; box-sizing: border-box; font-size: 1rem; position: relative; z-index: 20; }
+        .admin-login button { width: 100%; padding: 15px; background: #f1c40f; border: none; font-weight: 700; border-radius: 6px; font-size: 1.1rem; cursor: pointer; color: #333; position: relative; z-index: 20; pointer-events: auto; touch-action: manipulation; }
         
         /* Advanced Layout */
         .sidebar {
@@ -109,6 +110,12 @@
     <!-- Self-contained resilient login handler -->
     <script>
     function handleSecureLoginClick() {
+        var btn = document.getElementById('login-btn');
+        if (btn) {
+            btn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
+            btn.style.opacity = '0.8';
+        }
+        
         try {
             var pinInput = document.getElementById('admin-pin');
             if (!pinInput) return;
@@ -131,10 +138,14 @@
             } else {
                 var err = document.getElementById('login-error');
                 if (err) err.style.display = 'block';
+                if (btn) btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
+                if (btn) btn.style.opacity = '1';
             }
         } catch (error) {
             alert("Login Handler Error: " + error.message);
             console.error(error);
+            if (btn) btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
+            if (btn) btn.style.opacity = '1';
         }
     }
     </script>
