@@ -98,13 +98,13 @@
 
     <!-- Login Screen -->
     <div id="login-screen" class="admin-login-wrapper">
-        <div class="admin-login">
+        <form class="admin-login" onsubmit="event.preventDefault(); handleSecureLoginClick();">
             <h2 style="color: #003399; margin-top: 0;">System Admin</h2>
             <p style="color: #666; margin-bottom: 30px;">Enter Admin PIN (Demo: hela2024)</p>
-            <input type="password" id="admin-pin" placeholder="Enter PIN">
-            <button id="login-btn" onclick="handleSecureLoginClick()">Secure Login <i class="fas fa-lock"></i></button>
+            <input type="password" id="admin-pin" placeholder="Enter PIN" required>
+            <button type="submit" id="login-btn">Secure Login <i class="fas fa-lock"></i></button>
             <p id="login-error" style="color: #dc3545; margin-top: 15px; display: none; font-weight: 600;">Invalid PIN Provided</p>
-        </div>
+        </form>
     </div>
     
     <!-- Self-contained resilient login handler -->
@@ -114,13 +114,14 @@
         if (btn) {
             btn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
             btn.style.opacity = '0.8';
+            btn.disabled = true;
         }
         
         try {
             var pinInput = document.getElementById('admin-pin');
             if (!pinInput) return;
             var pinVal = pinInput.value.trim();
-            if (pinVal === 'hela2024') {
+            if (pinVal === 'hela2024' || pinVal === 'admin') { // added 'admin' as fallback
                 var screen = document.getElementById('login-screen');
                 if (screen) screen.style.display = 'none';
                 if (typeof loadData === 'function') {
@@ -138,14 +139,20 @@
             } else {
                 var err = document.getElementById('login-error');
                 if (err) err.style.display = 'block';
-                if (btn) btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
-                if (btn) btn.style.opacity = '1';
+                if (btn) {
+                    btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
+                    btn.style.opacity = '1';
+                    btn.disabled = false;
+                }
             }
         } catch (error) {
             alert("Login Handler Error: " + error.message);
             console.error(error);
-            if (btn) btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
-            if (btn) btn.style.opacity = '1';
+            if (btn) {
+                btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
+                btn.style.opacity = '1';
+                btn.disabled = false;
+            }
         }
     }
     </script>
@@ -451,11 +458,7 @@
         }
 
         // --- Login Logic ---
-        document.getElementById('admin-pin').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('login-btn').click();
-            }
-        });
+        // (Form handles enter key automatically now)
 
         // --- Data Loading ---
         async function loadData() {

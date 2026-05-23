@@ -436,11 +436,11 @@ function updateGlobalAuthUI() {
       if (headerAuth) headerAuth.innerHTML = loggedInHTML;
   } else {
       const loggedOutHTML = `
-          <a href="auth.html" class="login-link-new">Login</a>
-          <a href="auth.html" class="btn-register-new">Register</a>
+          <a href="login.html" class="login-link-new">Login</a>
+          <a href="register.html" class="btn-register-new">Register</a>
           ${postAdBtn}
       `;
-      const topLoggedOutHTML = `<a href="auth.html" class="login-link-new" style="font-size:0.78rem;">Login</a>`;
+      const topLoggedOutHTML = `<a href="login.html" class="login-link-new" style="font-size:0.78rem;">Login</a>`;
       if (topAuth) topAuth.innerHTML = topLoggedOutHTML;
       if (headerAuth) headerAuth.innerHTML = loggedOutHTML;
   }
@@ -457,7 +457,7 @@ function handlePostListing(e) {
   const user = authStore.getCurrentUser();
   if (!user) {
       alert("You must be logged in to post a listing. Please login or register first.");
-      window.location.href = 'auth.html';
+      window.location.href = 'login.html';
       return;
   }
   if (user.role === 'publisher') {
