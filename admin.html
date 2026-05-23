@@ -415,25 +415,30 @@
 
         // --- Data Loading ---
         function loadData() {
-            const listings = store.getAll().reverse();
-            const users = authStore.getUsers().reverse();
-            const categories = categoryStore.getAll();
-            const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
+            try {
+                const listings = store.getAll().reverse();
+                const users = authStore.getUsers().reverse();
+                const categories = categoryStore.getAll();
+                const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
 
-            // Stats — pending counts pending + pending_payment + review
-            document.getElementById('stat-total').innerText = listings.length;
-            document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
-            document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
-            document.getElementById('stat-users').innerText = users.length;
+                // Stats — pending counts pending + pending_payment + review
+                document.getElementById('stat-total').innerText = listings.length;
+                document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
+                document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
+                document.getElementById('stat-users').innerText = users.length;
 
-            renderProposals(listings);
-            renderUsers(users);
-            renderCategories(categories);
-            
-            // Populate Settings Form
-            document.getElementById('set-rates').value = settings.adRates || '';
-            document.getElementById('set-rules').value = settings.adRules || '';
-            document.getElementById('set-payment').value = settings.paymentInstructions || '';
+                renderProposals(listings);
+                renderUsers(users);
+                renderCategories(categories);
+                
+                // Populate Settings Form
+                document.getElementById('set-rates').value = settings.adRates || '';
+                document.getElementById('set-rules').value = settings.adRules || '';
+                document.getElementById('set-payment').value = settings.paymentInstructions || '';
+            } catch (error) {
+                console.error("loadData error:", error);
+                alert("Error loading data: " + error.message + "\\n" + error.stack);
+            }
         }
 
         // Auto-refresh when another tab (like the submit page) modifies localStorage
