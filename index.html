@@ -6,6 +6,65 @@
     <title>HelaInvest - Business for Sale, Investors, Franchises & Advisors</title>
     <meta name="description" content="Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.">
     <link rel="stylesheet" href="style.css?v=4">
+    <style>
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Lock page scrolling completely */
+            display: flex;
+            flex-direction: column;
+        }
+        .section.section-white {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .section.section-white > .container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .layout-container {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            flex: 1;
+            min-height: 0;
+            height: 100%;
+        }
+        #sidebar-container {
+            flex: 0 0 250px;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .main-listings {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        .ikman-filters-container {
+            flex: 0 0 auto;
+            margin-bottom: 15px; /* Save spacing */
+        }
+        .tj-table-wrap {
+            flex: 1;
+            overflow-y: auto; /* Vertically scrollable listings */
+            overflow-x: auto; /* Horizontally scrollable listings */
+            min-height: 0;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+    </style>
 </head>
 <body>
     <script>
@@ -551,35 +610,39 @@ window.initializePage = async function() {
 </script>
 
 <!-- Footer -->
-<footer class="hela-footer">
+<footer class="hela-footer-thin">
     <div class="container">
-        <div class="hela-footer-grid">
-            <div class="hela-footer-about">
-                <h3 class="footer-logo-badge"><span class="hela">Hela</span><span class="invest">Invest</span></h3>
-                <p>Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.</p>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="submit.html">Submit Business</a></li>
-                    <li><a href="login.html">Login</a></li>
-                    <li><a href="register.html">Register</a></li>
-                </ul>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Legal & Support</h4>
-                <ul>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="faq.html">Help & Support</a></li>
-                    <li><a href="admin.html">Admin</a></li>
-                </ul>
-            </div>
+        <!-- Links Bar -->
+        <div class="footer-thin-links">
+            <a href="index.html">Home</a>
+            <span class="divider">|</span>
+            <a href="submit.html">Submit Business</a>
+            <span class="divider">|</span>
+            <a href="login.html">Login</a>
+            <span class="divider">|</span>
+            <a href="register.html">Register</a>
+            <span class="divider">|</span>
+            <a href="terms.html">Terms of Service</a>
+            <span class="divider">|</span>
+            <a href="privacy.html">Privacy Policy</a>
+            <span class="divider">|</span>
+            <a href="faq.html">Help & Support</a>
+            <span class="divider">|</span>
+            <a href="admin.html">Admin</a>
         </div>
-        <div class="hela-footer-bottom">
-            <div>&copy; 2026 HelaInvest. All rights reserved.</div>
-            <div>Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a></div>
+    </div>
+    <!-- Copyright & Socials Bar -->
+    <div class="footer-thin-bottom">
+        <div class="container footer-thin-bottom-inner">
+            <div class="copyright-text">
+                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
         </div>
     </div>
 </footer>

@@ -1911,3 +1911,92 @@ a:hover {
         text-align: center;
     }
 }
+
+/* Thin Footer Styles matching topjob.lk structure but preserving our brand colors and content */
+.hela-footer-thin {
+    background: linear-gradient(135deg, #0d47a1 0%, #083a8c 100%);
+    color: #e2e8f0;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    flex-shrink: 0; /* Keep it fixed-height and prevent shrinking */
+    z-index: 1000;
+}
+.hela-footer-thin .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+.hela-footer-thin .footer-thin-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    font-size: 0.85rem;
+    gap: 8px;
+}
+.hela-footer-thin .footer-thin-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+.hela-footer-thin .footer-thin-links a:hover {
+    color: #ffb300;
+}
+.hela-footer-thin .divider {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+}
+.hela-footer-thin .footer-thin-bottom {
+    background-color: #062c63; /* Darker blue bar */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 8px 0;
+}
+.hela-footer-thin .footer-thin-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+.hela-footer-thin .footer-thin-bottom-inner a {
+    color: #ffb300;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.hela-footer-thin .footer-thin-bottom-inner a:hover {
+    color: #ff8f00;
+}
+.hela-footer-thin .social-icons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+.hela-footer-thin .social-link {
+    color: #ffffff;
+    font-size: 0.9rem;
+    transition: color 0.2s, transform 0.2s;
+}
+.hela-footer-thin .social-link:hover {
+    color: #ffb300;
+    transform: scale(1.1);
+}
+
+/* Mobile adjustments for Thin Footer */
+@media (max-width: 768px) {
+    .hela-footer-thin .footer-thin-links {
+        flex-direction: column;
+        gap: 6px;
+        padding: 12px 0;
+    }
+    .hela-footer-thin .divider {
+        display: none;
+    }
+    .hela-footer-thin .footer-thin-bottom-inner {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}
