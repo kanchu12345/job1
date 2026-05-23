@@ -636,57 +636,63 @@ class CategoryStore {
   }
 
   initSeedData() {
-    const versionKey = 'hela_categories_v5';
+    const versionKey = 'hela_categories_v6';
     try {
       if (!SafeStorage.getItem(versionKey) || !SafeStorage.getItem(this.categoriesKey)) {
         const seedData = [
           {
             id: '1',
-            name: "Agriculture",
+            name: "PRIMARY SECTORS & PRODUCTION",
             active: true,
-            subgroups: [{ items: ["Crop Farming", "Livestock & Poultry", "Fisheries & Aquaculture", "Forestry & Logging", "Agricultural Services", "Organic Farming", "Other Agriculture"] }]
+            subgroups: [{
+              name: "Agriculture & Farming",
+              items: ["Crop Farming", "Organic Agriculture", "Livestock & Poultry", "Fisheries & Aquaculture", "Tea & Rubber Plantations", "Other Primary Production"]
+            }]
           },
           {
             id: '2',
-            name: "Retail",
+            name: "TECHNOLOGY & DIGITAL INFRASTRUCTURE",
             active: true,
-            subgroups: [{ items: ["Supermarkets & Grocery", "Fashion & Apparel", "Electronics & Gadgets", "E-commerce & Online Stores", "Specialty Stores", "Wholesale Trade", "Other Retail"] }]
+            subgroups: [{
+              name: "Tech & E-Commerce",
+              items: ["Software & SaaS", "E-commerce & Online Stores", "IT Services & Consulting", "FinTech Solutions", "Telecommunications", "Other Digital Infrastructure"]
+            }]
           },
           {
             id: '3',
-            name: "Manufacturing",
+            name: "MANUFACTURING & HEAVY INDUSTRIAL",
             active: true,
-            subgroups: [{ items: ["Garments & Textiles", "Machinery & Equipment", "Chemical & Plastics", "Automobile Parts", "Construction Materials", "Paper & Packaging", "Other Manufacturing"] }]
+            subgroups: [{
+              name: "Production & Heavy Industry",
+              items: ["Garments & Textiles", "Machinery & Equipment", "Chemical & Plastics", "Construction Materials", "Paper & Packaging", "Other Manufacturing"]
+            }]
           },
           {
             id: '4',
-            name: "Technology",
+            name: "HOSPITALITY, TOURISM & LEISURE",
             active: true,
-            subgroups: [{ items: ["Software & SaaS", "Hardware & Devices", "IT Services & Consulting", "Telecommunications", "Cybersecurity", "FinTech", "Other Technology"] }]
+            subgroups: [{
+              name: "Leisure & Dining",
+              items: ["Restaurants & Cafes", "Boutique Hotels & Resorts", "Food Processing & Packaged Foods", "Catering & Cloud Kitchens", "Other Hospitality"]
+            }]
           },
           {
             id: '5',
-            name: "Food & Beverage",
+            name: "TRADE, LOGISTICS & INFRASTRUCTURE",
             active: true,
-            subgroups: [{ items: ["Restaurants & Cafes", "Food Processing & Packaged Foods", "Beverage Production", "Catering Services", "Cloud Kitchens", "Other Food & Beverage"] }]
+            subgroups: [{
+              name: "Trade & Supply Chain",
+              items: ["Supermarkets & Grocery", "Wholesale & Distribution", "Fashion Retail", "Logistics & Transport", "E-commerce Delivery", "Other Logistics"]
+            }]
           },
           {
             id: '6',
-            name: "Healthcare",
+            name: "SERVICES, FINANCE & HEALTHCARE",
             active: true,
-            subgroups: [{ items: ["Hospitals & Clinics", "Pharmaceuticals", "Medical Devices", "Fitness & Wellness Centers", "Ayurveda & Traditional Medicine", "Other Healthcare"] }]
-          },
-          {
-            id: '7',
-            name: "Construction & Real Estate",
-            active: true,
-            subgroups: [{ items: ["Commercial Real Estate", "Residential Development", "Architecture & Interior Design", "Civil Engineering", "Property Management", "Other Construction"] }]
-          },
-          {
-            id: '8',
-            name: "Services & Consulting",
-            active: true,
-            subgroups: [{ items: ["Financial & Accounting", "Legal Services", "Marketing & Advertising", "HR & Recruitment", "Education & Training", "Logistics & Transport", "Other Services"] }]
+            subgroups: [{
+              name: "Professional & Care",
+              items: ["Healthcare & Clinics", "Ayurveda & Wellness", "Financial & Accounting", "Legal Services", "Marketing & Advertising", "HR & Education", "Other Professional Services"]
+            }]
           }
         ];
         SafeStorage.setItem(this.categoriesKey, JSON.stringify(seedData));
@@ -708,7 +714,7 @@ class CategoryStore {
     } catch (e) {
       console.error("Error parsing categories, resetting to seed data:", e);
       SafeStorage.removeItem(this.categoriesKey);
-      SafeStorage.removeItem('hela_categories_v5');
+      SafeStorage.removeItem('hela_categories_v6');
       this.initSeedData();
       try {
         return JSON.parse(SafeStorage.getItem(this.categoriesKey)) || [];

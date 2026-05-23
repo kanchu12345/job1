@@ -878,7 +878,7 @@ a:hover {
 .tj-results-header strong { font-size: 1rem; color: #003399; }
 .tj-btn-grid { background: #003399; color: #fff; border: none; padding: 6px 14px; font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 6px; }
 
-.tj-table-wrap { border: 1px solid #eaeaea; background: #fff; max-height: 700px; overflow-y: auto; overflow-x: auto; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-top: 10px; }
+.tj-table-wrap { border: 1px solid #eaeaea; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); margin-top: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tj-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
 .tj-table th, .tj-table td { border: 1px solid #e2e8f0; }
 .tj-table thead th { background: #f8fafc; color: #475569; padding: 16px 20px; text-align: left; font-weight: 700; border-bottom: 2px solid #cbd5e1; position: sticky; top: 0; z-index: 2; white-space: nowrap; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; }

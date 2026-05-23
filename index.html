@@ -52,7 +52,7 @@
     <section class="section section-white" style="padding-top: 40px; padding-bottom: 40px;">
         <div class="container">
             <div class="layout-container" style="display: flex; gap: 20px; align-items: flex-start;">
-                <aside id="sidebar-container" class="sidebar-categories" style="flex: 0 0 250px; background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(13, 71, 161, 0.08); border: 1px solid #e2e8f0; border-top: 4px solid #0d47a1;">
+                <aside id="sidebar-container" class="sidebar-categories" style="flex: 0 0 250px; background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(13, 71, 161, 0.08); border: 1px solid #e2e8f0; border-top: 4px solid #0d47a1; position: sticky; top: 40px; z-index: 100;">
                     <!-- JS will populate this -->
                 </aside>
 
@@ -157,6 +157,7 @@
         </div>
     </div>
 
+    <div class="tj-table-wrap" style="border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); overflow-x: auto; -webkit-overflow-scrolling: touch;">
     <table class="tj-table">
         <colgroup>
             <col style="width: 20%;">
@@ -166,15 +167,16 @@
         </colgroup>
         <thead>
             <tr>
-                <th>Investment Requirement</th>
-                <th>Stage</th>
-                <th>Description</th>
-                <th>Location</th>
+                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Investment Requirement</th>
+                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Stage</th>
+                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Description</th>
+                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Location</th>
             </tr>
         </thead>
         <tbody>
         </tbody>
     </table>
+    </div>
 </main>
             </div>
         </div>
@@ -302,6 +304,9 @@ window.initializePage = async function() {
         sidebarContainer.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
         sidebarContainer.style.border = 'none';
         sidebarContainer.style.overflow = 'hidden';
+        sidebarContainer.style.position = 'sticky';
+        sidebarContainer.style.top = '40px';
+        sidebarContainer.style.zIndex = '100';
     };
 
     window.renderSidebarSub = function(index) {
@@ -346,6 +351,9 @@ window.initializePage = async function() {
         sidebarContainer.style.borderRadius = '8px';
         sidebarContainer.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
         sidebarContainer.style.border = 'none';
+        sidebarContainer.style.position = 'sticky';
+        sidebarContainer.style.top = '40px';
+        sidebarContainer.style.zIndex = '100';
     };
 
     window.openSidebarCategory = function(e, index) {
