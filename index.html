@@ -29,7 +29,7 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-                                    <!-- Center Spacer -->
+            <!-- Center Spacer -->
             <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
                 <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
             </div>
@@ -183,7 +183,7 @@
     
     <script src="app.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const tbody = document.querySelector('.tj-table tbody');
     const searchInput = document.getElementById('sidebar-search-input');
     const searchBtn = document.getElementById('sidebar-search-btn');
@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span style="width: 34px; height: 34px; border-radius: 50%; background: ${iconColors[index] || '#00a685'}15; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
                             <i class="fas ${icons[index] || 'fa-folder'}" style="color: ${iconColors[index] || '#00a685'}; font-size: 1.1rem;"></i>
                         </span>
-                        <span style="font-size: 0.9rem; font-weight: 600; text-transform: capitalize;">${c.name.toLowerCase()}</span>
+                        <span style="font-size: 0.9rem; font-weight: 600; text-transform: capitalize;">${(c.name || '').toLowerCase()}</span>
                     </span>
                     <i class="fas fa-chevron-right" style="color: #cbd5e1; font-size: 0.8rem;"></i>
                 </a>
@@ -245,13 +245,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span style="width: 36px; height: 36px; border-radius: 50%; background: ${iconColors[index] || '#00a685'}15; display: flex; align-items: center; justify-content: center; margin-right: 12px;">
                     <i class="fas ${icons[index] || 'fa-folder'}" style="color: ${iconColors[index] || '#00a685'};"></i>
                 </span>
-                ${c.name.toLowerCase()}
+                ${(c.name || '').toLowerCase()}
             </h3>
             <ul style="list-style: none; padding: 0; margin: 0; max-height: 500px; overflow-y: auto;">
         `;
         
         (c.subgroups || []).forEach(group => {
-            html += `<li style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; margin: 15px 0 5px 0; padding-left: 10px;">${group.name}</li>`;
+            if (group.name) {
+                html += `<li style="font-weight: 700; color: #666; font-size: 0.8rem; text-transform: uppercase; margin: 15px 0 5px 0; padding-left: 10px;">${group.name}</li>`;
+            }
             (group.items || []).forEach(item => {
                 const catColor = iconColors[index] || '#00a685';
                 const isActive = (selectedSubcategory === item);
@@ -305,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderSidebarMain();
     
     // Get listings from store
-    let allListings = store.getPublished();
+    let allListings = await store.getPublished();
 
     // Populate filter dropdowns from published listings data
     const industries = [...new Set(allListings.map(l => l.industry).filter(Boolean))];
@@ -336,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.onmouseover = function() { this.style.backgroundColor = listing.boosted ? '#fef3c7' : '#f8fafc'; }
             tr.onmouseout = function() { this.style.backgroundColor = listing.boosted ? '#fffbea' : 'transparent'; }
             
-            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">â­</span> ' : '';
+            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">⭐</span> ' : '';
             const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
             const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
             
@@ -484,7 +486,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-
-
-
-
