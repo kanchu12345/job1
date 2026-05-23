@@ -622,15 +622,15 @@
                 const closeDateStr = closeDate.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
 
                 // Header
-                setEl('employer-name', listing.businessName || listing.contactName);
+                setEl('employer-name', 'Confidential Business');
                 setEl('employer-location', (listing.district || 'Sri Lanka') + ', Sri Lanka');
                 setEl('closing-date', closeDateStr);
                 setEl('ref-no', ref);
                 setEl('listing-type', listing.industry || 'Opportunity');
                 
                 // Titles
-                setEl('job-title', listing.businessName);
-                setEl('ad-large-title', listing.businessName);
+                setEl('job-title', 'Confidential Business');
+                setEl('ad-large-title', 'Confidential Business');
 
                 // Ad Data
                 setEl('ad-industry', listing.industry);
@@ -747,7 +747,7 @@
                 setEl('ad-email', `<a href="mailto:${listing.email}" style="color:#003399;">${listing.email}</a>`);
                 setEl('ad-phone', listing.phone);
 
-                document.title = listing.businessName + ' | HelaInvest';
+                document.title = 'Confidential Business | HelaInvest';
             } 
             // Fallback to URL params for demo links in index.html
             else if (refParam) {
