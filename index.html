@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -175,7 +175,13 @@
             </div>
         </div>
     </section>
-<script src="app.js"></script>
+    <!-- Firebase Core SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    
+    <script src="app.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.querySelector('.tj-table tbody');
@@ -330,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.onmouseover = function() { this.style.backgroundColor = listing.boosted ? '#fef3c7' : '#f8fafc'; }
             tr.onmouseout = function() { this.style.backgroundColor = listing.boosted ? '#fffbea' : 'transparent'; }
             
-            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">â­</span> ' : '';
+            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">Ã¢Â­Â</span> ' : '';
             const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
             const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
             
@@ -478,5 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
+
 
 

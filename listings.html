@@ -189,20 +189,26 @@
     <!-- Mega Footer -->
     
 
+        <!-- Firebase Core SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    
     <script src="app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const grid = document.getElementById('listings-grid');
             const searchInput = document.getElementById('search-input');
             const industryFilter = document.getElementById('filter-industry');
             const stageFilter = document.getElementById('filter-stage');
 
-            function renderListings() {
+            async function renderListings() {
                 const keyword = searchInput.value.toLowerCase();
                 const industry = industryFilter.value;
                 const stage = stageFilter.value;
 
-                let listings = store.getPublished();
+                let listings = await store.getPublished();
 
                 if (keyword) {
                     listings = listings.filter(l => 
@@ -301,5 +307,7 @@
 </footer>
 
 </html>
+
+
 
 

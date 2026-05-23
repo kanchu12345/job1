@@ -521,6 +521,12 @@
         </div>
     </div>
 
+        <!-- Firebase Core SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    
     <script src="app.js"></script>
     <script>
         let user; // Declare globally for this script
@@ -605,12 +611,12 @@
         }
 
         // Render Publisher Ads from global store
-        function renderTable() {
+        async function renderTable() {
             const tbody = document.getElementById('posts-table-body');
             tbody.innerHTML = '';
             
             // Get ads from global store for THIS user
-            const allAds = store.getAll();
+            const allAds = await store.getAll();
             const myAds = allAds.filter(ad => ad.publisherEmail === user.email);
 
             if (myAds.length === 0) {
@@ -664,7 +670,7 @@
         }
 
         // Handle Ad Submission
-        document.getElementById('ad-form').addEventListener('submit', function(e) {
+        document.getElementById('ad-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const uniqueCode = generateCode();
@@ -730,7 +736,7 @@
                 status: 'pending'
             };
             
-            store.save(newAd); // Save to global store
+            await store.save(newAd); // Save to global store
             
             // Show modal with payment instructions
             document.getElementById('generated-code').innerText = uniqueCode;
@@ -784,5 +790,7 @@
 </footer>
 
 </html>
+
+
 
 

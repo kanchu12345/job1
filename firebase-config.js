@@ -16,11 +16,24 @@ const firebaseConfig = {
 // Check if the user has replaced the placeholder
 const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY";
 
+let db = null;
+let auth = null;
+
 if (isFirebaseConfigured) {
     // Initialize Firebase
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
+    db = firebase.firestore();
+    auth = firebase.auth();
+    // Configure firestore to allow offline caching (optional but good)
+    db.settings({
+      cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+    });
 } else {
     console.warn("Firebase is not configured yet. Please update firebase-config.js with your credentials.");
 }
+
+// Make them available globally
+window.db = db;
+window.auth = auth;

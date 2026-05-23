@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -377,6 +377,12 @@
         </div>
     </div>
 
+        <!-- Firebase Core SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    
     <script src="app.js"></script>
     <script>
         // --- Navigation ---
@@ -414,14 +420,14 @@
         });
 
         // --- Data Loading ---
-        function loadData() {
+        async function loadData() {
             try {
-                const listings = store.getAll().reverse();
-                const users = authStore.getUsers().reverse();
+                const listings = await store.getAll().reverse();
+                const users = await authStore.getUsers().reverse();
                 const categories = categoryStore.getAll();
                 const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
 
-                // Stats — pending counts pending + pending_payment + review
+                // Stats â€” pending counts pending + pending_payment + review
                 document.getElementById('stat-total').innerText = listings.length;
                 document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
                 document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
@@ -488,7 +494,7 @@
 
         window.deleteCategory = function(id) {
             if(confirm("Delete this category?")) {
-                categoryStore.delete(id);
+                categoryawait store.delete(id);
                 loadData();
             }
         }
@@ -514,7 +520,7 @@
                 let statusBadge = '';
                 
                 if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
-                    // Pending group — yellow badge
+                    // Pending group â€” yellow badge
                     statusBadge = '<span class="status-badge status-pending">PENDING</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
@@ -522,25 +528,25 @@
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else if (l.status === 'published') {
-                    // Published — green badge
+                    // Published â€” green badge
                     statusBadge = '<span class="status-badge status-published">PUBLISHED</span>';
                     const boostBtn = l.boosted ? 
                         `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">🚀 Boost</button>`;
+                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">ðŸš€ Boost</button>`;
                     actionBtns = `
                         ${boostBtn}
                         <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else if (l.status === 'expired') {
-                    // Expired — gray badge
+                    // Expired â€” gray badge
                     statusBadge = '<span class="status-badge" style="background:#e2e3e5; color:#383d41;">EXPIRED</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else {
-                    // Rejected (default) — red badge
+                    // Rejected (default) â€” red badge
                     statusBadge = '<span class="status-badge status-rejected">REJECTED</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
@@ -601,39 +607,39 @@
         }
 
         // --- Actions ---
-        window.changeStatus = function(id, newStatus) {
-            store.update(id, { status: newStatus });
+        window.changeStatus = async function(id, newStatus) {
+            await store.update(id, { status: newStatus });
             loadData();
             document.getElementById('detail-modal').style.display = 'none';
         }
 
-        window.toggleBoost = function(id, isBoosted) {
-            store.update(id, { boosted: isBoosted });
+        window.toggleBoost = async function(id, isBoosted) {
+            await store.update(id, { boosted: isBoosted });
             loadData();
         }
 
         // --- Reject with Reason ---
-        window.rejectListing = function(id) {
+        window.rejectListing = async function(id) {
             const reason = prompt('Please provide a reason for rejection:');
             if (reason !== null && reason.trim() !== '') {
-                store.update(id, { status: 'rejected', rejectionReason: reason.trim() });
+                await store.update(id, { status: 'rejected', rejectionReason: reason.trim() });
                 loadData();
                 document.getElementById('detail-modal').style.display = 'none';
             }
         }
 
         // --- Delete Listing ---
-        window.deleteListing = function(id) {
+        window.deleteListing = async function(id) {
             if (confirm('Are you sure you want to permanently delete this listing?')) {
-                store.delete(id);
+                await store.delete(id);
                 loadData();
                 document.getElementById('detail-modal').style.display = 'none';
             }
         }
 
-        // --- View Full Details (Simplified — no field-by-field review) ---
+        // --- View Full Details (Simplified â€” no field-by-field review) ---
         window.viewFullDetails = function(id) {
-            const l = store.getById(id);
+            const l = await store.getById(id);
             if(!l) return;
 
             document.getElementById('m-refcode').innerText = l.refCode || 'N/A';
@@ -720,7 +726,7 @@
                     displayVal = Number.isFinite(num) && num > 0 ? `${num}%` : 'N/A';
                 }
 
-                // Simple display — no field-by-field checkboxes
+                // Simple display â€” no field-by-field checkboxes
                 el.innerText = displayVal;
             });
 
@@ -729,7 +735,7 @@
                 ? l.services.map(s => `<div><i class="fas fa-check text-success"></i> ${s}</div>`).join('') 
                 : 'No specific services requested.';
 
-            // Generate modal footer action buttons — simplified workflow
+            // Generate modal footer action buttons â€” simplified workflow
             let actionBtns = '';
             if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
                 actionBtns = `
@@ -740,7 +746,7 @@
             } else if (l.status === 'published') {
                 const boostBtn = l.boosted ? 
                     `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">🚀 Boost</button>`;
+                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">ðŸš€ Boost</button>`;
                 actionBtns = `
                     ${boostBtn}
                     <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
@@ -778,7 +784,7 @@
         }
 
         window.editUser = function(id) {
-            const users = authStore.getUsers();
+            const users = await authStore.getUsers();
             const u = users.find(x => x.id === id);
             if(u) {
                 document.getElementById('user-modal-title').innerText = 'Edit User Details';
@@ -838,3 +844,5 @@
 
 </body>
 </html>
+
+

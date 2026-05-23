@@ -450,6 +450,12 @@
 
     </main>
 
+        <!-- Firebase Core SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase-config.js"></script>
+    
     <script src="app.js"></script>
     <!-- Script for Multi-step logic -->
     <script>
@@ -614,7 +620,7 @@
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 
-            form.addEventListener('submit', (e) => {
+            form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 if (validateCurrentStep()) {
                     // Generate anonymous reference code
@@ -636,7 +642,7 @@
                     }
 
                     // Save to store (uses global store from app.js)
-                    store.save(newListing);
+                    await store.save(newListing);
 
                     // Simulate API Call / Submission
                     form.classList.add('hidden');
@@ -688,5 +694,7 @@
 
 </body>
 </html>
+
+
 
 

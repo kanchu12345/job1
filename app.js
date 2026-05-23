@@ -1,106 +1,57 @@
-// Data model for listings
+﻿// Data model for listings
 class ListingStore {
   constructor() {
-    this.listingsKey = 'hela_listings';
-    this.initSeedData();
+    // Seed data is removed as we now use Firestore
   }
 
-  // Seed data if empty
-  initSeedData() {
-    if (!localStorage.getItem(this.listingsKey)) {
-      const seedData = [
-        {
-          id: '1',
-          businessName: 'Ceylon Organic Farms',
-          shortDescription: 'Export-oriented organic farm seeking expansion capital.',
-          fullDescription: 'We are a certified organic farm producing spices and coconut products for European markets. We need investment to upgrade our processing facility.',
-          investmentRequired: 15000000,
-          minimumInvestment: 5000000,
-          industry: 'Agriculture',
-          businessStage: 'Expansion',
-          district: 'Kurunegala',
-          contactName: 'Nimal Perera',
-          phone: '0771234567',
-          email: 'nimal@ceylonorganic.lk',
-          status: 'published',
-          images: []
-        },
-        {
-          id: '2',
-          businessName: 'TechHub Colombo',
-          shortDescription: 'SaaS startup providing HR solutions for SMEs.',
-          fullDescription: 'Growing SaaS platform with 50+ active B2B clients. Raising seed round for marketing and adding AI features.',
-          investmentRequired: 25000000,
-          minimumInvestment: 10000000,
-          industry: 'Technology',
-          businessStage: 'Startup',
-          district: 'Colombo',
-          contactName: 'Sarah Silva',
-          phone: '0719876543',
-          email: 'sarah@techhub.lk',
-          status: 'published',
-          images: []
-        },
-        {
-          id: '3',
-          businessName: 'Lanka Heritage Stays',
-          shortDescription: 'Boutique hotel chain in southern coast.',
-          fullDescription: 'Operating 3 boutique properties. Looking for a partner to acquire a new beachfront property in Mirissa.',
-          investmentRequired: 50000000,
-          minimumInvestment: 50000000,
-          industry: 'Hotels & Resorts',
-          businessStage: 'Operating',
-          district: 'Galle',
-          contactName: 'Ruwan de Silva',
-          phone: '0765554433',
-          email: 'ruwan@heritage.lk',
-          status: 'published',
-          images: []
-        }
-      ];
-      localStorage.setItem(this.listingsKey, JSON.stringify(seedData));
-    }
+  async getAll() {
+    if (!window.db) return [];
+    const snapshot = await window.db.collection('listings').get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
 
-  getAll() {
-    return JSON.parse(localStorage.getItem(this.listingsKey)) || [];
-  }
-
-  getPublished() {
-    return this.getAll().filter(l => l.status === 'published').sort((a, b) => {
+  async getPublished() {
+    if (!window.db) return [];
+    const snapshot = await window.db.collection('listings').where('status', '==', 'published').get();
+    const listings = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return listings.sort((a, b) => {
         if (a.boosted && !b.boosted) return -1;
         if (!a.boosted && b.boosted) return 1;
         return new Date(b.submittedAt) - new Date(a.submittedAt);
     });
   }
 
-  getById(id) {
-    return this.getAll().find(l => l.id === id);
+  async getById(id) {
+    if (!window.db) return null;
+    const doc = await window.db.collection('listings').doc(id).get();
+    return doc.exists ? { id: doc.id, ...doc.data() } : null;
   }
 
-  save(listing) {
-    const listings = this.getAll();
-    listing.id = listing.id || Date.now().toString();
+  async save(listing) {
+    if (!window.db) return listing;
     listing.status = listing.status || 'pending';
     listing.submittedAt = new Date().toISOString();
-    listings.push(listing);
-    localStorage.setItem(this.listingsKey, JSON.stringify(listings));
+    
+    let docRef;
+    if (listing.id) {
+        docRef = window.db.collection('listings').doc(listing.id);
+    } else {
+        docRef = window.db.collection('listings').doc();
+        listing.id = docRef.id;
+    }
+    await docRef.set(listing);
     return listing;
   }
 
-  update(id, updates) {
-    let listings = this.getAll();
-    const index = listings.findIndex(l => l.id === id);
-    if (index !== -1) {
-      listings[index] = { ...listings[index], ...updates, updatedAt: new Date().toISOString() };
-      localStorage.setItem(this.listingsKey, JSON.stringify(listings));
-    }
+  async update(id, updates) {
+    if (!window.db) return;
+    updates.updatedAt = new Date().toISOString();
+    await window.db.collection('listings').doc(id).update(updates);
   }
 
-  delete(id) {
-    let listings = this.getAll();
-    listings = listings.filter(l => l.id !== id);
-    localStorage.setItem(this.listingsKey, JSON.stringify(listings));
+  async delete(id) {
+    if (!window.db) return;
+    await window.db.collection('listings').doc(id).delete();
   }
 
   formatCurrency(amount) {
@@ -110,7 +61,6 @@ class ListingStore {
 
 const store = new ListingStore();
 
-// Utility for formatting LKR in UI
 function formatLKR(amount) {
   return store.formatCurrency(amount);
 }
@@ -120,20 +70,20 @@ function formatLKR(amount) {
 // ----------------------------------------------------------------------------
 class AuthStore {
   constructor() {
-    this.usersKey = 'hela_users';
     this.sessionKey = 'hela_session';
     this.initFirebaseAuthListener();
   }
 
   initFirebaseAuthListener() {
-    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
-      firebase.auth().onAuthStateChanged((user) => {
+    if (window.auth) {
+      window.auth.onAuthStateChanged(async (user) => {
         if (user) {
+          const role = await this.getUserRoleLocally(user.uid) || 'client';
           const sessionUser = {
             id: user.uid,
             name: user.displayName || user.email.split('@')[0],
             email: user.email,
-            role: this.getUserRoleLocally(user.uid) || 'client'
+            role: role
           };
           localStorage.setItem(this.sessionKey, JSON.stringify(sessionUser));
           if (typeof updateGlobalAuthUI === 'function') updateGlobalAuthUI();
@@ -145,100 +95,68 @@ class AuthStore {
     }
   }
 
-  getUserRoleLocally(uid) {
-    const users = this.getUsers();
-    const user = users.find(u => u.id === uid);
-    return user ? user.role : null;
+  async getUserRoleLocally(uid) {
+    if (!window.db) return null;
+    const doc = await window.db.collection('users').doc(uid).get();
+    return doc.exists ? doc.data().role : null;
   }
 
-  getUsers() {
-    return JSON.parse(localStorage.getItem(this.usersKey)) || [];
+  async getUsers() {
+    if (!window.db) return [];
+    const snapshot = await window.db.collection('users').get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
 
   getCurrentUser() {
+    // Keep this synchronous for UI
     return JSON.parse(localStorage.getItem(this.sessionKey)) || null;
   }
 
   async register(name, email, password, role) {
-    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
-      const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+    if (window.auth && window.db) {
+      const userCredential = await window.auth.createUserWithEmailAndPassword(email, password);
       const user = userCredential.user;
       await user.updateProfile({ displayName: name });
       
-      const users = this.getUsers();
-      const newUser = { id: user.uid, name, email, role };
-      if (!users.find(u => u.id === user.uid)) {
-        users.push(newUser);
-        localStorage.setItem(this.usersKey, JSON.stringify(users));
-      }
-      return newUser;
-    } else {
-      const users = this.getUsers();
-      if (users.find(u => u.email === email)) {
-        throw new Error("Email already registered");
-      }
-      const newUser = { id: Date.now().toString(), name, email, password, role };
-      users.push(newUser);
-      localStorage.setItem(this.usersKey, JSON.stringify(users));
-      return newUser;
+      const newUser = { name, email, role };
+      await window.db.collection('users').doc(user.uid).set(newUser);
+      return { id: user.uid, ...newUser };
     }
+    throw new Error("Firebase not initialized");
   }
 
   async login(email, password) {
-    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
-      const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+    if (window.auth) {
+      const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
       return userCredential.user;
-    } else {
-      const users = this.getUsers();
-      const user = users.find(u => u.email === email && u.password === password);
-      if (!user) {
-        throw new Error("Invalid credentials");
-      }
-      localStorage.setItem(this.sessionKey, JSON.stringify(user));
-      return user;
     }
+    throw new Error("Firebase not initialized");
   }
 
   async loginWithGoogle(role = 'client') {
-    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
+    if (window.auth && window.db) {
       const provider = new firebase.auth.GoogleAuthProvider();
-      const userCredential = await firebase.auth().signInWithPopup(provider);
+      const userCredential = await window.auth.signInWithPopup(provider);
       const user = userCredential.user;
       
-      const users = this.getUsers();
-      if (!users.find(u => u.id === user.uid)) {
-        users.push({
-          id: user.uid,
+      const doc = await window.db.collection('users').doc(user.uid).get();
+      if (!doc.exists) {
+        await window.db.collection('users').doc(user.uid).set({
           name: user.displayName,
           email: user.email,
           role: role
         });
-        localStorage.setItem(this.usersKey, JSON.stringify(users));
       }
-      return user;
-    } else {
-      const user = {
-        id: 'g_' + Date.now().toString(),
-        name: 'Google User',
-        email: 'user@gmail.com',
-        role: role
-      };
-      const users = this.getUsers();
-      if (!users.find(u => u.email === user.email)) {
-        users.push(user);
-        localStorage.setItem(this.usersKey, JSON.stringify(users));
-      }
-      localStorage.setItem(this.sessionKey, JSON.stringify(user));
       return user;
     }
+    throw new Error("Firebase not initialized");
   }
 
   async logout() {
-    if (typeof isFirebaseConfigured !== 'undefined' && isFirebaseConfigured) {
-      await firebase.auth().signOut();
-    } else {
-      localStorage.removeItem(this.sessionKey);
+    if (window.auth) {
+      await window.auth.signOut();
     }
+    localStorage.removeItem(this.sessionKey);
   }
 }
 
@@ -280,9 +198,9 @@ function updateGlobalAuthUI() {
   }
 }
 
-function logoutUser(e) {
+async function logoutUser(e) {
   if (e) e.preventDefault();
-  authStore.logout();
+  await authStore.logout();
   window.location.href = 'index.html';
 }
 
@@ -302,8 +220,8 @@ function handlePostListing(e) {
 }
 
 // --- PDF Generation ---
-function generateListingPDF(listingId) {
-  const l = store.getById(listingId);
+async function generateListingPDF(listingId) {
+  const l = await store.getById(listingId);
   if (!l) { alert('Listing not found.'); return; }
 
   const fmtMoney = (v) => {
@@ -405,8 +323,8 @@ function generateListingPDF(listingId) {
       <div class="full-width"><label class="form-label">Facility Details</label><div class="form-input-box" style="min-height: 80px;">${l.facility || ''}</div></div>
       <div class="full-width"><label class="form-label">Funding Details</label><div class="form-input-box" style="min-height: 80px;">${l.funding || ''}</div></div>
       <div class="full-width"><label class="form-label">Assets Details</label><div class="form-input-box" style="min-height: 80px;">${l.assets || ''}</div></div>
-      ${(l.services && l.services.length > 0) ? `<div class="full-width"><label class="form-label">Selected Professional Services</label><div class="form-input-box" style="background:#fff;">${l.services.map(s => '<div>☑ ' + s + '</div>').join('')}</div></div>` : ''}
-      ${l.rejectionReason ? `<div class="full-width"><label class="form-label" style="color:#b91c1c;">Rejection Reason</label><div class="form-input-box" style="background:#fef2f2; border-color:#f87171; color:#991b1b;">${l.rejectionReason}</div></div>` : ''}
+      ${(l.services && l.services.length > 0) ? \`<div class="full-width"><label class="form-label">Selected Professional Services</label><div class="form-input-box" style="background:#fff;">\${l.services.map(s => '<div>â˜‘ ' + s + '</div>').join('')}</div></div>\` : ''}
+      ${l.rejectionReason ? \`<div class="full-width"><label class="form-label" style="color:#b91c1c;">Rejection Reason</label><div class="form-input-box" style="background:#fef2f2; border-color:#f87171; color:#991b1b;">\${l.rejectionReason}</div></div>\` : ''}
     </div>
   </div>
 
@@ -511,7 +429,7 @@ class CategoryStore {
           subgroups: [
             {
               name: "HORECA (Food Services)",
-              items: ["Fine Dining Restaurants", "Casual Restaurants", "Cafés", "Coffee Shops", "Bakeries", "Catering Services", "Cloud Kitchens", "Pubs", "Bars", "Nightlife Venues"]
+              items: ["Fine Dining Restaurants", "Casual Restaurants", "CafÃ©s", "Coffee Shops", "Bakeries", "Catering Services", "Cloud Kitchens", "Pubs", "Bars", "Nightlife Venues"]
             },
             {
               name: "Tourism & Lodging",
@@ -625,4 +543,3 @@ class SettingsStore {
 // Initialize Settings Store
 const settingsStore = new SettingsStore();
 
-// Test data injection removed — production-ready
