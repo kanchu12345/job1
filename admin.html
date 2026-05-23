@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Advanced Admin Dashboard | HelaInvest</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -98,10 +101,40 @@
             <h2 style="color: #003399; margin-top: 0;">System Admin</h2>
             <p style="color: #666; margin-bottom: 30px;">Enter Admin PIN (Demo: hela2024)</p>
             <input type="password" id="admin-pin" placeholder="Enter PIN">
-            <button id="login-btn">Secure Login <i class="fas fa-lock"></i></button>
+            <button id="login-btn" onclick="handleSecureLoginClick()">Secure Login <i class="fas fa-lock"></i></button>
             <p id="login-error" style="color: #dc3545; margin-top: 15px; display: none; font-weight: 600;">Invalid PIN Provided</p>
         </div>
     </div>
+    
+    <!-- Self-contained resilient login handler -->
+    <script>
+    function handleSecureLoginClick() {
+        var pinInput = document.getElementById('admin-pin');
+        if (!pinInput) return;
+        var pinVal = pinInput.value.trim();
+        if (pinVal === 'hela2024') {
+            var screen = document.getElementById('login-screen');
+            if (screen) screen.style.display = 'none';
+            if (typeof loadData === 'function') {
+                loadData();
+            } else {
+                console.warn("loadData is not loaded yet, will refresh data when application scripts finish initializing.");
+                // Set a recurring check to load data once loadData is ready
+                var checkInterval = setInterval(function() {
+                    if (typeof loadData === 'function') {
+                        loadData();
+                        clearInterval(checkInterval);
+                    }
+                }, 200);
+                // Clear the interval after 10 seconds to avoid infinite loop
+                setTimeout(function() { clearInterval(checkInterval); }, 10000);
+            }
+        } else {
+            var err = document.getElementById('login-error');
+            if (err) err.style.display = 'block';
+        }
+    }
+    </script>
 
     <!-- Advanced Sidebar Layout -->
     <div class="sidebar">
