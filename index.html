@@ -212,12 +212,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     window.renderSidebarMain = function() {
         if (!sidebarContainer) return;
         let html = `
-            <h3 style="font-size: 1.1rem; color: #fff; margin-bottom: 10px; padding: 0 15px 15px 15px; border-bottom: 1px solid rgba(255,255,255,0.2); text-align: center;">Business Categories</h3>
+            <h3 style="font-size: 1.1rem; color: #fff; margin: 0; padding: 18px 15px; background: #0a3578; text-align: left; font-weight: bold; border-bottom: 3px solid #cc9900;">Business Categories</h3>
             <ul style="list-style: none; padding: 0; margin: 0;">
         `;
         html += categories.map((c, index) => `
             <li>
-                <a href="#" onclick="openSidebarCategory(event, ${index})" style="display: block; padding: 12px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.95rem; transition: background 0.2s;" onmouseover="this.style.background='#003399'; this.style.color='#cc9900';" onmouseout="this.style.background='transparent'; this.style.color='#fff';">
+                <a href="#" onclick="openSidebarCategory(event, ${index})" style="display: block; padding: 14px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; font-weight: 500; transition: background 0.2s;" onmouseover="this.style.background='#003399'; this.style.color='#cc9900'; this.style.paddingLeft='25px';" onmouseout="this.style.background='transparent'; this.style.color='#fff'; this.style.paddingLeft='20px';">
                     ${(c.name || '').replace(/&/g, '&amp;')}
                 </a>
             </li>
@@ -225,10 +225,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         html += `</ul>`;
         sidebarContainer.innerHTML = html;
         sidebarContainer.style.background = '#0d47a1';
-        sidebarContainer.style.padding = '15px 0';
+        sidebarContainer.style.padding = '0';
         sidebarContainer.style.borderRadius = '8px';
         sidebarContainer.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
         sidebarContainer.style.border = 'none';
+        sidebarContainer.style.overflow = 'hidden';
     };
 
     window.renderSidebarSub = function(index) {
@@ -237,11 +238,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!c) return;
         
         let html = `
-            <div style="padding: 0 15px;">
-                <a href="#" onclick="goBackToMainCategories(event)" style="display: inline-block; color: #cc9900; font-size: 0.85rem; text-decoration: none; margin-bottom: 15px; font-weight: 600;">
-                    <i class="fas fa-arrow-left"></i> Back to Categories
+            <div style="background: #0a3578; padding: 15px;">
+                <a href="#" onclick="goBackToMainCategories(event)" style="display: inline-block; color: #cc9900; font-size: 0.85rem; text-decoration: none; margin-bottom: 10px; font-weight: 600;">
+                    <i class="fas fa-arrow-left"></i> Back
                 </a>
-                <h3 style="font-size: 1.05rem; color: #fff; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                <h3 style="font-size: 1.05rem; color: #fff; margin: 0; font-weight: bold;">
                     ${(c.name || '')}
                 </h3>
             </div>
