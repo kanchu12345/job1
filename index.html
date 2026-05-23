@@ -308,18 +308,35 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderSidebarMain();
     
     // Get listings from store
-    await store.seedDummyListings();
-    let allListings = await store.getPublished();
+    let allListings = [];
+    try {
+        await store.seedDummyListings();
+        allListings = await store.getPublished();
+    } catch (e) {
+        console.error("Error loading listings from database:", e);
+        if (store && store.getLocalListings) {
+            allListings = store.getLocalListings().filter(l => l.status === 'published');
+        }
+    }
 
     // Populate filter dropdowns from published listings data
-    const industries = [...new Set(allListings.map(l => l.industry).filter(Boolean))];
-    const locations = [...new Set(allListings.map(l => l.district).filter(Boolean))];
-    industries.sort().forEach(ind => {
-        filterIndustry.innerHTML += `<option value="${ind}">${ind}</option>`;
-    });
-    locations.sort().forEach(loc => {
-        filterLocation.innerHTML += `<option value="${loc}">${loc}</option>`;
-    });
+    try {
+        const industries = [...new Set(allListings.map(l => l.industry).filter(Boolean))];
+        const locations = [...new Set(allListings.map(l => l.district).filter(Boolean))];
+        
+        // Reset and populate industry and location dropdowns
+        filterIndustry.innerHTML = '<option value="">All Industries</option>';
+        industries.sort().forEach(ind => {
+            filterIndustry.innerHTML += `<option value="${ind}">${ind}</option>`;
+        });
+        
+        filterLocation.innerHTML = '<option value="">All of Sri Lanka</option>';
+        locations.sort().forEach(loc => {
+            filterLocation.innerHTML += `<option value="${loc}">${loc}</option>`;
+        });
+    } catch (e) {
+        console.error("Error populating dropdown filters:", e);
+    }
     
     function renderListings(listings) {
         tbody.innerHTML = '';

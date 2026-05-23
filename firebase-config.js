@@ -1,8 +1,6 @@
 // =========================================================================
 // FIREBASE CONFIGURATION
 // =========================================================================
-// TODO: Replace the 'firebaseConfig' object below with the one from your 
-// Firebase Console (Project Settings > General > Web App).
 const firebaseConfig = {
     apiKey: "AIzaSyCk2jNvtHuSJz4dKETnBENb_e0CYNKLZxQ",
     authDomain: "helainvest-platform.firebaseapp.com",
@@ -19,19 +17,23 @@ const isFirebaseConfigured = firebaseConfig.apiKey !== "YOUR_API_KEY";
 let db = null;
 let auth = null;
 
-if (isFirebaseConfigured) {
-    // Initialize Firebase
-    if (!firebase.apps.length) {
-        firebase.initializeApp(firebaseConfig);
+try {
+    if (typeof firebase !== 'undefined' && isFirebaseConfigured) {
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        db = firebase.firestore();
+        auth = firebase.auth();
+        // Configure firestore to allow offline caching (optional but good)
+        db.settings({
+          cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
+        });
+    } else {
+        console.warn("Firebase is not loaded or not configured. Running in local fallback mode.");
     }
-    db = firebase.firestore();
-    auth = firebase.auth();
-    // Configure firestore to allow offline caching (optional but good)
-    db.settings({
-      cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
-    });
-} else {
-    console.warn("Firebase is not configured yet. Please update firebase-config.js with your credentials.");
+} catch (e) {
+    console.error("Error initializing Firebase:", e);
 }
 
 // Make them available globally
