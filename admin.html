@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -494,7 +494,7 @@
 
         window.deleteCategory = function(id) {
             if(confirm("Delete this category?")) {
-                categoryawait store.delete(id);
+                categoryStore.delete(id);
                 loadData();
             }
         }
@@ -638,7 +638,7 @@
         }
 
         // --- View Full Details (Simplified â€” no field-by-field review) ---
-        window.viewFullDetails = function(id) {
+        window.viewFullDetails = async function(id) {
             const l = await store.getById(id);
             if(!l) return;
 
@@ -783,7 +783,7 @@
             document.getElementById('user-modal').style.display = 'flex';
         }
 
-        window.editUser = function(id) {
+        window.editUser = async function(id) {
             const users = await authStore.getUsers();
             const u = users.find(x => x.id === id);
             if(u) {
