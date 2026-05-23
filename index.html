@@ -343,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">⭐</span> ' : '';
             const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
-            const descSnippet = shortDesc.length > 80 ? shortDesc.substring(0, 80) + '...' : shortDesc;
+            const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
             
             tr.innerHTML = `
                 <td style="font-weight:600;">${formatLKR(listing.investmentRequired)}</td>
