@@ -57,6 +57,70 @@ class ListingStore {
   formatCurrency(amount) {
     return new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', maximumFractionDigits: 0 }).format(amount);
   }
+
+  async seedDummyListings() {
+    if (!window.db) return;
+    try {
+      const snapshot = await window.db.collection('listings').limit(1).get();
+      if (snapshot.empty) {
+        console.log("Seeding dummy listings...");
+        const dummyData = [
+          {
+            businessName: "Eco-Friendly Packaging Mfg",
+            shortDescription: "Profitable eco-friendly packaging manufacturing company.",
+            industry: "Manufacturing",
+            district: "Colombo",
+            businessStage: "SME",
+            investmentRequired: 25000000,
+            status: "published",
+            boosted: true,
+            submittedAt: new Date().toISOString()
+          },
+          {
+            businessName: "AgriTech Startup",
+            shortDescription: "Innovative drone-based crop monitoring solution.",
+            industry: "Agriculture",
+            district: "Kandy",
+            businessStage: "Startup",
+            investmentRequired: 5000000,
+            status: "published",
+            boosted: false,
+            submittedAt: new Date().toISOString()
+          },
+          {
+            businessName: "City Center Cafe",
+            shortDescription: "Popular cafe in prime location seeking expansion capital.",
+            industry: "Food & Beverage",
+            district: "Gampaha",
+            businessStage: "Growth",
+            investmentRequired: 12000000,
+            status: "published",
+            boosted: true,
+            submittedAt: new Date().toISOString()
+          },
+          {
+            businessName: "Boutique Hotel Project",
+            shortDescription: "Partially completed 15-room boutique hotel near the beach.",
+            industry: "Construction & Real Estate",
+            district: "Galle",
+            businessStage: "Idea",
+            investmentRequired: 80000000,
+            status: "published",
+            boosted: false,
+            submittedAt: new Date().toISOString()
+          }
+        ];
+        for (const item of dummyData) {
+          await this.save(item);
+        }
+        console.log("Dummy listings seeded!");
+        return true;
+      }
+    } catch(e) {
+      console.error("Error seeding dummy data:", e);
+    }
+    return false;
+  }
 }
 
 const store = new ListingStore();
@@ -417,7 +481,12 @@ class CategoryStore {
   }
 
   getAll() {
-    return JSON.parse(localStorage.getItem(this.categoriesKey)) || [];
+    try {
+      return JSON.parse(localStorage.getItem(this.categoriesKey)) || [];
+    } catch (e) {
+      console.error("Error parsing categories:", e);
+      return [];
+    }
   }
 
   save(name) {
