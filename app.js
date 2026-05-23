@@ -1,4 +1,4 @@
-﻿// Data model for listings
+// Data model for listings
 class ListingStore {
   constructor() {
     // Seed data is removed as we now use Firestore
@@ -364,129 +364,51 @@ class CategoryStore {
       const seedData = [
         {
           id: '1',
-          name: "PRIMARY SECTORS & PRODUCTION",
+          name: "Agriculture",
           active: true,
-          subgroups: [
-            {
-              name: "Agriculture & Plantation",
-              items: ["Tea Plantation", "Tea Processing", "Rubber Cultivation", "Rubber Products", "Coconut Industries", "Cinnamon", "Spices", "Essential Oils", "Paddy Farming", "Rice Mills", "Fruits", "Vegetables", "Organic Farming", "Hydroponics", "Greenhouse Farming"]
-            },
-            {
-              name: "Livestock, Poultry & Fisheries",
-              items: ["Dairy Farming", "Milk Processing", "Poultry", "Egg Production", "Inland Fisheries", "Aquaculture", "Deep Sea Fishing", "Seafood Export", "Ornamental Fish Breeding"]
-            },
-            {
-              name: "Mining, Minerals & Materials",
-              items: ["Gem Mining", "Gem Cutting", "Jewelry", "Graphite Mining", "Mica Mining", "Ilmenite", "Rutile", "Mineral Sands", "Quarrying", "Sand Mining", "Construction Aggregates"]
-            },
-            {
-              name: "Apparel & Textiles",
-              items: ["Garment Manufacturing", "Buying Houses", "Fabric Weaving", "Textile Mills", "Batik", "Handloom", "Traditional Crafts", "Fashion Design", "Clothing Brands"]
-            }
-          ]
+          subgroups: [{ items: ["Crop Farming", "Livestock & Poultry", "Fisheries & Aquaculture", "Forestry & Logging", "Agricultural Services", "Organic Farming", "Other Agriculture"] }]
         },
         {
           id: '2',
-          name: "TECHNOLOGY & DIGITAL INFRASTRUCTURE",
+          name: "Retail",
           active: true,
-          subgroups: [
-            {
-              name: "IT & Software Development",
-              items: ["Custom Software", "Enterprise Solutions (SaaS)", "Mobile App Development", "Web Development", "Cloud Computing", "DevOps Services", "Cybersecurity", "Managed IT Services"]
-            },
-            {
-              name: "Digital Platforms & FinTech",
-              items: ["E-commerce Stores", "Multi-vendor Marketplaces", "Payment Gateways", "Digital Wallets", "Peer-to-Peer (P2P) Lending", "Micro-crowdfunding Platforms", "Logistics Tech", "Delivery Fleet Tech"]
-            },
-            {
-              name: "Telecommunications & Hardware",
-              items: ["Network Infrastructure", "Telecom Infrastructure", "IoT", "Smart Devices", "Hardware Assembly", "Computer Hardware Retail", "Computer Repairs"]
-            }
-          ]
+          subgroups: [{ items: ["Supermarkets & Grocery", "Fashion & Apparel", "Electronics & Gadgets", "E-commerce & Online Stores", "Specialty Stores", "Wholesale Trade", "Other Retail"] }]
         },
         {
           id: '3',
-          name: "MANUFACTURING & HEAVY INDUSTRIAL",
+          name: "Manufacturing",
           active: true,
-          subgroups: [
-            {
-              name: "Food & Beverage Processing",
-              items: ["Packaged Snacks", "Confectionery", "Beverage Production", "Bakery Products", "Food Processing Plants", "Dehydrated Food Export", "Frozen Food Export"]
-            },
-            {
-              name: "Fast-Moving Consumer Goods (FMCG)",
-              items: ["Cosmetics", "Soaps", "Detergents", "Plastic Products", "Packaging Products", "Polythene Products", "Paper Manufacturing", "Printing", "Stationery Manufacturing"]
-            },
-            {
-              name: "Heavy Engineering & Industrial",
-              items: ["Chemical Manufacturing", "Fertilizer Manufacturing", "Metal Fabrication", "Machinery Assembly", "Automotive Components", "Tyre Manufacturing", "Boat Building", "Marine Engineering"]
-            }
-          ]
+          subgroups: [{ items: ["Garments & Textiles", "Machinery & Equipment", "Chemical & Plastics", "Automobile Parts", "Construction Materials", "Paper & Packaging", "Other Manufacturing"] }]
         },
         {
           id: '4',
-          name: "HOSPITALITY, TOURISM & LEISURE",
+          name: "Technology",
           active: true,
-          subgroups: [
-            {
-              name: "HORECA (Food Services)",
-              items: ["Fine Dining Restaurants", "Casual Restaurants", "CafÃ©s", "Coffee Shops", "Bakeries", "Catering Services", "Cloud Kitchens", "Pubs", "Bars", "Nightlife Venues"]
-            },
-            {
-              name: "Tourism & Lodging",
-              items: ["Boutique Hotels", "Luxury Resorts", "Guest Houses", "Homestays", "Hostels", "Eco-Tourism", "Glamping", "Wildlife Lodges", "Villa Rentals", "Wellness Retreats"]
-            },
-            {
-              name: "Travel & Experiences",
-              items: ["Travel Agencies", "Tour Operators", "Adventure Sports", "Destination Wedding Management", "Event Management", "Rent-a-Car Fleets", "Tourist Transport Fleets"]
-            }
-          ]
+          subgroups: [{ items: ["Software & SaaS", "Hardware & Devices", "IT Services & Consulting", "Telecommunications", "Cybersecurity", "FinTech", "Other Technology"] }]
         },
         {
           id: '5',
-          name: "TRADE, LOGISTICS & INFRASTRUCTURE",
+          name: "Food & Beverage",
           active: true,
-          subgroups: [
-            {
-              name: "Wholesale & Retail Trade",
-              items: ["Supermarkets", "Grocery Chains", "Consumer Electronics Stores", "Appliance Stores", "Furniture Showrooms", "Home Decor Showrooms", "Automobile Dealerships"]
-            },
-            {
-              name: "Import, Export & Supply Chain",
-              items: ["Commodity Importing", "Export Trading Houses", "Freight Forwarding", "Customs Clearing", "Warehousing", "Cold Storage", "Fulfillment Centers"]
-            },
-            {
-              name: "Real Estate & Construction",
-              items: ["Residential Apartments", "Condominiums", "Commercial Property Development", "Construction Contracting", "Interior Fitting", "Building Material Retail"]
-            },
-            {
-              name: "Energy & Utilities",
-              items: ["Solar PV Installation", "Net Metering", "Mini-Hydro Power Plants", "Wind Power Plants", "Waste Management", "Recycling Plants"]
-            }
-          ]
+          subgroups: [{ items: ["Restaurants & Cafes", "Food Processing & Packaged Foods", "Beverage Production", "Catering Services", "Cloud Kitchens", "Other Food & Beverage"] }]
         },
         {
           id: '6',
-          name: "SERVICES, FINANCE & HEALTHCARE",
+          name: "Healthcare",
           active: true,
-          subgroups: [
-            {
-              name: "Banking & Finance",
-              items: ["Microfinance Companies", "Leasing Companies", "Insurance Brokerages", "Insurance Advisory", "Investment Funds", "Wealth Management"]
-            },
-            {
-              name: "Professional & Corporate Services",
-              items: ["Legal Firms", "Auditing Firms", "Accounting Firms", "Digital Marketing", "SEO Agencies", "Ad Agencies", "Recruitment Consultancies", "HR Consultancies", "Printing Houses", "Publishing Houses", "Media Houses"]
-            },
-            {
-              name: "Healthcare & Wellness",
-              items: ["Private Hospitals", "Medical Clinics", "Medical Laboratories", "Diagnostic Centers", "Pharmaceuticals", "Pharmacy Chains", "Ayurveda Centers", "Spas", "Wellness Clinics", "Fitness Centers", "Gyms", "Sports Academies"]
-            },
-            {
-              name: "Education & EdTech",
-              items: ["International Schools", "Preschools", "Higher Education Colleges", "Vocational Institutes", "Online Learning Platforms", "Tuition Centers"]
-            }
-          ]
+          subgroups: [{ items: ["Hospitals & Clinics", "Pharmaceuticals", "Medical Devices", "Fitness & Wellness Centers", "Ayurveda & Traditional Medicine", "Other Healthcare"] }]
+        },
+        {
+          id: '7',
+          name: "Construction & Real Estate",
+          active: true,
+          subgroups: [{ items: ["Commercial Real Estate", "Residential Development", "Architecture & Interior Design", "Civil Engineering", "Property Management", "Other Construction"] }]
+        },
+        {
+          id: '8',
+          name: "Services & Consulting",
+          active: true,
+          subgroups: [{ items: ["Financial & Accounting", "Legal Services", "Marketing & Advertising", "HR & Recruitment", "Education & Training", "Logistics & Transport", "Other Services"] }]
         }
       ];
       localStorage.setItem(this.categoriesKey, JSON.stringify(seedData));
