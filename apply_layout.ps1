@@ -13,7 +13,7 @@ $faLink = '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/li
 
 $files = Get-ChildItem -Filter *.html
 foreach ($file in $files) {
-    if ($file.Name -in @('index.html', 'submit.html', 'sidebar-component.html')) {
+    if ($file.Name -in @('index.html', 'sidebar-component.html', 'login.html', 'register.html')) {
         continue
     }
 

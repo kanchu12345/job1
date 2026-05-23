@@ -3,116 +3,387 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register | HelaInvest</title>
+    <title>Create an Account | HelaInvest</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body { background: #f4f6f8; font-family: 'Inter', sans-serif; }
-        .auth-container { max-width: 550px; margin: 80px auto; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; border-top: 4px solid #003399; }
-        .auth-header { text-align: center; padding: 20px; background: #fafafa; border-bottom: 1px solid #eee; }
-        .auth-header .logo { font-size: 1.5rem; font-weight: 900; color: #003399; text-decoration: none; }
-        .auth-header .logo span { color: #cc9900; }
-        .auth-body { padding: 30px; }
-        .quote-container { text-align: center; margin-bottom: 25px; padding: 15px; background: #f0f4ff; border-radius: 6px; border-left: 4px solid #003399; }
-        .quote-text { font-size: 0.95rem; font-style: italic; color: #333; margin-bottom: 5px; }
-        .quote-author { font-size: 0.8rem; font-weight: bold; color: #003399; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 0.8rem; font-weight: 600; color: #444; margin-bottom: 5px; }
-        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; }
-        .btn-submit { width: 100%; padding: 12px; background: #003399; color: #fff; border: none; border-radius: 4px; font-weight: 700; font-size: 1rem; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        .btn-submit:hover { background: #002266; }
-        .divider { text-align: center; margin: 20px 0; position: relative; }
-        .divider::before { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 1px; background: #ddd; z-index: 1; }
-        .divider span { background: #fff; padding: 0 10px; color: #888; font-size: 0.8rem; position: relative; z-index: 2; }
-        .footer-links { text-align: center; margin-top: 20px; }
-        .footer-links a { margin: 0 8px; font-size: 0.9rem; color: #003399; }
-        .google-icon { width: 18px; height: 18px; margin-right: 10px; }
-        .google-btn:hover { background: #f9f9f9 !important; }
-    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            background: #f4f7f6; 
+            font-family: 'Inter', sans-serif; 
+            margin: 0; 
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
 
+        .auth-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
 
+        /* Left Side: Branding & Info */
+        .auth-sidebar {
+            flex: 1;
+            background: linear-gradient(135deg, #0d47a1 0%, #002266 100%);
+            color: #fff;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
 
-<!-- Top Bar -->
-    <div class="top-bar-new">
-        <div class="container">
-            <div style="display: flex; justify-content: flex-end; align-items: center;">
-                <a href="admin.html">Admin Login</a>
-                <span style="margin: 0 10px; color: white;">|</span>
-                <a href="faq.html">Help & Support</a>
-            </div>
-        </div>
-    </div>
+        .auth-sidebar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+            z-index: 1;
+        }
 
-    <!-- Main Header -->
-    <header class="main-header-new">
-        <div class="container header-inner-new">
-            <!-- Logo -->
-            <a href="index.html" class="logo-new">
-                <span class="hela">Hela</span><span class="invest">Invest</span>
-            </a>
+        .sidebar-content {
+            position: relative;
+            z-index: 2;
+            max-width: 480px;
+            margin: 0 auto;
+        }
 
-                                    <!-- Center Spacer -->
-            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
-                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
-            </div>
+        .sidebar-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+        }
+        .sidebar-logo span { color: #cc9900; }
 
-            <!-- Action Buttons -->
-            <div class="header-actions-new" id="header-auth">
-                <a href="login.html" class="login-link-new">Login</a>
-                <a href="register.html" class="btn-register-new">Register</a>
-            </div>
-        </div>
-    </header>
+        .sidebar-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
 
-    <div class="auth-container">
-        <div class="auth-header">
-            <a href="index.html" class="logo">Hela<span>Invest</span></a>
-        </div>
-        <div class="auth-body">
-            
-            <div class="quote-container">
-                <div class="quote-text">"Capital isn't scarce; vision is."</div>
-                <div class="quote-author">– Sam Walton</div>
-                <div style="font-size: 0.8rem; color: #666; margin-top: 10px;">Join HelaInvest today to publish your investment opportunities and connect with our network of investors.</div>
-            </div>
+        .sidebar-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 50px;
+        }
 
-            <form id="register-form">
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="reg-name" required placeholder="e.g. John Doe">
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="reg-email" required placeholder="john@example.com">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="reg-password" required placeholder="Minimum 6 characters">
-                </div>
+        .feature-list { list-style: none; padding: 0; margin: 0; }
+        .feature-item { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 25px;
+        }
+        .feature-icon {
+            background: rgba(255,255,255,0.1);
+            color: #cc9900;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .feature-text h4 { margin: 0 0 5px 0; font-size: 1.05rem; font-weight: 600; }
+        .feature-text p { margin: 0; font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.5; }
+
+        /* Right Side: Form */
+        .auth-main {
+            flex: 1.2;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .auth-form-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .back-home:hover { color: #0d47a1; }
+
+        .auth-form-header h2 {
+            font-size: 2rem;
+            color: #1a1a1a;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .auth-form-header p {
+            color: #666;
+            margin: 0 0 30px 0;
+            font-size: 1rem;
+        }
+
+        .role-selector { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+        .role-card {
+            flex: 1; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 12px; 
+            padding: 18px 15px;
+            text-align: center; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+            background: #fff;
+            position: relative;
+        }
+        .role-card:hover { 
+            border-color: #cbd5e1; 
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+        .role-card.active { 
+            border-color: #0d47a1; 
+            background: #f8fafc; 
+            box-shadow: 0 0 0 1px #0d47a1;
+        }
+        .role-card.active::after {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: #0d47a1;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.1rem;
+        }
+        .role-icon { font-size: 1.8rem; color: #64748b; margin-bottom: 10px; transition: color 0.2s; }
+        .role-card.active .role-icon { color: #0d47a1; }
+        .role-card strong { display: block; font-size: 1rem; color: #1e293b; margin-bottom: 4px; font-weight: 700; }
+        .role-card small { font-size: 0.8rem; color: #64748b; display: block; line-height: 1.3; }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 8px; }
+        .form-group input { 
+            width: 100%; 
+            padding: 14px 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #f8fafc;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #0d47a1;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
+        }
+
+        .btn-submit { 
+            width: 100%; 
+            padding: 14px; 
+            background: #0d47a1; 
+            color: #fff; 
+            border: none; 
+            border-radius: 8px; 
+            font-weight: 600; 
+            font-size: 1.05rem; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            transition: all 0.2s; 
+            box-shadow: 0 4px 6px rgba(13,71,161,0.2);
+        }
+        .btn-submit:hover { 
+            background: #0a3578; 
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(13,71,161,0.25);
+        }
+
+        .divider { text-align: center; margin: 25px 0; position: relative; }
+        .divider::before { content: ""; position: absolute; left: 0; top: 50%; width: 100%; height: 1px; background: #e2e8f0; z-index: 1; }
+        .divider span { background: #fff; padding: 0 15px; color: #64748b; font-size: 0.85rem; position: relative; z-index: 2; font-weight: 500; }
+
+        .google-btn {
+            background: #fff;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .google-btn:hover {
+            background: #f8fafc;
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .google-icon { width: 20px; height: 20px; margin-right: 12px; }
+
+        .auth-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #64748b;
+        }
+        .auth-footer a {
+            color: #0d47a1;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .auth-footer a:hover { color: #0a3578; text-decoration: underline; }
+
+        #register-error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #dc2626;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .auth-wrapper { flex-direction: column; }
+            .auth-sidebar { display: none; }
+            .auth-main { padding: 40px 20px; }
+            .back-home { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-wrapper">
+        <!-- Left Sidebar Branding -->
+        <div class="auth-sidebar">
+            <div class="sidebar-content">
+                <a href="index.html" class="sidebar-logo">Hela<span>Invest</span></a>
                 
-                <button type="submit" class="btn-submit">Register to Publish</button>
-            </form>
+                <h1 class="sidebar-title">Unlock your true potential.</h1>
+                <p class="sidebar-subtitle">Join Sri Lanka's premier private network of qualified investors, business buyers, and advisors.</p>
+                
+                <ul class="feature-list">
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-handshake"></i></div>
+                        <div class="feature-text">
+                            <h4>Exclusive Network</h4>
+                            <p>Connect instantly with verified investors and established businesses looking to scale.</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                        <div class="feature-text">
+                            <h4>Raise Capital Fast</h4>
+                            <p>Showcase your proposals to an engaged audience ready to fund innovative ideas.</p>
+                        </div>
+                    </li>
+                    <li class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div class="feature-text">
+                            <h4>Secure & Confidential</h4>
+                            <p>Your data and business plans are protected by industry-leading security protocols.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
             
-            <div class="divider"><span>OR</span></div>
+            <div style="position: relative; z-index: 2; font-size: 0.85rem; color: rgba(255,255,255,0.5);">
+                &copy; 2026 HelaInvest. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Right Side Form -->
+        <div class="auth-main">
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left" style="margin-right: 5px;"></i> Back to Home</a>
             
-            <button type="button" id="mock-google-btn" class="btn-submit google-btn" style="background:#fff; color:#444; border:1px solid #ccc; margin-top:10px; display:flex; align-items:center; justify-content:center;">
-                <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-                    <path fill="none" d="M0 0h48v48H0z"/>
-                </svg>
-                Sign up with Google
-            </button>
-            
-            <div class="footer-links">
-                <a href="login.html">Already have an account? Log In</a>
+            <div class="auth-form-container">
+                <div class="auth-form-header">
+                    <h2>Create an Account</h2>
+                    <p>Select your account type to get started</p>
+                </div>
+
+                <div id="register-error"></div>
+
+                <div class="role-selector">
+                    <div class="role-card active" data-role="client" onclick="selectRole('client')">
+                        <div class="role-icon"><i class="fas fa-user-tie"></i></div>
+                        <strong>Job Seeker</strong>
+                        <small>Investor / Seeking Advisory</small>
+                    </div>
+                    <div class="role-card" data-role="publisher" onclick="selectRole('publisher')">
+                        <div class="role-icon"><i class="fas fa-building"></i></div>
+                        <strong>Job Publisher</strong>
+                        <small>Business Owner / Franchisor</small>
+                    </div>
+                </div>
+
+                <form id="register-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="reg-name" required placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="reg-email" required placeholder="john@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="reg-password" required placeholder="At least 6 characters">
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">Create Account</button>
+                </form>
+                
+                <div class="divider"><span>Or continue with</span></div>
+                
+                <button type="button" id="mock-google-btn" class="btn-submit google-btn">
+                    <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        <path fill="none" d="M0 0h48v48H0z"/>
+                    </svg>
+                    Sign up with Google
+                </button>
+                
+                <div class="auth-footer">
+                    Already have an account? <a href="login.html">Log in here</a>
+                </div>
             </div>
         </div>
     </div>
-<!-- Firebase injected below -->
-        <!-- Firebase Core SDKs -->
+
+    <!-- Firebase Core SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
@@ -120,8 +391,13 @@
     
     <script src="app.js"></script>
     <script>
-        // Set the role to 'publisher' automatically since this page is specifically for publishing ads.
-        const selectedRole = 'publisher';
+        // Role Selection Logic
+        let selectedRole = 'client';
+        function selectRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.role-card[data-role="${role}"]`).classList.add('active');
+        }
         
         // Register handler
         document.getElementById('register-form').addEventListener('submit', async (e) => {
@@ -129,6 +405,12 @@
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
             const pass = document.getElementById('reg-password').value;
+            const btn = document.querySelector('#register-form .btn-submit');
+            const errorEl = document.getElementById('register-error');
+            
+            btn.innerHTML = 'Creating Account... <i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+            errorEl.style.display = 'none';
             
             try {
                 // Register user
@@ -137,16 +419,27 @@
                 // Automatically log them in (if not already handled by Firebase)
                 await authStore.login(email, pass);
                 
-                // Redirect to the dashboard page since they want to publish an ad
-                alert("Registration successful! You can now view your dashboard.");
-                window.location.href = 'dashboard.html'; 
+                // Redirect based on role
+                if (user.role === 'publisher') {
+                    window.location.href = 'publisher-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } catch (err) {
-                alert(err.message);
+                errorEl.innerText = err.message;
+                errorEl.style.display = 'block';
+                btn.innerHTML = 'Create Account';
+                btn.disabled = false;
             }
         });
 
         // Google sign-up
         document.getElementById('mock-google-btn').addEventListener('click', async () => {
+            const btn = document.getElementById('mock-google-btn');
+            const errorEl = document.getElementById('register-error');
+            
+            errorEl.style.display = 'none';
+            
             try {
                 const user = await authStore.loginWithGoogle(selectedRole);
                 
@@ -165,50 +458,16 @@
                     }
                 }
                 
-                alert("Registration successful via Google! You can now view your dashboard.");
-                window.location.href = 'dashboard.html';
+                if (user.role === 'publisher') {
+                    window.location.href = 'publisher-dashboard.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             } catch (err) {
-                alert(err.message);
+                errorEl.innerText = err.message;
+                errorEl.style.display = 'block';
             }
         });
     </script>
-
-<!-- Footer -->
-<footer class="hela-footer">
-    <div class="container">
-        <div class="hela-footer-grid">
-            <div class="hela-footer-about">
-                <h3 class="footer-logo-badge"><span class="hela">Hela</span><span class="invest">Invest</span></h3>
-                <p>Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.</p>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="sitemap.html">Site Map</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Legal & Support</h4>
-                <ul>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="faq.html">Help & Support</a></li>
-                    <li><a href="admin.html">Admin</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="hela-footer-bottom">
-            <div>&copy; 2026 HelaInvest. All rights reserved.</div>
-            <div>Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a></div>
-        </div>
-    </div>
-</footer>
-
+</body>
 </html>
-
-
-
-
-

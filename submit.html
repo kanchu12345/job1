@@ -86,14 +86,15 @@
             cursor: help;
         }
     </style>
-</head>
-<body class="text-gray-800 antialiased min-h-screen flex flex-col">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Top Bar -->
+
+
+<!-- Top Bar -->
     <div class="top-bar-new">
         <div class="container">
             <div style="display: flex; justify-content: flex-end; align-items: center;">
-                <a href="admin.html">Admin Login</a>
+                <a href="admin.html?v=5">Admin Login</a>
                 <span style="margin: 0 10px; color: white;">|</span>
                 <a href="faq.html">Help & Support</a>
             </div>
@@ -108,10 +109,14 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-                                    <!-- Center Spacer -->
-            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
-                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
-            </div>
+            <!-- Main Navigation -->
+            <nav class="header-nav-new" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 30px;">
+                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
+                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
+                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
+                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
+                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
+            </nav>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -120,6 +125,9 @@
             </div>
         </div>
     </header>
+
+
+    
 
     <!-- Main Content -->
     <main class="flex-grow flex items-start justify-center p-4 md:p-8">
@@ -669,40 +677,45 @@
         });
     </script>
 
+
+
+
 <!-- Footer -->
-<footer class="hela-footer">
+<footer class="hela-footer-thin">
     <div class="container">
-        <div class="hela-footer-grid">
-            <div class="hela-footer-about">
-                <h3 class="footer-logo-badge"><span class="hela">Hela</span><span class="invest">Invest</span></h3>
-                <p>Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.</p>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="sitemap.html">Site Map</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-            </div>
-            <div class="hela-footer-links">
-                <h4>Legal & Support</h4>
-                <ul>
-                    <li><a href="terms.html">Terms of Service</a></li>
-                    <li><a href="privacy.html">Privacy Policy</a></li>
-                    <li><a href="faq.html">Help & Support</a></li>
-                    <li><a href="admin.html">Admin</a></li>
-                </ul>
-            </div>
+        <!-- Links Bar -->
+        <div class="footer-thin-links">
+            <a href="index.html">Home</a>
+            <span class="divider">|</span>
+            <a href="sitemap.html">Site Map</a>
+            <span class="divider">|</span>
+            <a href="contact.html">Contact Us</a>
+            <span class="divider">|</span>
+            <a href="terms.html">Terms of Service</a>
+            <span class="divider">|</span>
+            <a href="privacy.html">Privacy Policy</a>
+            <span class="divider">|</span>
+            <a href="faq.html">Help & Support</a>
+            <span class="divider">|</span>
+            <a href="admin.html?v=5">Admin</a>
         </div>
-        <div class="hela-footer-bottom">
-            <div>&copy; 2026 HelaInvest. All rights reserved.</div>
-            <div>Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a></div>
+    </div>
+    <!-- Copyright & Socials Bar -->
+    <div class="footer-thin-bottom">
+        <div class="container footer-thin-bottom-inner">
+            <div class="copyright-text">
+                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
         </div>
     </div>
 </footer>
 
-</body>
 </html>
 
 

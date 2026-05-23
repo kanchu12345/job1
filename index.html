@@ -96,10 +96,14 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Center Spacer -->
-            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
-                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
-            </div>
+            <!-- Main Navigation -->
+            <nav class="header-nav-new" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 30px;">
+                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
+                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
+                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
+                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
+                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
+            </nav>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -185,13 +189,8 @@
                 </optgroup>
             </select>
             
-            <!-- Category Modal Trigger -->
-            <button type="button" id="btn-open-category-modal" class="pill-btn">
-                Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
-            </button>
-            
-            <select id="filter-industry" style="display:none;">
-                <option value="">All Industries</option>
+            <select id="filter-industry" class="pill-select">
+                <option value="">All Categories</option>
             </select>
 
             <select id="filter-stage" class="pill-select">
@@ -330,13 +329,6 @@ window.initializePage = async function() {
     const filterInvestMax = document.getElementById('filter-invest-max');
     const btnClearFilters = document.getElementById('btn-clear-filters');
     
-    // Modal Logic
-    const categoryModal = document.getElementById('category-modal');
-    const btnOpenCategoryModal = document.getElementById('btn-open-category-modal');
-    const modalLeftCol = document.getElementById('modal-left-col');
-    const modalRightCol = document.getElementById('modal-right-col');
-    const modalShowPostsBtn = document.getElementById('modal-show-posts-btn');
-    
     let activeMainCategoryIndex = 0;
     let selectedSubcategory = '';
 
@@ -429,19 +421,13 @@ window.initializePage = async function() {
         selectedSubcategory = '';
         renderSidebarMain();
         
-        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
         applyFilters();
     };
 
     window.selectSidebarSubcategory = function(e, subcat, mainIndex) {
         e.preventDefault();
         selectedSubcategory = subcat;
-        filterIndustry.value = ''; // Clear dropdown
-        
-        if (btnOpenCategoryModal) {
-            let shortCat = subcat.length > 20 ? subcat.substring(0, 18) + '...' : subcat;
-            btnOpenCategoryModal.innerHTML = shortCat + ' <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
-        }
+        filterIndustry.value = subcat; 
 
         applyFilters();
         renderSidebarSub(mainIndex); // re-render to highlight selection
@@ -464,19 +450,7 @@ window.initializePage = async function() {
 
     // Populate filter dropdowns from published listings data
     try {
-        const industries = [...new Set(allListings.map(l => l.industry).filter(Boolean))];
-        const locations = [...new Set(allListings.map(l => l.district).filter(Boolean))];
-        
-        // Reset and populate industry and location dropdowns
-        filterIndustry.innerHTML = '<option value="">All Industries</option>';
-        industries.sort().forEach(ind => {
-            filterIndustry.innerHTML += `<option value="${ind}">${ind}</option>`;
-        });
-        
-        filterLocation.innerHTML = '<option value="">All of Sri Lanka</option>';
-        locations.sort().forEach(loc => {
-            filterLocation.innerHTML += `<option value="${loc}">${loc}</option>`;
-        });
+        // We keep the hardcoded locations in HTML to cover all of Sri Lanka
     } catch (e) {
         console.error("Error populating dropdown filters:", e);
     }
@@ -486,6 +460,29 @@ window.initializePage = async function() {
         if (listings.length === 0) {
             tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No businesses found matching your criteria.</td></tr>';
             return;
+        }
+        
+        if (window.location.hash) {
+            const industry = decodeURIComponent(window.location.hash.substring(1));
+            filterIndustry.value = industry;
+        }
+
+        // Populate industry dropdown from categoryStore
+        if (filterIndustry && typeof categoryStore !== 'undefined') {
+            const categories = categoryStore.getAll();
+            categories.forEach(cat => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = cat.name;
+                (cat.subgroups || []).forEach(group => {
+                    (group.items || []).forEach(item => {
+                        const opt = document.createElement('option');
+                        opt.value = item;
+                        opt.textContent = item;
+                        optgroup.appendChild(opt);
+                    });
+                });
+                filterIndustry.appendChild(optgroup);
+            });
         }
         
         listings.forEach(listing => {
