@@ -885,7 +885,7 @@ a:hover {
 .tj-table tbody tr { background-color: #ffffff; transition: all 0.2s ease; }
 .tj-table tbody tr:nth-child(even) { background-color: #f8fafc; }
 .tj-table tbody tr:hover { background-color: #f0fdf4; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.03); z-index: 1; position: relative; }
-.tj-table td { padding: 20px; vertical-align: middle; color: #334155; font-size: 0.95rem; }
+.tj-table td { padding: 10px 15px; vertical-align: middle; color: #334155; font-size: 0.9rem; }
 .tj-table td:first-child { text-align: left; background: transparent; border-right: none; font-weight: normal; }
 .tj-table .biz-title a { color: #0f172a; font-weight: 700; text-decoration: none; font-size: 1.1rem; display: block; margin-bottom: 5px; transition: color 0.2s; }
 .tj-table .biz-title a:hover { color: #2563eb; }
