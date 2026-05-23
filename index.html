@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -16,7 +16,7 @@
             <div style="display: flex; justify-content: flex-end; align-items: center;">
                 <a href="admin.html">Admin Login</a>
                 <span style="margin: 0 10px; color: white;">|</span>
-                <a href="#">Help & Support</a>
+                <a href="faq.html">Help & Support</a>
             </div>
         </div>
     </div>
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tr.onmouseover = function() { this.style.backgroundColor = listing.boosted ? '#fef3c7' : '#f8fafc'; }
             tr.onmouseout = function() { this.style.backgroundColor = listing.boosted ? '#fffbea' : 'transparent'; }
             
-            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">Ã¢Â­Â</span> ' : '';
+            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">â­</span> ' : '';
             const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
             const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
             
@@ -468,9 +468,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="hela-footer-links">
                 <h4>Legal & Support</h4>
                 <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Help & Support</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="faq.html">Help & Support</a></li>
                     <li><a href="admin.html">Admin</a></li>
                 </ul>
             </div>

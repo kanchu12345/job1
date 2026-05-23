@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -388,7 +388,7 @@
             <div style="display: flex; justify-content: flex-end; align-items: center;">
                 <a href="admin.html">Admin Login</a>
                 <span style="margin: 0 10px; color: white;">|</span>
-                <a href="#">Help & Support</a>
+                <a href="faq.html">Help & Support</a>
             </div>
         </div>
     </div>
@@ -435,8 +435,8 @@
                 </div>
             </div>
             <div class="header-right">
-                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">â€”</strong></div>
-                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">â€”</strong></div>
+                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">—</strong></div>
+                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">—</strong></div>
             </div>
         </div>
 
@@ -468,10 +468,10 @@
                 <div class="ad-title-large" id="ad-large-title">Loading...</div>
                 
                 <div class="ad-details-grid">
-                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">—</span></div>
+                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">—</span></div>
+                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">—</span></div>
+                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">—</span></div>
                 </div>
 
                 <div id="pub-image-container" style="display:none; margin-bottom: 20px;"></div>
@@ -605,7 +605,7 @@
 
             function setEl(sel, val) {
                 const el = document.getElementById(sel);
-                if (el) el.innerHTML = val || 'â€”';
+                if (el) el.innerHTML = val || '—';
             }
 
             // If we have data from app.js store
@@ -686,11 +686,11 @@
                     };
                     const fmtMoney = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? formatLKR(n) : 'â€”';
+                        return n && n > 0 ? formatLKR(n) : '—';
                     };
                     const fmtPercent = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? `${n}%` : 'â€”';
+                        return n && n > 0 ? `${n}%` : '—';
                     };
 
                     const items = [
@@ -714,7 +714,7 @@
                         ['Assets (Tangible/Intangible)', listing.assets, true],
                         ['Objective', listing.objective, true],
                         ['Additional Notes', listing.additionalNotes, true],
-                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : 'â€”', true],
+                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : '—', true],
 
                         ['Contact Name', listing.contactName],
                         ['Contact Phone', listing.phone],
@@ -722,9 +722,9 @@
                     ];
 
                     const safeText = (v) => {
-                        if (v === null || v === undefined) return 'â€”';
+                        if (v === null || v === undefined) return '—';
                         const s = String(v).trim();
-                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'â€”';
+                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '—';
                     };
 
                     allGrid.innerHTML = items
@@ -796,9 +796,9 @@
             <div class="hela-footer-links">
                 <h4>Legal & Support</h4>
                 <ul>
-                    <li><a href="#">Terms of Service</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Help & Support</a></li>
+                    <li><a href="terms.html">Terms of Service</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="faq.html">Help & Support</a></li>
                     <li><a href="admin.html">Admin</a></li>
                 </ul>
             </div>
