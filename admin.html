@@ -89,9 +89,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-
-
-
+<body>
 
 
     <!-- Login Screen -->
@@ -420,7 +418,7 @@
             const listings = store.getAll().reverse();
             const users = authStore.getUsers().reverse();
             const categories = categoryStore.getAll();
-            const settings = settingsStore.getSettings();
+            const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
 
             // Stats — pending counts pending + pending_payment + review
             document.getElementById('stat-total').innerText = listings.length;
@@ -437,6 +435,14 @@
             document.getElementById('set-rules').value = settings.adRules || '';
             document.getElementById('set-payment').value = settings.paymentInstructions || '';
         }
+
+        // Auto-refresh when another tab (like the submit page) modifies localStorage
+        window.addEventListener('storage', function(e) {
+            // Only reload if we are already logged in (login screen is hidden)
+            if (document.getElementById('login-screen').style.display === 'none') {
+                loadData();
+            }
+        });
 
         window.saveSettings = function() {
             const newSettings = {
@@ -825,6 +831,5 @@
 
     </script>
 
-
-
+</body>
 </html>
