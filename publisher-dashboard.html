@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -88,7 +88,7 @@
         .pay-diagram { display: flex; gap: 20px; align-items: flex-start; margin-top: 25px; background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef; overflow-x: auto; }
         .pay-instructions { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 40px; padding-top: 80px; }
         .pay-inst-line { position: relative; background: #e2e3e5; padding: 8px 12px; border-radius: 4px; font-size: 0.85rem; color: #444; }
-        .pay-inst-line::after { content: '➔'; position: absolute; right: -25px; top: 50%; transform: translateY(-50%); color: #cc0000; font-size: 1.2rem; }
+        .pay-inst-line::after { content: 'âž”'; position: absolute; right: -25px; top: 50%; transform: translateY(-50%); color: #cc0000; font-size: 1.2rem; }
         
         .pay-form-mock { width: 320px; border: 5px solid; border-image: linear-gradient(to bottom, #cc0000, #ff9900) 1; background: #fff; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); flex-shrink: 0; }
         .pay-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; font-size: 0.9rem; }
@@ -124,21 +124,14 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Scrolling Text -->
-            <div class="header-scroller" style="display: flex; align-items: center;">
-                <div style="font-weight: 800; color: var(--primary-color); padding-right: 15px; margin-right: 15px; border-right: 2px solid var(--border-color); font-size: 0.95rem; text-transform: uppercase;">Our Services</div>
-                <marquee behavior="scroll" direction="left" scrollamount="4" class="header-scroller-inner" style="display: block; flex: 1;">
-                    <span>• Business Registration</span>
-                    <span>• Company Secretarial services</span>
-                    <span>• Accounting &amp; Bookkeeping</span>
-                    <span>• Business Valuation</span>
-                    <span>• Financial Due Diligence</span>
-                    <span>• Business plans</span>
-                    <span>• Business Proposals</span>
-                    <span>• Tax advisory</span>
-                    <span>• Other Business Advisory service</span>
-                </marquee>
-            </div>
+                        <!-- Main Navigation -->
+            <nav class="header-nav-new" style="display: flex; align-items: center; gap: 30px;">
+                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
+                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
+                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
+                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
+                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
+            </nav>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -795,3 +788,4 @@
 </footer>
 
 </html>
+

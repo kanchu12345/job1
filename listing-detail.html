@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -401,21 +401,14 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Scrolling Text -->
-            <div class="header-scroller" style="display: flex; align-items: center;">
-                <div style="font-weight: 800; color: var(--primary-color); padding-right: 15px; margin-right: 15px; border-right: 2px solid var(--border-color); font-size: 0.95rem; text-transform: uppercase;">Our Services</div>
-                <marquee behavior="scroll" direction="left" scrollamount="4" class="header-scroller-inner" style="display: block; flex: 1;">
-                    <span>• Business Registration</span>
-                    <span>• Company Secretarial services</span>
-                    <span>• Accounting &amp; Bookkeeping</span>
-                    <span>• Business Valuation</span>
-                    <span>• Financial Due Diligence</span>
-                    <span>• Business plans</span>
-                    <span>• Business Proposals</span>
-                    <span>• Tax advisory</span>
-                    <span>• Other Business Advisory service</span>
-                </marquee>
-            </div>
+                        <!-- Main Navigation -->
+            <nav class="header-nav-new" style="display: flex; align-items: center; gap: 30px;">
+                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
+                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
+                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
+                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
+                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
+            </nav>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -446,8 +439,8 @@
                 </div>
             </div>
             <div class="header-right">
-                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">—</strong></div>
-                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">—</strong></div>
+                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">â€”</strong></div>
+                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">â€”</strong></div>
             </div>
         </div>
 
@@ -479,10 +472,10 @@
                 <div class="ad-title-large" id="ad-large-title">Loading...</div>
                 
                 <div class="ad-details-grid">
-                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">—</span></div>
-                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">—</span></div>
-                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">—</span></div>
-                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">—</span></div>
+                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">â€”</span></div>
                 </div>
 
                 <div id="pub-image-container" style="display:none; margin-bottom: 20px;"></div>
@@ -610,7 +603,7 @@
 
             function setEl(sel, val) {
                 const el = document.getElementById(sel);
-                if (el) el.innerHTML = val || '—';
+                if (el) el.innerHTML = val || 'â€”';
             }
 
             // If we have data from app.js store
@@ -691,11 +684,11 @@
                     };
                     const fmtMoney = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? formatLKR(n) : '—';
+                        return n && n > 0 ? formatLKR(n) : 'â€”';
                     };
                     const fmtPercent = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? `${n}%` : '—';
+                        return n && n > 0 ? `${n}%` : 'â€”';
                     };
 
                     const items = [
@@ -719,7 +712,7 @@
                         ['Assets (Tangible/Intangible)', listing.assets, true],
                         ['Objective', listing.objective, true],
                         ['Additional Notes', listing.additionalNotes, true],
-                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : '—', true],
+                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : 'â€”', true],
 
                         ['Contact Name', listing.contactName],
                         ['Contact Phone', listing.phone],
@@ -727,9 +720,9 @@
                     ];
 
                     const safeText = (v) => {
-                        if (v === null || v === undefined) return '—';
+                        if (v === null || v === undefined) return 'â€”';
                         const s = String(v).trim();
-                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '—';
+                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'â€”';
                     };
 
                     allGrid.innerHTML = items
@@ -816,3 +809,4 @@
 </footer>
 
 </html>
+

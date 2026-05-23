@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -111,21 +111,14 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Scrolling Text -->
-            <div class="header-scroller" style="display: flex; align-items: center;">
-                <div style="font-weight: 800; color: var(--primary-color); padding-right: 15px; margin-right: 15px; border-right: 2px solid var(--border-color); font-size: 0.95rem; text-transform: uppercase;">Our Services</div>
-                <marquee behavior="scroll" direction="left" scrollamount="4" class="header-scroller-inner" style="display: block; flex: 1;">
-                    <span>• Business Registration</span>
-                    <span>• Company Secretarial services</span>
-                    <span>• Accounting &amp; Bookkeeping</span>
-                    <span>• Business Valuation</span>
-                    <span>• Financial Due Diligence</span>
-                    <span>• Business plans</span>
-                    <span>• Business Proposals</span>
-                    <span>• Tax advisory</span>
-                    <span>• Other Business Advisory service</span>
-                </marquee>
-            </div>
+                        <!-- Main Navigation -->
+            <nav class="header-nav-new" style="display: flex; align-items: center; gap: 30px;">
+                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
+                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
+                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
+                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
+                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
+            </nav>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -188,7 +181,7 @@
 
         <main class="main-content">
             <div class="search-bar">
-                <input type="text" id="search-input" placeholder="🔍 Search by keyword, business name, or description...">
+                <input type="text" id="search-input" placeholder="ðŸ” Search by keyword, business name, or description...">
             </div>
 
             <div class="grid-2" id="listings-grid">
@@ -242,7 +235,7 @@
                         <div class="card-header">
                             <a href="listing-detail.html?id=${l.id}" class="card-title">${l.businessName}</a>
                             <div class="card-meta">
-                                <span>📍 ${l.district}</span>
+                                <span>ðŸ“ ${l.district}</span>
                             </div>
                         </div>
                         <div class="card-body">
@@ -312,3 +305,4 @@
 </footer>
 
 </html>
+
