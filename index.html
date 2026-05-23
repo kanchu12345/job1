@@ -6,9 +6,13 @@
     <title>HelaInvest - Business for Sale, Investors, Franchises & Advisors</title>
     <meta name="description" content="Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.">
     <link rel="stylesheet" href="style.css?v=4">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+        console.error("HelaInvest Error: " + message + " in " + (source || 'inline') + " on line " + lineno);
+    };
+    </script>
 
     <!-- Top Bar -->
     <div class="top-bar-new">
@@ -175,15 +179,83 @@
             </div>
         </div>
     </section>
-    <!-- Firebase Core SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="firebase-config.js"></script>
+    <!-- Resilient Script Loader -->
+    <script>
+    // Helper to dynamically load external scripts with timeouts
+    function loadScript(src, timeoutMs = 4000) {
+        return new Promise((resolve, reject) => {
+            var s = document.createElement('script');
+            s.src = src;
+            s.async = true;
+            
+            var timer = setTimeout(function() {
+                s.onerror = null;
+                s.onload = null;
+                reject(new Error("Timeout loading " + src));
+            }, timeoutMs);
+            
+            s.onload = function() {
+                clearTimeout(timer);
+                resolve();
+            };
+            s.onerror = function() {
+                clearTimeout(timer);
+                reject(new Error("Failed to load " + src));
+            };
+            document.head.appendChild(s);
+        });
+    }
+
+    // Sequence load scripts to maintain dependencies
+    async function initScripts() {
+        try {
+            console.log("Loading Firebase SDKs dynamically in parallel...");
+            await Promise.all([
+                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js", 2000),
+                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js", 2000),
+                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js", 2000)
+            ]);
+            console.log("Firebase SDKs loaded successfully.");
+        } catch (e) {
+            console.warn("Could not load Firebase CDN scripts, running in local fallback mode:", e);
+        }
+
+        // Load local configurations and application logic
+        try {
+            await loadScript("firebase-config.js", 2000);
+            await loadScript("app.js", 2000);
+            console.log("Application scripts initialized.");
+            
+            // Execute the page logic after scripts are loaded
+            if (typeof window.initializePage === 'function') {
+                window.initializePage();
+            }
+        } catch (e) {
+            console.error("Critical error loading local scripts:", e);
+        }
+    }
     
-    <script src="app.js"></script>
+    // Start script initialization immediately
+    initScripts();
+    </script>
 <script>
-document.addEventListener('DOMContentLoaded', async () => {
+// Main page controller
+window.initializePage = async function() {
+    // Prevent double execution
+    if (window.pageInitialized) return;
+    window.pageInitialized = true;
+    
+    // Load Font-Awesome dynamically to prevent HTML parser blocking
+    try {
+        var fa = document.createElement('link');
+        fa.rel = 'stylesheet';
+        fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(fa);
+    } catch(e) {
+        console.warn("Failed to load Font Awesome dynamically:", e);
+    }
+    
+    console.log("Initializing page content...");
     const tbody = document.querySelector('.tj-table tbody');
     const searchInput = document.getElementById('sidebar-search-input');
     const searchBtn = document.getElementById('sidebar-search-btn');
@@ -466,7 +538,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
         renderListings(allListings);
     });
-});
+
+};
 </script>
 
 <!-- Footer -->
