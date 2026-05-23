@@ -128,7 +128,8 @@ class AuthStore {
   async login(email, password) {
     if (window.auth) {
       const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
-      return userCredential.user;
+      const role = await this.getUserRoleLocally(userCredential.user.uid);
+      return Object.assign(userCredential.user, { role: role });
     }
     throw new Error("Firebase not initialized");
   }
@@ -542,4 +543,5 @@ class SettingsStore {
 
 // Initialize Settings Store
 const settingsStore = new SettingsStore();
+
 

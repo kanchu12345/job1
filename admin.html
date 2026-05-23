@@ -422,8 +422,8 @@
         // --- Data Loading ---
         async function loadData() {
             try {
-                const listings = await store.getAll().reverse();
-                const users = await authStore.getUsers().reverse();
+                const listings = (await store.getAll()).reverse();
+                const users = (await authStore.getUsers()).reverse();
                 const categories = categoryStore.getAll();
                 const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
 
@@ -844,5 +844,6 @@
 
 </body>
 </html>
+
 
 
