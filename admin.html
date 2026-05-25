@@ -517,14 +517,64 @@
                 return;
             }
 
-            tbody.innerHTML = categories.map(c => `
-                <tr>
-                    <td style="font-weight:600;">${c.name}</td>
-                    <td style="width: 150px;">
-                        <button class="btn-action btn-reject" onclick="deleteCategory('${c.id}')"><i class="fas fa-trash"></i> Delete</button>
+            let html = '';
+            categories.forEach(c => {
+                html += `
+                <tr style="background-color: #f8f9fa;">
+                    <td style="font-weight:700; color: #003399; font-size: 1.05rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            ${c.name}
+                            <div style="display: flex; gap: 5px;">
+                                <input type="text" id="sub-cat-${c.id}" placeholder="Add Sub Category..." style="padding: 5px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 0.8rem;">
+                                <button class="btn-primary" style="padding: 5px 10px; font-size: 0.8rem;" onclick="addSubCategory('${c.id}')">Add</button>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 150px; text-align: right;">
+                        <button class="btn-action btn-reject" onclick="deleteCategory('${c.id}')"><i class="fas fa-trash"></i> Delete Main</button>
                     </td>
                 </tr>
-            `).join('');
+                `;
+                
+                let items = [];
+                if (c.subgroups && c.subgroups.length > 0 && c.subgroups[0].items) {
+                    items = c.subgroups[0].items;
+                }
+                
+                if (items.length > 0) {
+                    items.forEach(item => {
+                        html += `
+                        <tr>
+                            <td style="padding-left: 30px; font-weight: 500; color: #555;">
+                                <i class="fas fa-level-up-alt fa-rotate-90" style="color: #ccc; margin-right: 10px;"></i> ${item}
+                            </td>
+                            <td style="width: 150px; text-align: right;">
+                                <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteSubCategory('${c.id}', '${item.replace(/'/g, "\\'")}')"><i class="fas fa-times"></i></button>
+                            </td>
+                        </tr>
+                        `;
+                    });
+                } else {
+                    html += `<tr><td colspan="2" style="padding-left: 30px; color: #999; font-size: 0.9rem;">No sub categories</td></tr>`;
+                }
+            });
+            tbody.innerHTML = html;
+        }
+
+        window.addSubCategory = function(id) {
+            const input = document.getElementById('sub-cat-' + id);
+            const name = input.value.trim();
+            if (!name) return alert("Please enter a sub category name");
+            categoryStore.addSubCategory(id, name);
+            input.value = '';
+            loadData();
+        }
+
+        window.deleteSubCategory = function(id, name) {
+            if(confirm("Delete sub category '" + name + "'?")) {
+                categoryStore.deleteSubCategory(id, name);
+                loadData();
+            }
         }
 
         window.addCategory = function() {

@@ -726,7 +726,7 @@ class CategoryStore {
 
   save(name) {
     const categories = this.getAll();
-    categories.push({ id: Date.now().toString(), name, active: false });
+    categories.push({ id: Date.now().toString(), name, active: true, subgroups: [{ name: "General", items: [] }] });
     SafeStorage.setItem(this.categoriesKey, JSON.stringify(categories));
   }
 
@@ -734,6 +734,27 @@ class CategoryStore {
     let categories = this.getAll();
     categories = categories.filter(c => c.id !== id);
     SafeStorage.setItem(this.categoriesKey, JSON.stringify(categories));
+  }
+
+  addSubCategory(categoryId, subCategoryName) {
+    const categories = this.getAll();
+    const cat = categories.find(c => c.id === categoryId);
+    if (cat) {
+      if (!cat.subgroups) cat.subgroups = [{ name: "General", items: [] }];
+      if (cat.subgroups.length === 0) cat.subgroups.push({ name: "General", items: [] });
+      if (!cat.subgroups[0].items) cat.subgroups[0].items = [];
+      cat.subgroups[0].items.push(subCategoryName);
+      SafeStorage.setItem(this.categoriesKey, JSON.stringify(categories));
+    }
+  }
+
+  deleteSubCategory(categoryId, subCategoryName) {
+    const categories = this.getAll();
+    const cat = categories.find(c => c.id === categoryId);
+    if (cat && cat.subgroups && cat.subgroups.length > 0 && cat.subgroups[0].items) {
+      cat.subgroups[0].items = cat.subgroups[0].items.filter(item => item !== subCategoryName);
+      SafeStorage.setItem(this.categoriesKey, JSON.stringify(categories));
+    }
   }
 }
 
