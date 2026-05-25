@@ -53,12 +53,12 @@
         }
         .ikman-filters-container {
             flex: 0 0 auto;
-            margin-bottom: 15px; /* Save spacing */
+            margin-bottom: 15px;
         }
         .tj-table-wrap {
             flex: 1;
-            overflow-y: auto; /* Vertically scrollable listings */
-            overflow-x: auto; /* Horizontally scrollable listings */
+            overflow-y: auto;
+            overflow-x: auto;
             min-height: 0;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -66,7 +66,48 @@
         }
         .top-bar-new, .main-header-new, .hela-footer-thin {
             position: relative;
-            z-index: 1010; /* Keep them clickable above any layout overlays */
+            z-index: 1010;
+        }
+
+        /* ── MOBILE FIX: Stack layout vertically on phones ── */
+        @media screen and (max-width: 1024px) {
+            html, body {
+                height: auto !important;
+                overflow: auto !important;
+            }
+            .section.section-white {
+                overflow: visible !important;
+                flex: none !important;
+            }
+            .section.section-white > .container {
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .layout-container {
+                flex-direction: column !important;
+                height: auto !important;
+                min-height: 0 !important;
+                gap: 0 !important;
+            }
+            #sidebar-container {
+                flex: none !important;
+                width: 100% !important;
+                height: auto !important;
+                max-height: 250px !important;
+                overflow-y: auto !important;
+                position: relative !important;
+                top: 0 !important;
+                margin-bottom: 12px !important;
+            }
+            .main-listings {
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .tj-table-wrap {
+                height: 400px !important;
+                overflow-y: auto !important;
+                overflow-x: auto !important;
+            }
         }
     </style>
 </head>
