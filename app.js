@@ -232,6 +232,8 @@ class ListingStore {
         return;
       } catch (e) {
         console.error("Firestore update failed, updating locally:", e);
+        alert("Database update failed (Check Firebase Permissions): " + e.message);
+        throw e;
       }
     }
     const local = this.getLocalListings();

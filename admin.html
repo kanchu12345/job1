@@ -657,9 +657,18 @@
 
         // --- Actions ---
         window.changeStatus = async function(id, newStatus) {
-            await store.update(id, { status: newStatus });
-            loadData();
-            document.getElementById('detail-modal').style.display = 'none';
+            try {
+                console.log('Changing status for', id, 'to', newStatus);
+                await store.update(id, { status: newStatus });
+                console.log('Update completed, reloading data...');
+                await loadData();
+                const modal = document.getElementById('detail-modal');
+                if(modal) modal.style.display = 'none';
+                console.log('Status changed successfully');
+            } catch (err) {
+                console.error('changeStatus error:', err);
+                alert('Error changing status: ' + err.message);
+            }
         }
 
         window.toggleBoost = async function(id, isBoosted) {
