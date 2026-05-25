@@ -218,13 +218,17 @@
                     <!-- Listings container -->
                     <div id="listings-wrapper" class="tj-table-wrap">
                         <!-- Desktop table (hidden on mobile) -->
-                        <table class="tj-table" id="listings-table" style="width:100%;">
+                        <table class="tj-table" id="listings-table" style="width:100%; min-width:1500px;">
                             <thead>
                                 <tr>
                                     <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Investment</th>
                                     <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Stage</th>
-                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;">Title / Description</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Industry</th>
                                     <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Location</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:center;white-space:nowrap;">Established</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:center;white-space:nowrap;">Employees</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Monthly Sales</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;">Title / Full Description</th>
                                 </tr>
                             </thead>
                             <tbody id="listings-tbody"></tbody>
@@ -333,6 +337,18 @@
             try { allListings = store.getLocalListings().filter(l => l.status==='published'); } catch(e2){}
         }
 
+        // Populate location filter dropdown dynamically based on unique active listing locations
+        if (filterLocation) {
+            const activeLocations = [...new Set(allListings.map(l => l.district).filter(Boolean))].sort();
+            filterLocation.innerHTML = '<option value="">All of Sri Lanka</option>';
+            activeLocations.forEach(loc => {
+                const opt = document.createElement('option');
+                opt.value = loc;
+                opt.textContent = loc;
+                filterLocation.appendChild(opt);
+            });
+        }
+
         // Populate industry dropdown
         if (filterIndustry && typeof categoryStore !== 'undefined') {
             categoryStore.getAll().forEach(cat => {
@@ -355,7 +371,7 @@
         function renderTable(listings) {
             tbody.innerHTML = '';
             if (!listings.length) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#64748b;">No businesses found matching your criteria.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:30px;color:#64748b;">No businesses found matching your criteria.</td></tr>';
                 return;
             }
             listings.forEach(l => {
@@ -365,10 +381,28 @@
                 if (l.boosted) tr.style.backgroundColor = '#fffbea';
                 tr.onmouseover = function() { this.style.backgroundColor = l.boosted ? '#fef3c7' : '#f8fafc'; };
                 tr.onmouseout  = function() { this.style.backgroundColor = l.boosted ? '#fffbea' : 'transparent'; };
-                const desc = (l.shortDescription||l.shortdesc||l.fullDescription||'');
-                const snippet = desc.length>70 ? desc.substring(0,70)+'...' : desc;
+                
+                const desc = (l.shortdesc || l.shortDescription || l.fullDescription || 'N/A');
                 const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;">⭐</span>' : '';
-                tr.innerHTML = `<td style="font-weight:600;">${formatLKR(l.investmentRequired)}</td><td>${l.businessStage||'N/A'}</td><td class="biz-title">${badge}<span style="font-weight:600;color:#0d47a1;">${snippet}</span></td><td>${l.district||'N/A'}</td>`;
+                const industry = l.industry || 'N/A';
+                const established = l.established || 'N/A';
+                const employees = l.employees || 'N/A';
+                const sales = (l.monthlySales || l.monthlysales) ? formatLKR(l.monthlySales || l.monthlysales) : 'N/A';
+                const location = l.district || 'N/A';
+                
+                tr.innerHTML = `
+                    <td style="font-weight:700; color:#0d47a1; white-space:nowrap;">${formatLKR(l.investmentRequired)}</td>
+                    <td style="font-weight:600; white-space:nowrap;"><span style="background:#e0e7ff; color:#3730a3; padding:4px 10px; border-radius:12px; font-size:0.75rem;">${l.businessStage||'N/A'}</span></td>
+                    <td style="white-space:nowrap; font-weight:500; color:#475569;">${industry}</td>
+                    <td style="white-space:nowrap; font-weight:600; color:#0f172a;">📍 ${location}</td>
+                    <td style="white-space:nowrap; text-align:center;">${established}</td>
+                    <td style="white-space:nowrap; text-align:center;">${employees}</td>
+                    <td style="white-space:nowrap; font-weight:600; color:#10b981;">${sales}</td>
+                    <td class="biz-title" style="min-width:320px; max-width:550px; word-break:break-word; white-space:normal; line-height:1.4;">
+                        ${badge}<span style="font-weight:700; color:#0f172a; display:block; margin-bottom:4px;">${l.businessName || 'Business Opportunity'}</span>
+                        <span style="font-size:0.85rem; color:#475569; display:block;">${desc}</span>
+                    </td>
+                `;
                 tbody.appendChild(tr);
             });
         }

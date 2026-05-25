@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -202,6 +202,19 @@
             const industryFilter = document.getElementById('filter-industry');
             const locationFilter = document.getElementById('filter-location');
             const stageFilter = document.getElementById('filter-stage');
+
+            let listings = await store.getPublished();
+
+            if (locationFilter) {
+                const activeLocations = [...new Set(listings.map(l => l.district).filter(Boolean))].sort();
+                locationFilter.innerHTML = '<option value="">All of Sri Lanka</option>';
+                activeLocations.forEach(loc => {
+                    const opt = document.createElement('option');
+                    opt.value = loc;
+                    opt.textContent = loc;
+                    locationFilter.appendChild(opt);
+                });
+            }
 
             if (industryFilter && typeof categoryStore !== 'undefined') {
                 const categories = categoryStore.getAll();
