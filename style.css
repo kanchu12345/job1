@@ -689,6 +689,15 @@ a:hover {
 .tj-table td { border: none; padding: 8px; }
 .tj-table td:first-child { font-weight: 700; }
 
+/* HelaInvest custom layout adjustments for mobile */
+.layout-container { flex-direction: column !important; }
+#sidebar-container { flex: none !important; width: 100% !important; position: static !important; max-height: none !important; margin-bottom: 20px; }
+.header-nav-new { flex-wrap: wrap; justify-content: center !important; gap: 10px !important; }
+.ikman-filters-container .ikman-search-row { flex-direction: column; gap: 10px; }
+.ikman-filters-bar { flex-wrap: wrap; justify-content: center; }
+.ikman-filters-bar select, .ikman-filters-bar button { width: 100%; margin: 5px 0; }
+.header-actions-new { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px; }
+
 }
 
 /* ── Topjobs Specific Styles (Full Set) ── */
