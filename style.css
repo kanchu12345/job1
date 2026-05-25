@@ -689,11 +689,7 @@ a:hover {
   .tj-sidebar { display: none; }
   .header-inner-new { flex-wrap: wrap; justify-content: center; gap: 10px; }
   .header-scroller { width: 100%; margin: 8px 0; }
-/* Mobile table responsive adjustments */
-.tj-table thead { display: none; }
-.tj-table tbody tr { display: flex; flex-direction: column; border-bottom: 1px solid var(--border-color); }
-.tj-table td { border: none; padding: 8px; }
-.tj-table td:first-child { font-weight: 700; }
+/* Removed mobile table flex hack to allow horizontal scrolling instead */
 
 /* HelaInvest custom layout adjustments for mobile */
 .layout-container { flex-direction: column !important; min-width: 0 !important; width: 100%; overflow: hidden; }
