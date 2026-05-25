@@ -3,81 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelaInvest - Business for Sale, Investors, Franchises & Advisors</title>
+    <title>HelaInvest - Business for Sale, Investors, Franchises &amp; Advisors</title>
     <meta name="description" content="Private Network of Qualified Investors, Buyers and Advisors to Raise Capital, Sell Established Businesses and Acquire Target Companies in Sri Lanka.">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* ── DESKTOP LAYOUT ── */
         html, body {
+            margin: 0; padding: 0;
             height: 100vh;
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Lock page scrolling completely */
-            display: flex;
-            flex-direction: column;
+            overflow: hidden;
+            display: flex; flex-direction: column;
         }
         .section.section-white {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding-top: 15px !important;
-            padding-bottom: 15px !important;
-            min-height: 0;
-            overflow: hidden;
+            flex: 1; display: flex; flex-direction: column;
+            padding-top: 15px !important; padding-bottom: 15px !important;
+            min-height: 0; overflow: hidden;
         }
         .section.section-white > .container {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
+            height: 100%; display: flex; flex-direction: column; min-height: 0;
         }
         .layout-container {
-            display: flex;
-            gap: 20px;
-            align-items: stretch;
-            flex: 1;
-            min-height: 0;
-            height: 100%;
+            display: flex; gap: 20px; align-items: stretch;
+            flex: 1; min-height: 0; height: 100%;
         }
         #sidebar-container {
-            flex: 0 0 250px;
-            height: 100%;
-            overflow-y: auto;
+            flex: 0 0 250px; height: 100%; overflow-y: auto;
         }
         .main-listings {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            height: 100%;
-            overflow: hidden;
+            flex: 1; display: flex; flex-direction: column;
+            min-width: 0; height: 100%; overflow: hidden;
         }
-        .ikman-filters-container {
-            flex: 0 0 auto;
-            margin-bottom: 15px;
-        }
+        .ikman-filters-container { flex: 0 0 auto; margin-bottom: 15px; }
         .tj-table-wrap {
-            flex: 1;
-            overflow-y: auto;
-            overflow-x: auto;
-            min-height: 0;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            flex: 1; overflow-y: auto; overflow-x: auto;
+            min-height: 0; border: 1px solid #e2e8f0;
+            border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         }
-        .top-bar-new, .main-header-new, .hela-footer-thin {
-            position: relative;
-            z-index: 1010;
-        }
+        .top-bar-new, .main-header-new, .hela-footer-thin { position: relative; z-index: 1010; }
 
-        /* ── MOBILE FIX: Stack layout vertically on phones ── */
+        /* ── MOBILE LAYOUT ── */
         @media screen and (max-width: 1024px) {
             html, body {
                 height: auto !important;
-                overflow: auto !important;
+                min-height: 100vh !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
             }
             .section.section-white {
-                overflow: visible !important;
                 flex: none !important;
+                overflow: visible !important;
+                height: auto !important;
             }
             .section.section-white > .container {
                 height: auto !important;
@@ -86,45 +62,50 @@
             .layout-container {
                 flex-direction: column !important;
                 height: auto !important;
-                min-height: 0 !important;
-                gap: 0 !important;
+                min-height: auto !important;
+                overflow: visible !important;
             }
             #sidebar-container {
                 flex: none !important;
                 width: 100% !important;
                 height: auto !important;
-                max-height: 250px !important;
+                max-height: 220px !important;
                 overflow-y: auto !important;
-                position: relative !important;
-                top: 0 !important;
-                margin-bottom: 12px !important;
+                position: static !important;
+                top: auto !important;
+                margin-bottom: 10px !important;
+                box-sizing: border-box !important;
             }
             .main-listings {
+                width: 100% !important;
                 height: auto !important;
                 overflow: visible !important;
+                flex: none !important;
             }
             .tj-table-wrap {
-                height: 400px !important;
-                overflow-y: auto !important;
+                height: auto !important;
+                min-height: 300px !important;
                 overflow-x: auto !important;
+                overflow-y: visible !important;
+                flex: none !important;
             }
         }
     </style>
 </head>
 <body>
     <script>
-    window.onerror = function(message, source, lineno, colno, error) {
-        console.error("HelaInvest Error: " + message + " in " + (source || 'inline') + " on line " + lineno);
+    window.onerror = function(message, source, lineno) {
+        console.error("HelaInvest Error: " + message + " on line " + lineno);
     };
     </script>
 
     <!-- Top Bar -->
     <div class="top-bar-new">
         <div class="container">
-            <div style="display: flex; justify-content: flex-end; align-items: center;">
+            <div style="display:flex;justify-content:flex-end;align-items:center;">
                 <a href="contact.html">Contact Us</a>
-                <span style="margin: 0 10px; color: white;">|</span>
-                <a href="faq.html">Help & Support</a>
+                <span style="margin:0 10px;color:white;">|</span>
+                <a href="faq.html">Help &amp; Support</a>
             </div>
         </div>
     </div>
@@ -132,516 +113,369 @@
     <!-- Main Header -->
     <header class="main-header-new">
         <div class="container header-inner-new">
-            <!-- Logo -->
             <a href="index.html" class="logo-new">
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
-
-                        <!-- Center Spacer -->
-            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
-                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
+            <div style="flex:1;display:flex;justify-content:center;align-items:center;padding:0 30px;">
+                <div style="width:100%;max-width:500px;height:5px;background:linear-gradient(90deg,transparent,#0d47a1,transparent);border-radius:4px;opacity:0.5;"></div>
             </div>
-
-            <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
                 <a href="login.html" class="login-link-new">Login</a>
                 <a href="register.html" class="btn-register-new">Register</a>
+                <a href="submit.html" style="background:#0a3578;color:#fff;padding:10px 18px;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.95rem;margin-left:8px;">Post Your Ad</a>
             </div>
         </div>
     </header>
 
-
-
     <!-- Main Listings Layout -->
-    <section class="section section-white" style="padding-top: 40px; padding-bottom: 40px;">
+    <section class="section section-white" style="padding-top:15px;padding-bottom:15px;">
         <div class="container">
-            <div class="layout-container" style="display: flex; gap: 20px; align-items: flex-start;">
-                <aside id="sidebar-container" class="sidebar-categories" style="flex: 0 0 250px; background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); padding: 15px; border-radius: 8px; box-shadow: 0 4px 15px rgba(13, 71, 161, 0.08); border: 1px solid #e2e8f0; border-top: 4px solid #0d47a1; position: sticky; top: 40px; z-index: 100;">
+            <div class="layout-container">
+                <aside id="sidebar-container" class="sidebar-categories">
                     <!-- JS will populate this -->
                 </aside>
 
-                <main class="main-listings" style="flex-grow: 1; min-width: 0;">
+                <main class="main-listings">
+                    <!-- Search & Filter Bar -->
+                    <div class="ikman-filters-container">
+                        <div class="ikman-search-row">
+                            <input type="text" id="sidebar-search-input" placeholder="Search for anything..." style="padding:10px 15px;border:1px solid #ccc;border-radius:20px;font-size:0.95rem;flex-grow:1;outline:none;">
+                            <button type="button" id="sidebar-search-btn" style="padding:10px 25px;background:#00a685;color:#fff;border:none;border-radius:20px;cursor:pointer;font-size:0.95rem;font-weight:600;">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="ikman-filters-bar">
+                            <button type="button" class="pill-btn pill-btn-refine" id="btn-clear-filters">
+                                <i class="fas fa-sliders-h"></i> Refine
+                            </button>
+                            <select id="filter-location" class="pill-select">
+                                <option value="">All of Sri Lanka</option>
+                                <optgroup label="Western Province">
+                                    <option value="Colombo">Colombo</option>
+                                    <option value="Gampaha">Gampaha</option>
+                                    <option value="Kalutara">Kalutara</option>
+                                </optgroup>
+                                <optgroup label="Central Province">
+                                    <option value="Kandy">Kandy</option>
+                                    <option value="Matale">Matale</option>
+                                    <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                </optgroup>
+                                <optgroup label="Southern Province">
+                                    <option value="Galle">Galle</option>
+                                    <option value="Matara">Matara</option>
+                                    <option value="Hambantota">Hambantota</option>
+                                </optgroup>
+                                <optgroup label="North Western Province">
+                                    <option value="Kurunegala">Kurunegala</option>
+                                    <option value="Puttalam">Puttalam</option>
+                                </optgroup>
+                                <optgroup label="Northern Province">
+                                    <option value="Jaffna">Jaffna</option>
+                                    <option value="Kilinochchi">Kilinochchi</option>
+                                    <option value="Mannar">Mannar</option>
+                                    <option value="Vavuniya">Vavuniya</option>
+                                    <option value="Mullaitivu">Mullaitivu</option>
+                                </optgroup>
+                                <optgroup label="Eastern Province">
+                                    <option value="Batticaloa">Batticaloa</option>
+                                    <option value="Ampara">Ampara</option>
+                                    <option value="Trincomalee">Trincomalee</option>
+                                </optgroup>
+                                <optgroup label="North Central Province">
+                                    <option value="Anuradhapura">Anuradhapura</option>
+                                    <option value="Polonnaruwa">Polonnaruwa</option>
+                                </optgroup>
+                                <optgroup label="Uva Province">
+                                    <option value="Badulla">Badulla</option>
+                                    <option value="Moneragala">Moneragala</option>
+                                </optgroup>
+                                <optgroup label="Sabaragamuwa Province">
+                                    <option value="Ratnapura">Ratnapura</option>
+                                    <option value="Kegalle">Kegalle</option>
+                                </optgroup>
+                            </select>
+                            <select id="filter-industry" class="pill-select">
+                                <option value="">All Categories</option>
+                            </select>
+                            <select id="filter-stage" class="pill-select">
+                                <option value="">Stage</option>
+                                <option value="Idea">Idea Stage</option>
+                                <option value="Startup">Startup</option>
+                                <option value="SME">SME</option>
+                                <option value="Growth">Growth</option>
+                            </select>
+                            <select id="filter-sort" class="pill-select">
+                                <option value="">Sort by</option>
+                                <option value="newest">Newest First</option>
+                                <option value="price-asc">Investment: Low to High</option>
+                                <option value="price-desc">Investment: High to Low</option>
+                            </select>
+                            <input type="hidden" id="filter-invest-min" value="0">
+                            <input type="hidden" id="filter-invest-max" value="">
+                        </div>
+                    </div>
 
-    <!-- Ikman Style Unified Search & Filter Bar -->
-    <div class="ikman-filters-container">
-        <!-- Search Row -->
-        <div class="ikman-search-row">
-            <input type="text" id="sidebar-search-input" placeholder="Search for anything..." style="padding:10px 15px; border:1px solid #ccc; border-radius:20px; font-size:0.95rem; flex-grow: 1; outline: none;">
-            <button type="button" id="sidebar-search-btn" style="padding:10px 25px; background:#00a685; color:#fff; border:none; border-radius:20px; cursor:pointer; font-size:0.95rem; font-weight:600;">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-
-        <!-- Pill Filters Row -->
-        <div class="ikman-filters-bar">
-            <!-- Refine mapped to clear filters for now -->
-            <button type="button" class="pill-btn pill-btn-refine" id="btn-clear-filters">
-                <i class="fas fa-sliders-h"></i> Refine
-            </button>
-            
-            <select id="filter-location" class="pill-select">
-                <option value="">All of Sri Lanka</option>
-                <optgroup label="Western Province">
-                    <option value="Colombo">Colombo</option>
-                    <option value="Gampaha">Gampaha</option>
-                    <option value="Kalutara">Kalutara</option>
-                </optgroup>
-                <optgroup label="Central Province">
-                    <option value="Kandy">Kandy</option>
-                    <option value="Matale">Matale</option>
-                    <option value="Nuwara Eliya">Nuwara Eliya</option>
-                </optgroup>
-                <optgroup label="Southern Province">
-                    <option value="Galle">Galle</option>
-                    <option value="Matara">Matara</option>
-                    <option value="Hambantota">Hambantota</option>
-                </optgroup>
-                <optgroup label="North Western Province">
-                    <option value="Kurunegala">Kurunegala</option>
-                    <option value="Puttalam">Puttalam</option>
-                </optgroup>
-                <optgroup label="Northern Province">
-                    <option value="Jaffna">Jaffna</option>
-                    <option value="Kilinochchi">Kilinochchi</option>
-                    <option value="Mannar">Mannar</option>
-                    <option value="Vavuniya">Vavuniya</option>
-                    <option value="Mullaitivu">Mullaitivu</option>
-                </optgroup>
-                <optgroup label="Eastern Province">
-                    <option value="Batticaloa">Batticaloa</option>
-                    <option value="Ampara">Ampara</option>
-                    <option value="Trincomalee">Trincomalee</option>
-                </optgroup>
-                <optgroup label="North Central Province">
-                    <option value="Anuradhapura">Anuradhapura</option>
-                    <option value="Polonnaruwa">Polonnaruwa</option>
-                </optgroup>
-                <optgroup label="Uva Province">
-                    <option value="Badulla">Badulla</option>
-                    <option value="Moneragala">Moneragala</option>
-                </optgroup>
-                <optgroup label="Sabaragamuwa Province">
-                    <option value="Ratnapura">Ratnapura</option>
-                    <option value="Kegalle">Kegalle</option>
-                </optgroup>
-            </select>
-            
-            <select id="filter-industry" class="pill-select">
-                <option value="">All Categories</option>
-            </select>
-
-            <select id="filter-stage" class="pill-select">
-                <option value="">Type of poster</option>
-                <option value="Idea">Idea Stage</option>
-                <option value="Startup">Startup</option>
-                <option value="SME">SME</option>
-                <option value="Growth">Growth</option>
-            </select>
-
-
-            
-            <select id="filter-sort" class="pill-select">
-                <option value="">Sort by</option>
-                <option value="newest">Newest First</option>
-                <option value="price-asc">Investment: Low to High</option>
-                <option value="price-desc">Investment: High to Low</option>
-            </select>
-            
-            <!-- Hidden inputs so JS doesn't break -->
-            <input type="hidden" id="filter-invest-min" value="0">
-            <input type="hidden" id="filter-invest-max" value="">
-        </div>
-    </div>
-
-    <div class="tj-table-wrap" style="flex: 1; height: 600px; overflow-y: auto !important; overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
-    <table class="tj-table" style="width: 100%;">
-        <colgroup>
-            <col style="width: 20%;">
-            <col style="width: 15%;">
-            <col style="width: 45%;">
-            <col style="width: 20%;">
-        </colgroup>
-        <thead>
-            <tr>
-                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Investment Requirement</th>
-                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Stage</th>
-                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Title / Description</th>
-                <th style="position: sticky; top: 0; z-index: 10; background: #0a3578; color: #fff; border-bottom: 3px solid #cc9900; padding: 16px 20px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; text-align: left;">Location</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    </div>
-</main>
+                    <!-- Listings container -->
+                    <div id="listings-wrapper" class="tj-table-wrap">
+                        <!-- Desktop table (hidden on mobile) -->
+                        <table class="tj-table" id="listings-table" style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Investment</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Stage</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;">Title / Description</th>
+                                    <th style="position:sticky;top:0;z-index:10;background:#0a3578;color:#fff;border-bottom:3px solid #cc9900;padding:14px 16px;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.5px;text-align:left;white-space:nowrap;">Location</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listings-tbody"></tbody>
+                        </table>
+                        <!-- Mobile cards (shown only on mobile) -->
+                        <div id="listings-cards" style="display:none;padding:8px;"></div>
+                    </div>
+                </main>
             </div>
         </div>
     </section>
-    <!-- Resilient Script Loader -->
+
+    <!-- Script Loader -->
     <script>
-    // Helper to dynamically load external scripts with timeouts
-    function loadScript(src, timeoutMs = 4000) {
+    function loadScript(src, ms) {
         return new Promise((resolve, reject) => {
             var s = document.createElement('script');
-            s.src = src;
-            s.async = true;
-            
-            var timer = setTimeout(function() {
-                s.onerror = null;
-                s.onload = null;
-                reject(new Error("Timeout loading " + src));
-            }, timeoutMs);
-            
-            s.onload = function() {
-                clearTimeout(timer);
-                resolve();
-            };
-            s.onerror = function() {
-                clearTimeout(timer);
-                reject(new Error("Failed to load " + src));
-            };
+            s.src = src; s.async = true;
+            var t = setTimeout(() => { s.onload=null; s.onerror=null; reject(new Error("Timeout: "+src)); }, ms||5000);
+            s.onload = () => { clearTimeout(t); resolve(); };
+            s.onerror = () => { clearTimeout(t); reject(new Error("Failed: "+src)); };
             document.head.appendChild(s);
         });
     }
 
-    // Sequence load scripts to maintain dependencies
-    async function initScripts() {
-        try {
-            console.log("Loading Firebase SDKs dynamically in parallel...");
-            await Promise.all([
-                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js", 2000),
-                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js", 2000),
-                loadScript("https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js", 2000)
-            ]);
-            console.log("Firebase SDKs loaded successfully.");
-        } catch (e) {
-            console.warn("Could not load Firebase CDN scripts, running in local fallback mode:", e);
-        }
-
-        // Load local configurations and application logic
-        try {
-            await loadScript("firebase-config.js", 2000);
-            await loadScript("app.js", 2000);
-            console.log("Application scripts initialized.");
-            
-            // Execute the page logic after scripts are loaded
-            if (typeof window.initializePage === 'function') {
-                window.initializePage();
-            }
-        } catch (e) {
-            console.error("Critical error loading local scripts:", e);
-        }
+    async function bootApp() {
+        try { await loadScript('https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js'); } catch(e){}
+        try { await loadScript('https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js'); } catch(e){}
+        try { await loadScript('https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js'); } catch(e){}
+        try { await loadScript('app.js?v=10'); } catch(e){ console.error("app.js failed:", e); }
+        if (typeof window.initHelaInvest === 'function') window.initHelaInvest();
     }
-    
-    // Start script initialization immediately
-    initScripts();
+    bootApp();
     </script>
-<script>
-// Main page controller
-window.initializePage = async function() {
-    // Prevent double execution
-    if (window.pageInitialized) return;
-    window.pageInitialized = true;
-    
-    // Load Font-Awesome dynamically to prevent HTML parser blocking
-    try {
-        var fa = document.createElement('link');
-        fa.rel = 'stylesheet';
-        fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
-        document.head.appendChild(fa);
-    } catch(e) {
-        console.warn("Failed to load Font Awesome dynamically:", e);
-    }
-    
-    console.log("Initializing page content...");
-    const tbody = document.querySelector('.tj-table tbody');
-    const searchInput = document.getElementById('sidebar-search-input');
-    const searchBtn = document.getElementById('sidebar-search-btn');
-    const filterIndustry = document.getElementById('filter-industry');
-    const filterLocation = document.getElementById('filter-location');
-    const filterInvestMin = document.getElementById('filter-invest-min');
-    const filterInvestMax = document.getElementById('filter-invest-max');
-    const btnClearFilters = document.getElementById('btn-clear-filters');
-    
-    let activeMainCategoryIndex = 0;
-    let selectedSubcategory = '';
 
-    const categories = categoryStore.getAll() || [];
-    const icons = ['fa-leaf', 'fa-laptop-code', 'fa-industry', 'fa-hotel', 'fa-truck', 'fa-briefcase-medical', 'fa-bars'];
-    const iconColors = ['#16a34a', '#2563eb', '#d97706', '#db2777', '#7c3aed', '#0891b2', '#64748b'];
+    <script>
+    window.initHelaInvest = async function() {
 
-    const sidebarContainer = document.getElementById('sidebar-container');
+        const isMobile = window.innerWidth <= 1024;
+        const tableEl  = document.getElementById('listings-table');
+        const cardsEl  = document.getElementById('listings-cards');
+        const wrapper  = document.getElementById('listings-wrapper');
 
-    window.renderSidebarMain = function() {
-        if (!sidebarContainer) return;
-        let html = `
-            <h3 style="font-size: 1.1rem; color: #fff; margin: 0; padding: 18px 15px; background: #0a3578; text-align: left; font-weight: bold; border-bottom: 3px solid #cc9900;">Business Categories</h3>
-            <ul style="list-style: none; padding: 0; margin: 0;">
-        `;
-        html += categories.map((c, index) => `
-            <li>
-                <a href="#" onclick="openSidebarCategory(event, ${index})" style="display: block; padding: 14px 20px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.95rem; font-weight: 500; transition: background 0.2s;" onmouseover="this.style.background='#003399'; this.style.color='#cc9900'; this.style.paddingLeft='25px';" onmouseout="this.style.background='transparent'; this.style.color='#fff'; this.style.paddingLeft='20px';">
-                    ${(c.name || '').replace(/&/g, '&amp;')}
-                </a>
-            </li>
-        `).join('');
-        html += `</ul>`;
-        sidebarContainer.innerHTML = html;
-        sidebarContainer.style.background = '#0d47a1';
-        sidebarContainer.style.padding = '0';
-        sidebarContainer.style.borderRadius = '8px';
-        sidebarContainer.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
-        sidebarContainer.style.border = 'none';
-        sidebarContainer.style.overflow = 'hidden';
-        sidebarContainer.style.position = 'sticky';
-        sidebarContainer.style.top = '40px';
-        sidebarContainer.style.zIndex = '100';
-    };
+        if (isMobile) {
+            tableEl.style.display = 'none';
+            cardsEl.style.display = 'block';
+            // On mobile allow wrapper to grow naturally
+            wrapper.style.height = 'auto';
+            wrapper.style.overflow = 'visible';
+        }
 
-    window.renderSidebarSub = function(index) {
-        if (!sidebarContainer) return;
-        const c = categories[index];
-        if (!c) return;
-        
-        let html = `
-            <div style="background: #0a3578; padding: 15px;">
-                <a href="#" onclick="goBackToMainCategories(event)" style="display: inline-block; color: #cc9900; font-size: 0.85rem; text-decoration: none; margin-bottom: 10px; font-weight: 600;">
-                    <i class="fas fa-arrow-left"></i> Back
-                </a>
-                <h3 style="font-size: 1.05rem; color: #fff; margin: 0; font-weight: bold;">
-                    ${(c.name || '')}
-                </h3>
-            </div>
-            <ul style="list-style: none; padding: 0; margin: 0; max-height: 500px; overflow-y: auto;">
-        `;
-        
-        (c.subgroups || []).forEach(group => {
-            if (group.name) {
-                html += `<li style="font-weight: 700; color: #cc9900; font-size: 0.8rem; text-transform: uppercase; margin: 10px 0 5px 0; padding: 0 20px;">${group.name}</li>`;
-            }
-            (group.items || []).forEach(item => {
-                const isActive = (selectedSubcategory === item);
-                const bg = isActive ? '#003399' : 'transparent';
-                const col = isActive ? '#cc9900' : '#fff';
-                
-                html += `
-                <li>
-                    <a href="#" onclick="selectSidebarSubcategory(event, '${item.replace(/'/g, "\\'")}', ${index})" style="display: block; padding: 10px 20px 10px 30px; color: ${col}; text-decoration: none; font-size: 0.9rem; background: ${bg}; transition: background 0.2s;" onmouseover="this.style.background='#003399'; this.style.color='#cc9900';" onmouseout="if(!${isActive}){this.style.background='transparent'; this.style.color='#fff';}">
-                        ${item}
-                    </a>
-                </li>`;
+        const tbody         = document.getElementById('listings-tbody');
+        const filterIndustry = document.getElementById('filter-industry');
+        const filterLocation = document.getElementById('filter-location');
+        const filterInvestMin = document.getElementById('filter-invest-min');
+        const filterInvestMax = document.getElementById('filter-invest-max');
+        const btnClearFilters = document.getElementById('btn-clear-filters');
+        const searchInput   = document.getElementById('sidebar-search-input');
+        const searchBtn     = document.getElementById('sidebar-search-btn');
+        const filterStage   = document.getElementById('filter-stage');
+        const filterSort    = document.getElementById('filter-sort');
+
+        let selectedSubcategory = '';
+        const categories = (typeof categoryStore !== 'undefined') ? categoryStore.getAll() : [];
+        const sidebarContainer = document.getElementById('sidebar-container');
+
+        // ── Sidebar rendering ──
+        window.renderSidebarMain = function() {
+            if (!sidebarContainer) return;
+            let html = `<h3 style="font-size:1.05rem;color:#fff;margin:0;padding:14px 15px;background:#0a3578;font-weight:bold;border-bottom:3px solid #cc9900;">Business Categories</h3><ul style="list-style:none;padding:0;margin:0;">`;
+            categories.forEach((c, i) => {
+                html += `<li><a href="#" onclick="openSidebarCategory(event,${i})" style="display:block;padding:11px 18px;color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.07);font-size:0.88rem;font-weight:500;">${(c.name||'').replace(/&/g,'&amp;')}</a></li>`;
             });
-        });
-        
-        html += `</ul>`;
-        sidebarContainer.innerHTML = html;
-        sidebarContainer.style.background = '#0d47a1';
-        sidebarContainer.style.padding = '15px 0';
-        sidebarContainer.style.borderRadius = '8px';
-        sidebarContainer.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
-        sidebarContainer.style.border = 'none';
-        sidebarContainer.style.position = 'sticky';
-        sidebarContainer.style.top = '40px';
-        sidebarContainer.style.zIndex = '100';
-    };
+            html += `</ul>`;
+            sidebarContainer.innerHTML = html;
+            sidebarContainer.style.cssText += ';background:#0d47a1;padding:0;border-radius:8px;overflow:hidden;';
+        };
 
-    window.openSidebarCategory = function(e, index) {
-        e.preventDefault();
-        renderSidebarSub(index);
-    };
-
-    window.goBackToMainCategories = function(e) {
-        if (e) e.preventDefault();
-        selectedSubcategory = '';
-        renderSidebarMain();
-        
-        applyFilters();
-    };
-
-    window.selectSidebarSubcategory = function(e, subcat, mainIndex) {
-        e.preventDefault();
-        selectedSubcategory = subcat;
-        filterIndustry.value = subcat; 
-
-        applyFilters();
-        renderSidebarSub(mainIndex); // re-render to highlight selection
-    };
-
-    // Initial render
-    renderSidebarMain();
-    
-    // Get listings from store
-    let allListings = [];
-    try {
-        await store.seedDummyListings();
-        allListings = await store.getPublished();
-    } catch (e) {
-        console.error("Error loading listings from database:", e);
-        if (store && store.getLocalListings) {
-            allListings = store.getLocalListings().filter(l => l.status === 'published');
-        }
-    }
-
-    // Populate filter dropdowns from published listings data
-    try {
-        // We keep the hardcoded locations in HTML to cover all of Sri Lanka
-    } catch (e) {
-        console.error("Error populating dropdown filters:", e);
-    }
-    
-    function renderListings(listings) {
-        tbody.innerHTML = '';
-        if (listings.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No businesses found matching your criteria.</td></tr>';
-            return;
-        }
-        
-        if (window.location.hash) {
-            const industry = decodeURIComponent(window.location.hash.substring(1));
-            filterIndustry.value = industry;
-        }
-
-        // Populate industry dropdown from categoryStore
-        if (filterIndustry && typeof categoryStore !== 'undefined') {
-            const categories = categoryStore.getAll();
-            categories.forEach(cat => {
-                const optgroup = document.createElement('optgroup');
-                optgroup.label = cat.name;
-                (cat.subgroups || []).forEach(group => {
-                    (group.items || []).forEach(item => {
-                        const opt = document.createElement('option');
-                        opt.value = item;
-                        opt.textContent = item;
-                        optgroup.appendChild(opt);
-                    });
+        window.renderSidebarSub = function(index) {
+            if (!sidebarContainer) return;
+            const c = categories[index]; if (!c) return;
+            let html = `<div style="background:#0a3578;padding:12px 15px;"><a href="#" onclick="goBackToMainCategories(event)" style="color:#cc9900;font-size:0.85rem;text-decoration:none;font-weight:600;"><i class="fas fa-arrow-left"></i> Back</a><h3 style="font-size:0.95rem;color:#fff;margin:8px 0 0;font-weight:bold;">${c.name||''}</h3></div><ul style="list-style:none;padding:0;margin:0;max-height:500px;overflow-y:auto;">`;
+            (c.subgroups||[]).forEach(g => {
+                if (g.name) html += `<li style="font-weight:700;color:#cc9900;font-size:0.75rem;text-transform:uppercase;padding:8px 18px 4px;">${g.name}</li>`;
+                (g.items||[]).forEach(item => {
+                    html += `<li><a href="#" onclick="filterBySubcategory(event,'${item.replace(/'/g,"\\'")}',${index})" style="display:block;padding:9px 18px 9px 26px;color:#dde;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.85rem;">${item}</a></li>`;
                 });
-                filterIndustry.appendChild(optgroup);
+            });
+            html += `</ul>`;
+            sidebarContainer.innerHTML = html;
+        };
+
+        window.openSidebarCategory = (e, i) => { e.preventDefault(); selectedSubcategory=''; renderSidebarSub(i); };
+        window.goBackToMainCategories = (e) => { e.preventDefault(); selectedSubcategory=''; filterIndustry.value=''; renderSidebarMain(); renderListings(allListings); };
+        window.filterBySubcategory = (e, item, i) => { e.preventDefault(); selectedSubcategory=item; filterIndustry.value=''; applyFilters(); };
+
+        renderSidebarMain();
+
+        // ── Load listings ──
+        let allListings = [];
+        try {
+            await store.seedDummyListings();
+            allListings = await store.getPublished();
+        } catch (e) {
+            console.error("Error loading listings:", e);
+            try { allListings = store.getLocalListings().filter(l => l.status==='published'); } catch(e2){}
+        }
+
+        // Populate industry dropdown
+        if (filterIndustry && typeof categoryStore !== 'undefined') {
+            categoryStore.getAll().forEach(cat => {
+                const og = document.createElement('optgroup'); og.label = cat.name;
+                (cat.subgroups||[]).forEach(g => (g.items||[]).forEach(item => {
+                    const opt = document.createElement('option'); opt.value=item; opt.textContent=item; og.appendChild(opt);
+                }));
+                filterIndustry.appendChild(og);
             });
         }
-        
-        listings.forEach(listing => {
-            const tr = document.createElement('tr');
-            tr.style.cursor = 'pointer';
-            tr.onclick = () => window.location.href = `listing-detail.html?id=${listing.id}`;
-            
-            if(listing.boosted) {
-                tr.style.backgroundColor = '#fffbea';
-            }
-            // Add hover effect
-            tr.onmouseover = function() { this.style.backgroundColor = listing.boosted ? '#fef3c7' : '#f8fafc'; }
-            tr.onmouseout = function() { this.style.backgroundColor = listing.boosted ? '#fffbea' : 'transparent'; }
-            
-            const boostBadge = listing.boosted ? '<span style="color:#f59e0b; margin-right:5px;" title="Boosted Ad">â­</span> ' : '';
-            const shortDesc = listing.shortDescription || listing.shortdesc || listing.fullDescription || '';
-            const descSnippet = shortDesc.length > 60 ? shortDesc.substring(0, 60) + '...' : shortDesc;
-            
-            tr.innerHTML = `
-                <td style="font-weight:600;">${formatLKR(listing.investmentRequired)}</td>
-                <td>${listing.businessStage || 'N/A'}</td>
-                <td class="biz-title">
-                    ${boostBadge}<span ${listing.boosted ? 'style="font-weight:700; color:#b45309;"' : 'style="font-weight:600; color:#0d47a1;"'}>${descSnippet}</span>
-                </td>
-                <td>${listing.district || 'N/A'}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
 
-    // Initial render
-    renderListings(allListings);
-
-    const filterStage = document.getElementById('filter-stage');
-    const filterSort = document.getElementById('filter-sort');
-
-    // Combined filter + search function
-    function applyFilters() {
-        const keyword = (searchInput ? searchInput.value : '').toLowerCase().trim();
-        const industry = filterIndustry.value || selectedSubcategory; // Include selectedSubcategory
-        const location = filterLocation.value;
-        const investMin = Number(filterInvestMin.value) || 0;
-        const investMax = filterInvestMax.value ? Number(filterInvestMax.value) : Infinity;
-        const stage = filterStage ? filterStage.value : '';
-        const sort = filterSort ? filterSort.value : '';
-
-        let filtered = allListings.filter(l => {
-            // Keyword filter
-            if (keyword) {
-                const matchKeyword = (l.businessName && l.businessName.toLowerCase().includes(keyword)) ||
-                    (l.shortDescription && l.shortDescription.toLowerCase().includes(keyword)) ||
-                    (l.fullDescription && l.fullDescription.toLowerCase().includes(keyword)) ||
-                    (l.industry && l.industry.toLowerCase().includes(keyword)) ||
-                    (l.district && l.district.toLowerCase().includes(keyword));
-                if (!matchKeyword) return false;
-            }
-            // Industry filter (exact or substring match for subcategories)
-            if (industry) {
-                const indMatch = l.industry && (
-                    l.industry.toLowerCase() === industry.toLowerCase() ||
-                    industry.toLowerCase().includes(l.industry.toLowerCase()) ||
-                    l.industry.toLowerCase().includes(industry.toLowerCase())
-                );
-                if (!indMatch) return false;
-            }
-            // Location filter
-            if (location && l.district !== location) return false;
-            
-            // Stage filter
-            if (stage && l.businessStage !== stage) return false;
-            
-
-            // Investment range filter
-            const investAmt = Number(l.investmentRequired) || 0;
-            if (investAmt < investMin) return false;
-            if (investMax !== Infinity && investAmt > investMax) return false;
-            return true;
-        });
-
-        // Sorting
-        if (sort === 'newest') {
-            filtered.sort((a, b) => new Date(b.submittedAt || 0) - new Date(a.submittedAt || 0));
-        } else if (sort === 'price-asc') {
-            filtered.sort((a, b) => (Number(a.investmentRequired) || 0) - (Number(b.investmentRequired) || 0));
-        } else if (sort === 'price-desc') {
-            filtered.sort((a, b) => (Number(b.investmentRequired) || 0) - (Number(a.investmentRequired) || 0));
+        function formatLKR(val) {
+            const n = Number(val); if (!n) return 'N/A';
+            if (n>=1000000) return 'LKR '+(n/1000000).toFixed(1)+'M';
+            if (n>=1000) return 'LKR '+(n/1000).toFixed(0)+'K';
+            return 'LKR '+n.toLocaleString();
         }
 
-        renderListings(filtered);
-    }
+        // ── Render: TABLE (desktop) ──
+        function renderTable(listings) {
+            tbody.innerHTML = '';
+            if (!listings.length) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:30px;color:#64748b;">No businesses found matching your criteria.</td></tr>';
+                return;
+            }
+            listings.forEach(l => {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => window.location.href = `listing-detail.html?id=${l.id}`;
+                if (l.boosted) tr.style.backgroundColor = '#fffbea';
+                tr.onmouseover = function() { this.style.backgroundColor = l.boosted ? '#fef3c7' : '#f8fafc'; };
+                tr.onmouseout  = function() { this.style.backgroundColor = l.boosted ? '#fffbea' : 'transparent'; };
+                const desc = (l.shortDescription||l.shortdesc||l.fullDescription||'');
+                const snippet = desc.length>70 ? desc.substring(0,70)+'...' : desc;
+                const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;">⭐</span>' : '';
+                tr.innerHTML = `<td style="font-weight:600;">${formatLKR(l.investmentRequired)}</td><td>${l.businessStage||'N/A'}</td><td class="biz-title">${badge}<span style="font-weight:600;color:#0d47a1;">${snippet}</span></td><td>${l.district||'N/A'}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
 
-    // Event listeners for filters
-    if (searchBtn) searchBtn.addEventListener('click', applyFilters);
-    if (searchInput) searchInput.addEventListener('keyup', applyFilters);
-    filterIndustry.addEventListener('change', () => {
-        selectedSubcategory = ''; // clear modal selection if dropdown used
-        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
-        applyFilters();
-    });
-    filterLocation.addEventListener('change', applyFilters);
-    filterInvestMin.addEventListener('input', applyFilters);
-    filterInvestMax.addEventListener('input', applyFilters);
-    if (filterStage) filterStage.addEventListener('change', applyFilters);
-    if (filterSort) filterSort.addEventListener('change', applyFilters);
-    
-    btnClearFilters.addEventListener('click', () => {
-        if (searchInput) searchInput.value = '';
-        filterIndustry.value = '';
-        filterLocation.value = '';
-        filterInvestMin.value = '0';
-        filterInvestMax.value = '';
-        if (filterStage) filterStage.value = '';
-        if (filterSort) filterSort.value = '';
-        selectedSubcategory = '';
-        if (btnOpenCategoryModal) btnOpenCategoryModal.innerHTML = 'Category <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>';
+        // ── Render: CARDS (mobile) ──
+        function renderCards(listings) {
+            cardsEl.innerHTML = '';
+            if (!listings.length) {
+                cardsEl.innerHTML = '<div style="text-align:center;padding:30px;color:#64748b;">No businesses found.</div>';
+                return;
+            }
+            listings.forEach(l => {
+                const desc = (l.shortDescription||l.shortdesc||l.fullDescription||'Business Opportunity');
+                const snippet = desc.length>90 ? desc.substring(0,90)+'...' : desc;
+                const card = document.createElement('div');
+                card.style.cssText = 'background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);border-left:4px solid '+(l.boosted?'#cc9900':'#0d47a1')+';';
+                card.onclick = () => window.location.href = `listing-detail.html?id=${l.id}`;
+                card.innerHTML = `
+                    <div style="font-weight:700;color:#0d47a1;font-size:0.97rem;margin-bottom:8px;line-height:1.4;">${l.boosted?'⭐ ':''}${snippet}</div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <span style="background:#0d47a1;color:#fff;padding:4px 10px;border-radius:20px;font-size:0.76rem;font-weight:600;">${formatLKR(l.investmentRequired)}</span>
+                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">${l.businessStage||'N/A'}</span>
+                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">📍 ${l.district||'N/A'}</span>
+                    </div>
+                `;
+                cardsEl.appendChild(card);
+            });
+        }
+
+        function renderListings(list) { isMobile ? renderCards(list) : renderTable(list); }
+
         renderListings(allListings);
-    });
 
-};
-</script>
+        // ── Filtering ──
+        function applyFilters() {
+            const kw  = (searchInput ? searchInput.value : '').toLowerCase().trim();
+            const ind = filterIndustry.value || selectedSubcategory;
+            const loc = filterLocation.value;
+            const min = Number(filterInvestMin.value) || 0;
+            const max = filterInvestMax.value ? Number(filterInvestMax.value) : Infinity;
+            const stg = filterStage ? filterStage.value : '';
+            const srt = filterSort ? filterSort.value : '';
+
+            let filtered = allListings.filter(l => {
+                if (kw) {
+                    const m = (l.businessName&&l.businessName.toLowerCase().includes(kw)) ||
+                        (l.shortDescription&&l.shortDescription.toLowerCase().includes(kw)) ||
+                        (l.fullDescription&&l.fullDescription.toLowerCase().includes(kw)) ||
+                        (l.industry&&l.industry.toLowerCase().includes(kw)) ||
+                        (l.district&&l.district.toLowerCase().includes(kw));
+                    if (!m) return false;
+                }
+                if (ind && l.industry) {
+                    const im = l.industry.toLowerCase()===ind.toLowerCase() ||
+                        ind.toLowerCase().includes(l.industry.toLowerCase()) ||
+                        l.industry.toLowerCase().includes(ind.toLowerCase());
+                    if (!im) return false;
+                } else if (ind && !l.industry) return false;
+                if (loc && l.district !== loc) return false;
+                if (stg && l.businessStage !== stg) return false;
+                const amt = Number(l.investmentRequired)||0;
+                if (amt < min) return false;
+                if (max !== Infinity && amt > max) return false;
+                return true;
+            });
+
+            if (srt==='newest') filtered.sort((a,b)=>new Date(b.submittedAt||0)-new Date(a.submittedAt||0));
+            else if (srt==='price-asc') filtered.sort((a,b)=>(Number(a.investmentRequired)||0)-(Number(b.investmentRequired)||0));
+            else if (srt==='price-desc') filtered.sort((a,b)=>(Number(b.investmentRequired)||0)-(Number(a.investmentRequired)||0));
+
+            renderListings(filtered);
+        }
+
+        if (searchBtn) searchBtn.addEventListener('click', applyFilters);
+        if (searchInput) searchInput.addEventListener('keyup', applyFilters);
+        filterIndustry.addEventListener('change', () => { selectedSubcategory=''; applyFilters(); });
+        filterLocation.addEventListener('change', applyFilters);
+        filterInvestMin.addEventListener('input', applyFilters);
+        filterInvestMax.addEventListener('input', applyFilters);
+        if (filterStage) filterStage.addEventListener('change', applyFilters);
+        if (filterSort) filterSort.addEventListener('change', applyFilters);
+
+        btnClearFilters.addEventListener('click', () => {
+            if (searchInput) searchInput.value='';
+            filterIndustry.value=''; filterLocation.value='';
+            filterInvestMin.value='0'; filterInvestMax.value='';
+            if (filterStage) filterStage.value='';
+            if (filterSort) filterSort.value='';
+            selectedSubcategory='';
+            renderListings(allListings);
+        });
+
+        // Auth state listener
+        if (window.auth) {
+            window.auth.onAuthStateChanged(user => {
+                const authDiv = document.getElementById('header-auth');
+                if (user && authDiv) {
+                    authDiv.innerHTML = `<span style="color:#0d47a1;font-weight:600;font-size:0.9rem;">Hi, ${user.displayName||user.email}</span> <a href="#" onclick="window.auth.signOut()" style="color:#64748b;font-size:0.85rem;margin-left:10px;">Logout</a> <a href="submit.html" style="background:#0a3578;color:#fff;padding:10px 18px;border-radius:6px;font-weight:700;text-decoration:none;font-size:0.95rem;margin-left:8px;">Post Your Ad</a>`;
+                }
+            });
+        }
+    };
+    </script>
 
 <!-- Footer -->
 <footer class="hela-footer-thin">
     <div class="container">
-        <!-- Links Bar -->
         <div class="footer-thin-links">
             <a href="index.html">Home</a>
             <span class="divider">|</span>
@@ -653,16 +487,15 @@ window.initializePage = async function() {
             <span class="divider">|</span>
             <a href="privacy.html">Privacy Policy</a>
             <span class="divider">|</span>
-            <a href="faq.html">Help & Support</a>
+            <a href="faq.html">Help &amp; Support</a>
             <span class="divider">|</span>
             <a href="admin.html?v=5">Admin</a>
         </div>
     </div>
-    <!-- Copyright & Socials Bar -->
     <div class="footer-thin-bottom">
         <div class="container footer-thin-bottom-inner">
             <div class="copyright-text">
-                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a>
+                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Infinite Design</a>
             </div>
             <div class="social-icons">
                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
@@ -676,5 +509,3 @@ window.initializePage = async function() {
 
 </body>
 </html>
-
-
