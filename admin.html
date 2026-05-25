@@ -151,7 +151,7 @@
                     setTimeout(function() { clearInterval(checkInterval); }, 10000);
                 }
             } else {
-                throw new Error("Unauthorized: Account does not have admin privileges.");
+                throw new Error("Unauthorized! UID: " + (user ? user.uid : "null") + " | Role found: " + (user ? user.role : "null"));
             }
         } catch (error) {
             console.error("Login Handler Error:", error);
