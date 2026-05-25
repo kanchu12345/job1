@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -109,14 +109,10 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Main Navigation -->
-            <nav class="header-nav-new" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 30px;">
-                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
-                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
-                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
-                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
-                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
-            </nav>
+                        <!-- Center Spacer -->
+            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
+                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
+            </div>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -273,7 +269,7 @@
                             </div>
 
                             <div>
-                                <label class="form-label">What are the businessâ€™s top-selling products and services, who uses them, and how?</label>
+                                <label class="form-label">What are the businessÃ¢â‚¬â„¢s top-selling products and services, who uses them, and how?</label>
                                 <textarea name="products" class="form-input h-24" placeholder="Detail your main offerings and target audience..." required></textarea>
                             </div>
 
@@ -549,7 +545,7 @@
                         div.className = 'relative rounded-lg overflow-hidden border border-gray-200 aspect-square';
                         div.innerHTML = `
                             <img src="${b64}" class="w-full h-full object-cover">
-                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700" onclick="this.parentElement.remove(); uploadedFiles.splice(uploadedFiles.indexOf(fileObj), 1);">âœ•</button>
+                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700" onclick="this.parentElement.remove(); uploadedFiles.splice(uploadedFiles.indexOf(fileObj), 1);">Ã¢Å“â€¢</button>
                         `;
                         previewContainer.appendChild(div);
                     }
@@ -717,6 +713,7 @@
 </footer>
 
 </html>
+
 
 
 

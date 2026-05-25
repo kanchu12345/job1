@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -114,14 +114,10 @@
                 <span class="hela">Hela</span><span class="invest">Invest</span>
             </a>
 
-            <!-- Main Navigation -->
-            <nav class="header-nav-new" style="flex: 1; display: flex; justify-content: center; align-items: center; gap: 30px;">
-                <a href="index.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Home</a>
-                <a href="listings.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Browse Businesses</a>
-                <a href="submit.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Sell & Raise Capital</a>
-                <a href="#" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Advisory Services</a>
-                <a href="contact.html" style="font-weight: 600; color: #475569; text-decoration: none; font-size: 0.95rem; transition: color 0.2s;" onmouseover="this.style.color='#0d47a1'" onmouseout="this.style.color='#475569'">Contact Us</a>
-            </nav>
+                        <!-- Center Spacer -->
+            <div style="flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 30px;">
+                <div style="width: 100%; max-width: 500px; height: 5px; background: linear-gradient(90deg, transparent, #0d47a1, transparent); border-radius: 4px; opacity: 0.5;"></div>
+            </div>
 
             <!-- Action Buttons -->
             <div class="header-actions-new" id="header-auth">
@@ -505,7 +501,7 @@
                 const categories = categoryStore.getAll();
                 const settings = settingsStore.getSettings() || { adRates: '', adRules: '', paymentInstructions: '' };
 
-                // Stats â€” pending counts pending + pending_payment + review
+                // Stats Ã¢â‚¬â€ pending counts pending + pending_payment + review
                 document.getElementById('stat-total').innerText = listings.length;
                 document.getElementById('stat-pending').innerText = listings.filter(l => ['pending', 'pending_payment', 'review'].includes(l.status)).length;
                 document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
@@ -598,7 +594,7 @@
                 let statusBadge = '';
                 
                 if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
-                    // Pending group â€” yellow badge
+                    // Pending group Ã¢â‚¬â€ yellow badge
                     statusBadge = '<span class="status-badge status-pending">PENDING</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Approve</button>
@@ -606,25 +602,25 @@
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else if (l.status === 'published') {
-                    // Published â€” green badge
+                    // Published Ã¢â‚¬â€ green badge
                     statusBadge = '<span class="status-badge status-published">PUBLISHED</span>';
                     const boostBtn = l.boosted ? 
                         `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">ðŸš€ Boost</button>`;
+                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">Ã°Å¸Å¡â‚¬ Boost</button>`;
                     actionBtns = `
                         ${boostBtn}
                         <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else if (l.status === 'expired') {
-                    // Expired â€” gray badge
+                    // Expired Ã¢â‚¬â€ gray badge
                     statusBadge = '<span class="status-badge" style="background:#e2e3e5; color:#383d41;">EXPIRED</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
                         <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                     `;
                 } else {
-                    // Rejected (default) â€” red badge
+                    // Rejected (default) Ã¢â‚¬â€ red badge
                     statusBadge = '<span class="status-badge status-rejected">REJECTED</span>';
                     actionBtns = `
                         <button class="btn-action btn-approve" onclick="changeStatus('${l.id}', 'published')">Republish</button>
@@ -715,7 +711,7 @@
             }
         }
 
-        // --- View Full Details (Simplified â€” no field-by-field review) ---
+        // --- View Full Details (Simplified Ã¢â‚¬â€ no field-by-field review) ---
         window.viewFullDetails = async function(id) {
             const l = await store.getById(id);
             if(!l) return;
@@ -804,7 +800,7 @@
                     displayVal = Number.isFinite(num) && num > 0 ? `${num}%` : 'N/A';
                 }
 
-                // Simple display â€” no field-by-field checkboxes
+                // Simple display Ã¢â‚¬â€ no field-by-field checkboxes
                 el.innerText = displayVal;
             });
 
@@ -813,7 +809,7 @@
                 ? l.services.map(s => `<div><i class="fas fa-check text-success"></i> ${s}</div>`).join('') 
                 : 'No specific services requested.';
 
-            // Generate modal footer action buttons â€” simplified workflow
+            // Generate modal footer action buttons Ã¢â‚¬â€ simplified workflow
             let actionBtns = '';
             if (l.status === 'pending' || l.status === 'pending_payment' || l.status === 'review') {
                 actionBtns = `
@@ -824,7 +820,7 @@
             } else if (l.status === 'published') {
                 const boostBtn = l.boosted ? 
                     `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">ðŸš€ Boost</button>`;
+                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">Ã°Å¸Å¡â‚¬ Boost</button>`;
                 actionBtns = `
                     ${boostBtn}
                     <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
@@ -958,6 +954,7 @@
 </footer>
 
 </html>
+
 
 
 
