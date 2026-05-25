@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -405,8 +405,8 @@
                 </div>
             </div>
             <div class="header-right">
-                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">—</strong></div>
-                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">—</strong></div>
+                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">â€”</strong></div>
+                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">â€”</strong></div>
             </div>
         </div>
 
@@ -438,10 +438,10 @@
                 <div class="ad-title-large" id="ad-large-title">Loading...</div>
                 
                 <div class="ad-details-grid">
-                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">—</span></div>
-                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">—</span></div>
-                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">—</span></div>
-                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">—</span></div>
+                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">â€”</span></div>
+                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">â€”</span></div>
                 </div>
 
                 <div id="pub-image-container" style="display:none; margin-bottom: 20px;"></div>
@@ -575,7 +575,7 @@
 
             function setEl(sel, val) {
                 const el = document.getElementById(sel);
-                if (el) el.innerHTML = val || '—';
+                if (el) el.innerHTML = val || 'â€”';
             }
 
             // If we have data from app.js store
@@ -656,11 +656,11 @@
                     };
                     const fmtMoney = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? formatLKR(n) : '—';
+                        return n && n > 0 ? formatLKR(n) : 'â€”';
                     };
                     const fmtPercent = (v) => {
                         const n = numOrNull(v);
-                        return n && n > 0 ? `${n}%` : '—';
+                        return n && n > 0 ? `${n}%` : 'â€”';
                     };
 
                     const items = [
@@ -684,7 +684,7 @@
                         ['Assets (Tangible/Intangible)', listing.assets, true],
                         ['Objective', listing.objective, true],
                         ['Additional Notes', listing.additionalNotes, true],
-                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : '—', true],
+                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : 'â€”', true],
 
                         ['Contact Name', listing.contactName],
                         ['Contact Phone', listing.phone],
@@ -692,9 +692,9 @@
                     ];
 
                     const safeText = (v) => {
-                        if (v === null || v === undefined) return '—';
+                        if (v === null || v === undefined) return 'â€”';
                         const s = String(v).trim();
-                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : '—';
+                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'â€”';
                     };
 
                     allGrid.innerHTML = items
@@ -748,6 +748,43 @@
 
 
 
+
+<!-- Footer -->
+<footer class="hela-footer-thin">
+    <div class="container">
+        <!-- Links Bar -->
+        <div class="footer-thin-links">
+            <a href="index.html">Home</a>
+            <span class="divider">|</span>
+            <a href="sitemap.html">Site Map</a>
+            <span class="divider">|</span>
+            <a href="contact.html">Contact Us</a>
+            <span class="divider">|</span>
+            <a href="terms.html">Terms of Service</a>
+            <span class="divider">|</span>
+            <a href="privacy.html">Privacy Policy</a>
+            <span class="divider">|</span>
+            <a href="faq.html">Help & Support</a>
+            <span class="divider">|</span>
+            <a href="admin.html?v=5">Admin</a>
+        </div>
+    </div>
+    <!-- Copyright & Socials Bar -->
+    <div class="footer-thin-bottom">
+        <div class="container footer-thin-bottom-inner">
+            <div class="copyright-text">
+                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a>
+            </div>
+            <div class="social-icons">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
 </html>
 
 

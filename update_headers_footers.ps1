@@ -11,7 +11,7 @@ $footerHTML = $indexContent.Substring($footerStart, $footerEnd - $footerStart)
 
 $faLink = '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">'
 
-$excludeFiles = @('index.html', 'login.html', 'register.html', 'auth.html', 'dashboard.html', 'publisher-dashboard.html', 'admin.html', 'sidebar-component.html', 'listing-detail.html')
+$excludeFiles = @('index.html', 'dashboard.html', 'publisher-dashboard.html', 'admin.html', 'sidebar-component.html')
 
 $files = Get-ChildItem -Filter *.html
 foreach ($file in $files) {
@@ -31,7 +31,11 @@ foreach ($file in $files) {
     $content = $content -replace '(?s)<footer.*?</footer>', ''
 
     $content = $content -replace '(?i)(<body[^>]*>)', ("`$1`r`n`r`n" + $headerHTML + "`r`n")
-    $content = $content -replace '(?i)(</body>)', ("`r`n" + $footerHTML + "`r`n`$1")
+    if ($content -match '(?i)</body>') {
+        $content = $content -replace '(?i)(</body>)', ("`r`n" + $footerHTML + "`r`n`$1")
+    } else {
+        $content = $content -replace '(?i)(</html>)', ("`r`n" + $footerHTML + "`r`n</body>`r`n`$1")
+    }
 
     if (-not $content.Contains('font-awesome')) {
         $content = $content -replace '(?i)(</head>)', ("$faLink`r`n`$1")
