@@ -130,16 +130,7 @@
                     "Investing in your future starts with the right connection. Join us to unlock your true potential."
                 </div>
 
-                <div class="role-selector">
-                    <div class="role-card active" data-role="client" onclick="selectRole('client')">
-                        <strong>Job Seeker</strong>
-                        <small>Investor / Seeking Advisory</small>
-                    </div>
-                    <div class="role-card" data-role="publisher" onclick="selectRole('publisher')">
-                        <strong>Job Publisher</strong>
-                        <small>Business Owner / Franchisor</small>
-                    </div>
-                </div>
+                <!-- Role selector removed -->
 
                 <form id="register-form">
                     <div class="form-group">
@@ -185,13 +176,8 @@
             }
         }
 
-        // Role Selection
-        let selectedRole = 'client';
-        function selectRole(role) {
-            selectedRole = role;
-            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
-            document.querySelector(`.role-card[data-role="${role}"]`).classList.add('active');
-        }
+        // Fixed Role
+        let selectedRole = 'publisher';
 
         // Standard Login
         document.getElementById('login-form').addEventListener('submit', async (e) => {
