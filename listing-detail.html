@@ -1,780 +1,485 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listing Detail | HelaInvest</title>
-    <!-- Use Inter font for clean look -->
+    <title>Business Listing | HelaInvest</title>
+    <meta name="description" content="View business investment opportunities on HelaInvest - Sri Lanka's premier business marketplace.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="style.css?v=10">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background-color: #f1f3f6; /* Light gray background like topjobs modal */
-            font-family: 'Inter', Arial, sans-serif; 
-            color: #333; 
+        body {
+            background: #f0f4f8;
+            font-family: 'Inter', sans-serif;
+            color: #1e293b;
         }
 
-        /* Container exactly like TopJobs popup */
-        .ad-preview-screen {
-            max-width: 1100px;
-            margin: 20px auto;
-            background: #fff;
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            padding-bottom: 40px;
+        /* ── Top Nav ── */
+        .ld-topnav {
+            background: #0a3578;
+            padding: 10px 0;
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
+        .ld-topnav .container {
+            max-width: 1100px; margin: 0 auto; padding: 0 20px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+        }
+        .ld-logo { color: #fff; font-size: 1.3rem; font-weight: 900; text-decoration: none; }
+        .ld-logo span { color: #cc9900; }
+        .ld-nav-links { display: flex; gap: 8px; }
+        .ld-nav-links a {
+            color: rgba(255,255,255,0.85); font-size: 0.85rem; text-decoration: none;
+            padding: 6px 14px; border-radius: 6px; transition: background 0.2s;
+        }
+        .ld-nav-links a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .ld-nav-links .btn-primary-nav {
+            background: #cc9900; color: #fff; font-weight: 700;
+        }
+        .ld-nav-links .btn-primary-nav:hover { background: #a37800; }
 
-        /* --- Header Section --- */
-        .ad-header {
-            padding: 15px 20px;
-            border-bottom: 2px solid #e0e0e0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* Home Button */
-        .btn-home {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            color: #555;
-            text-decoration: none;
-            font-size: 1.2rem;
-            transition: all 0.2s;
-        }
-        .btn-home:hover { background-color: #e2e6ea; color: #333; }
-
-        /* Company Logo Placeholder */
-        .ad-company-logo {
-            width: 80px;
-            height: 60px;
-            border: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
-            background: #fff;
-        }
-        .ad-company-logo img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        .ad-company-logo .no-logo {
-            font-size: 0.7rem;
-            color: #aaa;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        /* Company Info */
-        .ad-company-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .ad-company-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #000;
-            margin-bottom: 4px;
-        }
-        .ad-company-location {
-            font-size: 0.85rem;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .ad-company-location img { width: 18px; }
-
-        /* Header Right Details */
-        .header-right {
-            text-align: left;
-            background: #f9f9f9;
-            padding: 10px 15px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            color: #444;
-        }
-        .header-right div {
-            margin-bottom: 5px;
-        }
-        .header-right div:last-child { margin-bottom: 0; }
-        .header-right i {
-            color: #666;
-            width: 16px;
-            text-align: center;
-            margin-right: 4px;
-        }
-
-        /* --- Action Bar --- */
-        .action-btn-panel {
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #e0e0e0;
-            background-color: #fafafa;
-        }
-        
-        .ad-status {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #555;
-            background: #e9ecef;
-            padding: 4px 10px;
-            border-radius: 3px;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-topjobs {
-            padding: 6px 16px;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        /* ── Hero Banner (Photo or Gradient) ── */
+        .ld-hero {
+            background: linear-gradient(135deg, #0a3578 0%, #1565c0 100%);
             color: #fff;
-            text-decoration: none;
-            transition: opacity 0.2s;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-topjobs:hover { opacity: 0.9; }
-        .btn-success { background-color: #28a745; }
-        .btn-flag { background-color: #dc3545; padding: 6px 12px; }
-
-        /* --- Job Title Header --- */
-        .job-title-header {
-            padding: 20px 20px 15px;
-            text-align: center;
-        }
-        .job-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #222;
-            margin: 0;
-        }
-
-        /* --- Advertisement Area --- */
-        .job-holder {
-            padding: 0 20px 20px;
-            display: flex;
-            justify-content: center;
-        }
-        
-        /* The specific box representing the actual Ad content */
-        .ad-content-box {
+        .ld-hero-img {
             width: 100%;
-            max-width: 850px;
-            border: 3px solid #333; /* Typical TopJobs ad border */
-            background: #fff;
-            padding: 40px;
-            text-align: left;
+            max-height: 380px;
+            object-fit: cover;
+            display: block;
+            opacity: 0.85;
+        }
+        .ld-hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(10,53,120,0.92) 0%, rgba(10,53,120,0.3) 60%, transparent 100%);
+        }
+        .ld-hero-content {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 28px 32px;
+        }
+        .ld-hero-static {
+            padding: 48px 32px 40px;
             position: relative;
         }
-        
-        .ad-content-box::before {
-            content: "HELAINVEST LISTING ADVERTISEMENT";
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff;
-            padding: 0 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: #999;
-            letter-spacing: 1px;
+        .ld-badge {
+            display: inline-block;
+            background: rgba(204,153,0,0.25);
+            border: 1px solid #cc9900;
+            color: #ffd84d;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+        }
+        .ld-hero-title {
+            font-size: 2rem; font-weight: 800; color: #fff;
+            line-height: 1.2; margin-bottom: 10px;
+        }
+        .ld-hero-meta {
+            display: flex; flex-wrap: wrap; gap: 16px;
+            font-size: 0.88rem; color: rgba(255,255,255,0.8);
+        }
+        .ld-hero-meta span { display: flex; align-items: center; gap: 6px; }
+        .ld-hero-meta i { color: #cc9900; }
+
+        /* ── Layout ── */
+        .ld-body { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
+        .ld-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+            align-items: start;
         }
 
-        /* Internal Ad Styling */
-        .ad-brand-text {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #003399;
-            text-align: center;
+        /* ── Cards ── */
+        .ld-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden;
             margin-bottom: 20px;
         }
-        .ad-brand-text span { color: #cc9900; }
-        
-        .ad-title-large {
-            font-size: 2.2rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #111;
-            line-height: 1.2;
+        .ld-card-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #e8ecf0;
+            display: flex; align-items: center; gap: 10px;
         }
-        
-        .ad-details-grid {
+        .ld-card-header h2 {
+            font-size: 1rem; font-weight: 700; color: #0a3578;
+        }
+        .ld-card-header i { color: #cc9900; font-size: 1rem; }
+        .ld-card-body { padding: 20px 24px; }
+
+        /* ── Key Metrics ── */
+        .ld-metrics {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 30px;
-            border-top: 2px solid #eee;
-            border-bottom: 2px solid #eee;
-            padding: 20px 0;
+            gap: 14px;
         }
-        
-        .ad-detail-item {
-            font-size: 0.95rem;
+        .ld-metric {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 3px solid #0a3578;
         }
-        .ad-detail-item strong {
-            display: inline-block;
-            width: 150px;
-            color: #555;
+        .ld-metric-label {
+            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.8px; color: #64748b; margin-bottom: 4px;
         }
-        .ad-detail-item span {
-            font-weight: 700;
-            color: #000;
+        .ld-metric-value {
+            font-size: 1.1rem; font-weight: 800; color: #0a3578;
         }
-        .val-hl {
-            color: #003399 !important;
-            font-size: 1.1rem;
-        }
+        .ld-metric-value.accent { color: #cc9900; }
 
-        .ad-desc-area {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #333;
-            margin-bottom: 30px;
+        /* ── Description ── */
+        .ld-desc {
+            font-size: 0.96rem; line-height: 1.8; color: #374151;
             white-space: pre-line;
         }
 
-        .ad-all-fields {
-            border-top: 2px solid #eee;
-            padding-top: 20px;
+        /* ── Data Table ── */
+        .ld-data-table { width: 100%; border-collapse: collapse; }
+        .ld-data-table tr { border-bottom: 1px solid #f0f4f8; }
+        .ld-data-table tr:last-child { border-bottom: none; }
+        .ld-data-table td { padding: 11px 4px; vertical-align: top; }
+        .ld-data-table td:first-child {
+            font-size: 0.82rem; font-weight: 700; color: #64748b;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            width: 45%; padding-right: 10px;
+        }
+        .ld-data-table td:last-child {
+            font-size: 0.9rem; font-weight: 600; color: #1e293b;
+        }
+
+        /* ── Photo Gallery ── */
+        .ld-gallery { margin-bottom: 20px; }
+        .ld-gallery-main {
+            width: 100%; height: 300px;
+            object-fit: cover; border-radius: 10px;
+            background: #e2e8f0; display: block;
+        }
+        .ld-gallery-thumbs {
+            display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;
+        }
+        .ld-gallery-thumb {
+            width: 70px; height: 55px; object-fit: cover;
+            border-radius: 6px; cursor: pointer;
+            border: 2px solid transparent; transition: border-color 0.2s;
+        }
+        .ld-gallery-thumb.active { border-color: #0a3578; }
+
+        /* ── Sidebar ── */
+        .ld-sidebar-card {
+            background: #fff; border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            overflow: hidden; margin-bottom: 20px;
+            position: sticky; top: 70px;
+        }
+        .ld-enquire-header {
+            background: linear-gradient(135deg, #0a3578, #1565c0);
+            padding: 22px 24px; color: #fff;
+        }
+        .ld-enquire-header h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
+        .ld-enquire-header p { font-size: 0.82rem; opacity: 0.85; }
+        .ld-enquire-price {
+            font-size: 1.6rem; font-weight: 900; color: #ffd84d;
             margin-top: 10px;
-            margin-bottom: 30px;
         }
-        .ad-all-fields h3 {
-            font-size: 1.05rem;
-            margin-bottom: 12px;
-            color: #003399;
+        .ld-enquire-body { padding: 20px 24px; }
+        .ld-form-group { margin-bottom: 14px; }
+        .ld-form-group label {
+            display: block; font-size: 0.78rem; font-weight: 700;
+            color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
+            margin-bottom: 5px;
         }
-        .ad-all-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px 20px;
-            font-size: 0.92rem;
+        .ld-form-group input, .ld-form-group textarea {
+            width: 100%; padding: 10px 12px;
+            border: 1.5px solid #e2e8f0; border-radius: 8px;
+            font-family: 'Inter', sans-serif; font-size: 0.88rem;
+            transition: border-color 0.2s; outline: none;
         }
-        .ad-all-item {
-            border-bottom: 1px dashed #e6e6e6;
-            padding-bottom: 8px;
+        .ld-form-group input:focus, .ld-form-group textarea:focus { border-color: #0a3578; }
+        .ld-form-group textarea { resize: vertical; min-height: 90px; }
+        .ld-btn-enquire {
+            width: 100%; padding: 13px; background: #0a3578;
+            color: #fff; font-weight: 800; font-size: 0.95rem;
+            border: none; border-radius: 8px; cursor: pointer;
+            transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .ad-all-item strong {
-            display: inline-block;
-            width: 170px;
-            color: #555;
-            font-weight: 700;
+        .ld-btn-enquire:hover { background: #072a65; }
+        .ld-btn-secondary {
+            width: 100%; padding: 11px; margin-top: 10px;
+            background: #f8fafc; color: #0a3578;
+            border: 1.5px solid #0a3578; font-weight: 700; font-size: 0.88rem;
+            border-radius: 8px; cursor: pointer; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none;
         }
-        .ad-all-item span {
-            font-weight: 600;
-            color: #111;
-        }
-        .ad-all-wide {
-            grid-column: 1 / -1;
-        }
+        .ld-btn-secondary:hover { background: #e8f0fe; }
+        .ld-divider { border: none; border-top: 1px solid #e8ecf0; margin: 14px 0; }
 
-        .ad-footer-contact {
-            background: #f9f9f9;
-            padding: 15px;
-            border-left: 4px solid #003399;
-            font-size: 0.9rem;
+        /* ── Trust Badges ── */
+        .ld-trust {
+            display: flex; gap: 10px; flex-direction: column;
         }
-        .ad-footer-contact strong { color: #000; }
+        .ld-trust-item {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.82rem; color: #64748b;
+        }
+        .ld-trust-item i { color: #28a745; font-size: 0.9rem; width: 18px; }
 
-        /* --- Bottom Apply Box --- */
-        .apply-through-wrapper {
-            margin: 0 20px;
-            padding: 20px;
-            background: #d1ecf1;
-            border: 1px solid #bee5eb;
-            border-radius: 4px;
-            color: #0c5460;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        /* ── Services Promo ── */
+        .ld-services {
+            background: linear-gradient(135deg, #fff8e1, #fff3cd);
+            border: 1px solid #ffe082;
+            border-radius: 10px; padding: 18px 20px;
         }
-        .apply-info h4 {
-            margin-bottom: 8px;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .ld-services h4 {
+            font-size: 0.95rem; font-weight: 800; color: #795500; margin-bottom: 10px;
         }
-        .apply-info ul {
-            padding-left: 20px;
-            font-size: 0.9rem;
-            margin-bottom: 0;
+        .ld-services ul { list-style: none; }
+        .ld-services li {
+            font-size: 0.83rem; color: #5d4037; padding: 3px 0;
+            display: flex; align-items: center; gap: 8px;
         }
-        .apply-btns {
-            display: flex;
-            gap: 10px;
-        }
-        .btn-warning {
-            background-color: #ffc107;
-            color: #212529;
-        }
+        .ld-services li i { color: #cc9900; }
 
-        /* --- Footer Bottom Bar --- */
-        .bottom-bar {
-            margin: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
+        /* ── Ref & Share Bar ── */
+        .ld-refbar {
+            background: #f8fafc; border-radius: 8px; padding: 10px 16px;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 0.8rem; color: #64748b; margin-bottom: 20px;
+            border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 8px;
         }
+        .ld-refbar strong { color: #1e293b; }
+        .ld-share-btns { display: flex; gap: 8px; }
+        .ld-share-btn {
+            padding: 5px 12px; border-radius: 6px; font-size: 0.78rem;
+            font-weight: 600; cursor: pointer; border: none;
+            display: flex; align-items: center; gap: 5px; transition: opacity 0.2s;
+        }
+        .ld-share-btn:hover { opacity: 0.85; }
+        .share-print { background: #e8ecf0; color: #374151; }
+        .share-whatsapp { background: #25D366; color: #fff; }
 
-        /* --- Quick Email Apply Form (Hidden by default) --- */
-        #ave-form-panel {
-            display: none;
-            margin: 0 20px 20px;
-            padding: 20px;
-            border: 1px solid #ddd;
-            background: #fff;
-            border-top: 3px solid #28a745;
+        /* ── Back button ── */
+        .ld-back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: rgba(255,255,255,0.9); font-size: 0.85rem; font-weight: 600;
+            text-decoration: none; margin-bottom: 16px;
+            padding: 6px 0;
         }
-        #ave-form-panel.active {
-            display: block;
-            animation: fadeIn 0.3s;
-        }
-        @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-        
-        .ave-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .form-row { margin-bottom: 15px; }
-        .form-row label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; color: #555; }
-        .form-row input, .form-row textarea {
-            width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 3px; font-family: inherit;
-        }
-        .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .ld-back-btn:hover { color: #fff; }
 
+        /* ── Success toast ── */
+        #enquiry-toast {
+            display: none; position: fixed; bottom: 30px; right: 30px;
+            background: #28a745; color: #fff; padding: 14px 24px;
+            border-radius: 10px; font-weight: 700; z-index: 9999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* ── Mobile ── */
+        @media (max-width: 768px) {
+            .ld-grid { grid-template-columns: 1fr; }
+            .ld-sidebar-card { position: static; }
+            .ld-hero-title { font-size: 1.45rem; }
+            .ld-metrics { grid-template-columns: 1fr 1fr; }
+            .ld-hero-content { padding: 20px; }
+            .ld-hero-static { padding: 30px 20px; }
+            .ld-nav-links .hide-mobile { display: none; }
+        }
     </style>
 </head>
+<body>
 
-
-
-
-
-    <div class="ad-preview-screen">
-        
-        <!-- TOP HEADER AREA -->
-        <div class="ad-header">
-            <div class="header-left">
-                <a href="index.html" class="btn-home" title="Go Home">
-                    <i class="fas fa-home"></i>
-                </a>
-                <div class="ad-company-logo">
-                    <!-- Topjobs shows logo here if available -->
-                    <div class="no-logo">HelaInvest<br>Portal</div>
-                </div>
-                <div class="ad-company-info">
-                    <div class="ad-company-name" id="employer-name">Loading...</div>
-                    <div class="ad-company-location">
-                        <i class="fas fa-map-marker-alt"></i> <span id="employer-location">Sri Lanka</span>
-                    </div>
-                </div>
-            </div>
-            <div class="header-right">
-                <div><i class="far fa-calendar-alt"></i> Closing Date: <strong id="closing-date">â€”</strong></div>
-                <div><i class="fas fa-hashtag"></i> Ref No: <strong id="ref-no">â€”</strong></div>
-            </div>
+<!-- Top Nav -->
+<nav class="ld-topnav">
+    <div class="container">
+        <a href="index.html" class="ld-logo">Hela<span>Invest</span></a>
+        <div class="ld-nav-links">
+            <a href="index.html" class="hide-mobile"><i class="fas fa-th-list"></i> All Listings</a>
+            <a href="register.html" class="hide-mobile">Register</a>
+            <a href="submit.html" class="btn-primary-nav"><i class="fas fa-plus"></i> Post Ad</a>
         </div>
+    </div>
+</nav>
 
-        <!-- ACTION BAR -->
-        <div class="action-btn-panel">
-            <div class="ad-status" id="listing-type">Business Opportunity</div>
-            <div class="action-btns">
-                <button class="btn-topjobs btn-success" id="btn-toggle-apply">
-                    <i class="fas fa-share"></i> Enquire by Email
-                </button>
-                <button class="btn-topjobs btn-success" onclick="window.print()">
-                    <i class="fas fa-print"></i> Print
-                </button>
-                <button class="btn-topjobs btn-flag">
-                    <i class="fas fa-flag"></i>
-                </button>
-            </div>
+<!-- Hero / Banner -->
+<div class="ld-hero" id="ld-hero">
+    <!-- If photo: shows image with overlay. If no photo: shows gradient with content directly -->
+    <div class="ld-hero-static" id="ld-hero-inner">
+        <a href="index.html" class="ld-back-btn"><i class="fas fa-arrow-left"></i> Back to Listings</a>
+        <div class="ld-badge" id="hero-badge">Business Opportunity</div>
+        <h1 class="ld-hero-title" id="hero-title">Loading...</h1>
+        <div class="ld-hero-meta">
+            <span><i class="fas fa-map-marker-alt"></i> <span id="hero-location">Sri Lanka</span></span>
+            <span><i class="fas fa-industry"></i> <span id="hero-industry">–</span></span>
+            <span><i class="fas fa-calendar-alt"></i> Listed: <span id="hero-date">–</span></span>
         </div>
+    </div>
+</div>
 
-        <!-- JOB TITLE -->
-        <div class="job-title-header">
-            <h1 class="job-title" id="job-title">Loading...</h1>
+<!-- Body -->
+<div class="ld-body">
+
+    <!-- Ref & Share Bar -->
+    <div class="ld-refbar">
+        <div><strong>Ref:</strong> <span id="ref-no">–</span> &nbsp;|&nbsp; <strong>Closes:</strong> <span id="closing-date">–</span></div>
+        <div class="ld-share-btns">
+            <button class="ld-share-btn share-print" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+            <button class="ld-share-btn share-whatsapp" id="btn-whatsapp"><i class="fab fa-whatsapp"></i> Share</button>
         </div>
-
-        <!-- ADVERTISEMENT CONTENT (Replicating the printed image look using a bordered box) -->
-        <div class="job-holder">
-            <div class="ad-content-box" id="ad-content-box">
-                <div class="ad-brand-text">Hela<span>Invest</span></div>
-                <div class="ad-title-large" id="ad-large-title">Loading...</div>
-                
-                <div class="ad-details-grid">
-                    <div class="ad-detail-item"><strong>Industry / Sector:</strong> <span id="ad-industry">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Location:</strong> <span id="ad-district">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Investment Req:</strong> <span class="val-hl" id="ad-invest">â€”</span></div>
-                    <div class="ad-detail-item"><strong>Business Stage:</strong> <span id="ad-stage">â€”</span></div>
-                </div>
-
-                <div id="pub-image-container" style="display:none; margin-bottom: 20px;"></div>
-                <div class="ad-desc-area" id="ad-desc">
-                    Loading description...
-                </div>
-
-                <div class="ad-all-fields" id="ad-all-fields" style="display:none;">
-                    <h3>All Data Fields</h3>
-                    <div class="ad-all-grid" id="ad-all-grid"></div>
-                </div>
-
-                <div style="background: #f4f6f9; border: 1px solid #ccc; padding: 15px; margin: 20px 0; border-radius: 4px; border-left: 4px solid #1976d2;">
-                    <h4 style="color: #0b4cb4; margin-bottom: 10px; font-size: 1.05rem;">Need Help Structuring Your Business?</h4>
-                    <ul style="list-style-type: none; padding-left: 0; font-size: 0.95rem; color: #555;">
-                        <li style="margin-bottom: 5px;"><i class="fas fa-check" style="color: #28a745; margin-right: 8px;"></i> Business Plans & Investment Proposals</li>
-                        <li style="margin-bottom: 5px;"><i class="fas fa-check" style="color: #28a745; margin-right: 8px;"></i> Business Valuation Reports</li>
-                        <li><i class="fas fa-check" style="color: #28a745; margin-right: 8px;"></i> Tax & Accounting Services</li>
-                    </ul>
-                    <a href="#" style="display: inline-block; margin-top: 10px; font-size: 0.85rem; color: #1976d2; font-weight: 600; text-decoration: none;">Learn more about our services &rarr;</a>
-                </div>
-
-                <div class="ad-footer-contact" id="ad-contact-box">
-                    <strong>Direct Contact:</strong> <span id="ad-contact-name"></span><br>
-                    <strong>Email:</strong> <span id="ad-email"></span> | <strong>Phone:</strong> <span id="ad-phone"></span>
-                </div>
-            </div>
-        </div>
-
-        <!-- APPLY BY EMAIL FORM PANEL -->
-        <div id="ave-form-panel">
-            <div class="ave-title">Enquire by email</div>
-            <div style="display:flex; gap:20px;">
-                <div style="flex:1;">
-                    <div class="form-row">
-                        <label>Your Name: *</label>
-                        <input type="text" id="apply-name" placeholder="Enter your full name">
-                    </div>
-                    <div class="form-row">
-                        <label>Your Email: *</label>
-                        <input type="email" id="apply-email" placeholder="Enter your email address">
-                    </div>
-                    <div class="form-row">
-                        <label>Contact No: *</label>
-                        <input type="text" id="apply-phone" placeholder="Enter your contact number">
-                    </div>
-                </div>
-                <div style="flex:1;">
-                    <div class="form-row">
-                        <label>Message: *</label>
-                        <textarea id="apply-msg" rows="6" placeholder="Write your enquiry here..."></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="form-actions">
-                <button class="btn-topjobs btn-success" onclick="submitEnquiry()"><i class="fas fa-paper-plane"></i> Send Enquiry</button>
-                <button class="btn-topjobs" style="background:#dc3545;" onclick="toggleApplyForm()">Close</button>
-            </div>
-        </div>
-
-        <!-- TOPJOBS STYLE PROMO BOX -->
-        <div class="apply-through-wrapper">
-            <div class="apply-info">
-                <h4><i class="fas fa-info-circle"></i> Use HelaInvest Account for faster processing</h4>
-                <ul>
-                    <li>Save your investor profile</li>
-                    <li>Submit interest with one click</li>
-                    <li>Track your enquiries in one place</li>
-                </ul>
-            </div>
-            <div class="apply-btns">
-                <button class="btn-topjobs btn-warning"><i class="fas fa-user-plus"></i> Sign Up</button>
-                <button class="btn-topjobs btn-success"><i class="fas fa-sign-in-alt"></i> Login</button>
-            </div>
-        </div>
-
-        <div class="bottom-bar">
-            <div class="action-btns">
-                <button class="btn-topjobs btn-success" onclick="toggleApplyForm()">
-                    <i class="fas fa-share"></i> Enquire by Email
-                </button>
-                <button class="btn-topjobs btn-success" onclick="window.print()">
-                    <i class="fas fa-print"></i> Print
-                </button>
-            </div>
-            <a href="#" style="color:#666; text-decoration:none; font-size:0.85rem;" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-                <i class="fas fa-caret-up"></i> Scroll to Top
-            </a>
-        </div>
-
     </div>
 
-    <!-- Data Population Script -->
-        <!-- Firebase Core SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="firebase-config.js"></script>
-    
-    <script src="app.js"></script>
-    <script>
-        // Apply form toggle
-        const applyBtn = document.getElementById('btn-toggle-apply');
-        const applyForm = document.getElementById('ave-form-panel');
-        
-        function toggleApplyForm() {
-            applyForm.classList.toggle('active');
-            if(applyForm.classList.contains('active')) {
-                applyForm.scrollIntoView({behavior: 'smooth', block: 'center'});
-            }
-        }
-        applyBtn.addEventListener('click', toggleApplyForm);
+    <div class="ld-grid">
 
-        function submitEnquiry() {
-            alert("Enquiry sent successfully to the listing owner!");
-            toggleApplyForm();
-        }
+        <!-- ── LEFT COLUMN ── -->
+        <div>
 
-        // Data Load
-        document.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const refParam = params.get('ref');
-            
-            // Standard ID logic
-            const id = params.get('id');
-            let listing = null;
-            
-            if (id && typeof store !== 'undefined') {
-                listing = await store.getById(id);
-            }
+            <!-- Photo Gallery (shown if photos exist) -->
+            <div id="gallery-card" class="ld-card" style="display:none;">
+                <div class="ld-card-body" style="padding:16px;">
+                    <div id="gallery-inner"></div>
+                </div>
+            </div>
 
-            function setEl(sel, val) {
-                const el = document.getElementById(sel);
-                if (el) el.innerHTML = val || 'â€”';
-            }
+            <!-- Key Metrics -->
+            <div class="ld-card">
+                <div class="ld-card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h2>Key Highlights</h2>
+                </div>
+                <div class="ld-card-body">
+                    <div class="ld-metrics">
+                        <div class="ld-metric">
+                            <div class="ld-metric-label">Investment Required</div>
+                            <div class="ld-metric-value accent" id="m-invest">–</div>
+                        </div>
+                        <div class="ld-metric">
+                            <div class="ld-metric-label">Business Stage</div>
+                            <div class="ld-metric-value" id="m-stage">–</div>
+                        </div>
+                        <div class="ld-metric">
+                            <div class="ld-metric-label">Monthly Revenue</div>
+                            <div class="ld-metric-value" id="m-monthly">–</div>
+                        </div>
+                        <div class="ld-metric">
+                            <div class="ld-metric-label">% Stake Available</div>
+                            <div class="ld-metric-value" id="m-percent">–</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            // If we have data from app.js store
-            if (listing) {
-                const ref = 'HLI' + (1000000 + parseInt(listing.id || '1'));
-                
-                const closeDate = new Date();
-                closeDate.setDate(closeDate.getDate() + 30);
-                const closeDateStr = closeDate.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+            <!-- Description -->
+            <div class="ld-card">
+                <div class="ld-card-header">
+                    <i class="fas fa-file-alt"></i>
+                    <h2>About This Opportunity</h2>
+                </div>
+                <div class="ld-card-body">
+                    <div class="ld-desc" id="m-desc">Loading...</div>
+                </div>
+            </div>
 
-                // Header
-                setEl('employer-name', 'Confidential Business');
-                setEl('employer-location', (listing.district || 'Sri Lanka') + ', Sri Lanka');
-                setEl('closing-date', closeDateStr);
-                setEl('ref-no', ref);
-                setEl('listing-type', listing.industry || 'Opportunity');
-                
-                // Titles
-                setEl('job-title', 'Confidential Business');
-                setEl('ad-large-title', 'Confidential Business');
+            <!-- Business Details Table -->
+            <div class="ld-card" id="details-card">
+                <div class="ld-card-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>Business Details</h2>
+                </div>
+                <div class="ld-card-body">
+                    <table class="ld-data-table" id="details-table"></table>
+                </div>
+            </div>
 
-                // Ad Data
-                setEl('ad-industry', listing.industry);
-                setEl('ad-district', listing.district);
-                setEl('ad-invest', formatLKR(listing.investmentRequired));
-                setEl('ad-stage', listing.businessStage);
-                
-                let fullDesc = (listing.fullDescription || listing.shortDescription || 'Please refer to the listing details.').replace(/\n/g, '<br>');
-                if(listing.services && listing.services.length > 0) {
-                    fullDesc += '<br><br><strong>Services Requested:</strong><br>' + listing.services.join(', ');
-                }
-                setEl('ad-desc', fullDesc);
-                
-                // Handle Images
-                const imgContainer = document.getElementById('pub-image-container');
-                if (listing.images && listing.images.length > 0) {
-                    imgContainer.style.display = 'block';
-                    let imgHTML = `<div style="position:relative; width:100%; height:400px; border-radius:8px; overflow:hidden; background:#111; margin-bottom:15px;">`;
-                    listing.images.forEach((img, idx) => {
-                        imgHTML += `<img class="p-slider-img" id="p-slider-img-${idx}" src="${img}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:contain; opacity:${idx === 0 ? 1 : 0}; transition: opacity 0.5s;">`;
-                    });
-                    imgHTML += `</div>`;
-                    
-                    if(listing.images.length > 1) {
-                        imgHTML += `<div style="text-align:center; margin-bottom:20px;">`;
-                        listing.images.forEach((_, idx) => {
-                            imgHTML += `<span class="p-slider-dot" id="p-slider-dot-${idx}" style="display:inline-block; width:12px; height:12px; border-radius:50%; background:${idx === 0 ? '#003399' : '#ddd'}; margin:0 5px; cursor:pointer;" onclick="window.setPubSlider(${idx})"></span>`;
-                        });
-                        imgHTML += `</div>`;
-                    }
-                    imgContainer.innerHTML = imgHTML;
-                    
-                    if(listing.images.length > 1) {
-                        window.currentPubSlide = 0;
-                        window.pubSliderTotal = listing.images.length;
-                        window.setPubSlider = function(idx) {
-                            for(let i=0; i<window.pubSliderTotal; i++) {
-                                document.getElementById('p-slider-img-'+i).style.opacity = (i === idx) ? 1 : 0;
-                                const dot = document.getElementById('p-slider-dot-'+i);
-                                if(dot) dot.style.background = (i === idx) ? '#003399' : '#ddd';
-                            }
-                            window.currentPubSlide = idx;
-                        };
-                        setInterval(() => {
-                            let next = (window.currentPubSlide + 1) % window.pubSliderTotal;
-                            window.setPubSlider(next);
-                        }, 3000);
-                    }
-                }
+            <!-- Services Promo -->
+            <div class="ld-services">
+                <h4><i class="fas fa-handshake" style="margin-right:6px;color:#cc9900;"></i>Need Help With Your Business Transaction?</h4>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Business Plans &amp; Investment Proposals</li>
+                    <li><i class="fas fa-check-circle"></i> Business Valuation &amp; Due Diligence Reports</li>
+                    <li><i class="fas fa-check-circle"></i> M&amp;A Advisory &amp; Legal Documentation</li>
+                    <li><i class="fas fa-check-circle"></i> Tax, Accounting &amp; Financial Modelling</li>
+                </ul>
+                <a href="contact.html" style="display:inline-block;margin-top:10px;font-size:0.82rem;color:#0a3578;font-weight:700;text-decoration:none;">Contact Our Advisory Team &rarr;</a>
+            </div>
 
-                // All data fields section (Smergers-like)
-                const allWrap = document.getElementById('ad-all-fields');
-                const allGrid = document.getElementById('ad-all-grid');
-                if (allWrap && allGrid) {
-                    const numOrNull = (v) => {
-                        const n = Number(v);
-                        return Number.isFinite(n) ? n : null;
-                    };
-                    const fmtMoney = (v) => {
-                        const n = numOrNull(v);
-                        return n && n > 0 ? formatLKR(n) : 'â€”';
-                    };
-                    const fmtPercent = (v) => {
-                        const n = numOrNull(v);
-                        return n && n > 0 ? `${n}%` : 'â€”';
-                    };
+        </div>
 
-                    const items = [
-                        ['Ref Code', listing.refCode || ref],
-                        ['Publisher Email', listing.publisherEmail],
-                        ['Role', listing.role],
-                        ['Interested In', listing.interest],
-                        ['Established', listing.established],
-                        ['Employees', listing.employees],
-                        ['Legal Entity', listing.entity || listing.entityType],
+        <!-- ── RIGHT SIDEBAR ── -->
+        <div>
+            <div class="ld-sidebar-card">
+                <div class="ld-enquire-header">
+                    <h3>Express Your Interest</h3>
+                    <p>Send a direct enquiry to the business owner</p>
+                    <div class="ld-enquire-price" id="sidebar-invest">–</div>
+                </div>
+                <div class="ld-enquire-body">
+                    <div class="ld-form-group">
+                        <label>Your Full Name</label>
+                        <input type="text" id="enq-name" placeholder="e.g. Kamal Perera">
+                    </div>
+                    <div class="ld-form-group">
+                        <label>Your Email</label>
+                        <input type="email" id="enq-email" placeholder="you@email.com">
+                    </div>
+                    <div class="ld-form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="enq-phone" placeholder="+94 7X XXX XXXX">
+                    </div>
+                    <div class="ld-form-group">
+                        <label>Message</label>
+                        <textarea id="enq-msg" placeholder="I am interested in this opportunity. Please share more details..."></textarea>
+                    </div>
+                    <button class="ld-btn-enquire" id="btn-send-enquiry">
+                        <i class="fas fa-paper-plane"></i> Send Enquiry
+                    </button>
+                    <hr class="ld-divider">
+                    <div class="ld-trust">
+                        <div class="ld-trust-item"><i class="fas fa-shield-alt"></i> Your details are kept confidential</div>
+                        <div class="ld-trust-item"><i class="fas fa-check-circle"></i> Listing verified by HelaInvest team</div>
+                        <div class="ld-trust-item"><i class="fas fa-lock"></i> Secure &amp; encrypted communication</div>
+                    </div>
+                </div>
+            </div>
 
-                        ['Monthly Sales', fmtMoney(listing.monthlySales || listing.monthlysales)],
-                        ['Yearly Sales', fmtMoney(listing.yearlySales || listing.yearlysales)],
-                        ['% Willing to Sell / Invest', fmtPercent(listing.percentToSell || listing.percent)],
-                        ['Value of Physical Assets', fmtMoney(listing.assetValue || listing.assetvalue)],
+            <!-- Register CTA -->
+            <div class="ld-sidebar-card" style="padding:20px 24px;">
+                <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;line-height:1.5;">Create a free HelaInvest account to save listings, track enquiries, and get matched with investors.</p>
+                <a href="register.html" class="ld-btn-secondary"><i class="fas fa-user-plus"></i> Create Free Account</a>
+                <a href="login.html" class="ld-btn-secondary" style="margin-top:8px;"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </div>
+</div>
 
-                        ['Products/Services', listing.products, true],
-                        ['Highlights', listing.highlights, true],
-                        ['Facility', listing.facility, true],
-                        ['Funding', listing.funding, true],
-                        ['Assets (Tangible/Intangible)', listing.assets, true],
-                        ['Objective', listing.objective, true],
-                        ['Additional Notes', listing.additionalNotes, true],
-                        ['Services Selected', (listing.services && listing.services.length) ? listing.services.join(', ') : 'â€”', true],
-
-                        ['Contact Name', listing.contactName],
-                        ['Contact Phone', listing.phone],
-                        ['Contact Email', listing.email]
-                    ];
-
-                    const safeText = (v) => {
-                        if (v === null || v === undefined) return 'â€”';
-                        const s = String(v).trim();
-                        return s ? s.replace(/</g, '&lt;').replace(/>/g, '&gt;') : 'â€”';
-                    };
-
-                    allGrid.innerHTML = items
-                        .filter(([_, v]) => v !== undefined)
-                        .map(([label, value, wide]) => `
-                            <div class="ad-all-item ${wide ? 'ad-all-wide' : ''}">
-                                <strong>${safeText(label)}:</strong> <span>${safeText(value)}</span>
-                            </div>
-                        `)
-                        .join('');
-                    allWrap.style.display = 'block';
-                }
-
-                setEl('ad-contact-name', listing.contactName);
-                setEl('ad-email', `<a href="mailto:${listing.email}" style="color:#003399;">${listing.email}</a>`);
-                setEl('ad-phone', listing.phone);
-
-                document.title = 'Confidential Business | HelaInvest';
-            } 
-            // Fallback to URL params for demo links in index.html
-            else if (refParam) {
-                const title = params.get('title') || 'Listing Title';
-                const employer = params.get('employer') || 'Employer Name';
-                const district = params.get('district') || 'Colombo';
-                const closing = params.get('closing') || '22 May 2026';
-
-                setEl('employer-name', employer);
-                setEl('employer-location', district + ', Sri Lanka');
-                setEl('closing-date', closing.substring(0, 11)); // Clean up date
-                setEl('ref-no', refParam);
-                setEl('job-title', title.replace(/\+/g, ' '));
-                setEl('ad-large-title', title.replace(/\+/g, ' '));
-
-                setEl('ad-industry', 'Finance / Accounting'); // Mock
-                setEl('ad-district', district);
-                setEl('ad-invest', 'Negotiable');
-                setEl('ad-stage', 'Established');
-                setEl('ad-desc', 'Please refer to the detailed listing requirements as attached.<br><br>Ideal candidates or investors should reach out directly via the email enquiry form.');
-                
-                setEl('ad-contact-name', employer);
-                setEl('ad-email', `<a href="#" style="color:#003399;">info@${employer.toLowerCase().replace(/[^a-z]/g,'')}.lk</a>`);
-                setEl('ad-phone', '+94 11 200 0000');
-                
-                document.title = title.replace(/\+/g, ' ') + ' | HelaInvest';
-            } else {
-                setEl('job-title', 'Listing Not Found');
-                setEl('ad-large-title', 'No Data Provided');
-            }
-        });
-    </script>
-
-
-
+<!-- Success Toast -->
+<div id="enquiry-toast"><i class="fas fa-check-circle"></i> Enquiry sent successfully!</div>
 
 <!-- Footer -->
 <footer class="hela-footer-thin">
     <div class="container">
-        <!-- Links Bar -->
         <div class="footer-thin-links">
-            <a href="index.html">Home</a>
-            <span class="divider">|</span>
-            <a href="sitemap.html">Site Map</a>
-            <span class="divider">|</span>
-            <a href="contact.html">Contact Us</a>
-            <span class="divider">|</span>
-            <a href="terms.html">Terms of Service</a>
-            <span class="divider">|</span>
-            <a href="privacy.html">Privacy Policy</a>
-            <span class="divider">|</span>
-            <a href="faq.html">Help & Support</a>
-            <span class="divider">|</span>
-            <a href="admin.html?v=5">Admin</a>
+            <a href="index.html">Home</a><span class="divider">|</span>
+            <a href="sitemap.html">Site Map</a><span class="divider">|</span>
+            <a href="contact.html">Contact Us</a><span class="divider">|</span>
+            <a href="terms.html">Terms of Service</a><span class="divider">|</span>
+            <a href="privacy.html">Privacy Policy</a><span class="divider">|</span>
+            <a href="faq.html">Help &amp; Support</a>
         </div>
     </div>
-    <!-- Copyright & Socials Bar -->
     <div class="footer-thin-bottom">
         <div class="container footer-thin-bottom-inner">
-            <div class="copyright-text">
-                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/?_rdc=1&_rdr#" target="_blank" rel="noopener noreferrer">Infinite Design</a>
-            </div>
+            <div class="copyright-text">&copy; 2026 HelaInvest. All rights reserved.</div>
             <div class="social-icons">
                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
                 <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
@@ -784,10 +489,183 @@
         </div>
     </div>
 </footer>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="firebase-config.js"></script>
+<script src="app.js?v=10"></script>
+
+<script>
+function formatLKR(val) {
+    const n = Number(val);
+    if (!n || n <= 0) return 'N/A';
+    if (n >= 1000000) return 'LKR ' + (n/1000000).toFixed(1) + 'M';
+    if (n >= 1000) return 'LKR ' + (n/1000).toFixed(0) + 'K';
+    return 'LKR ' + n.toLocaleString();
+}
+
+function setEl(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = val !== undefined && val !== null && val !== '' ? val : '–';
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    let listing = null;
+
+    if (id && typeof store !== 'undefined') {
+        listing = await store.getById(id);
+    }
+
+    if (!listing) {
+        document.getElementById('hero-title').textContent = 'Listing Not Found';
+        document.getElementById('m-desc').textContent = 'This listing could not be found. It may have been removed.';
+        return;
+    }
+
+    // ── Title: use shortdesc, never "Confidential Business" ──
+    const shortDesc = listing.shortdesc || listing.shortDescription || '';
+    const industry  = listing.industry || 'Business Opportunity';
+    const district  = listing.district || 'Sri Lanka';
+    const stage     = listing.businessStage || '';
+
+    // Build a meaningful display title
+    const displayTitle = shortDesc
+        ? shortDesc
+        : (industry + (district ? ' in ' + district : ''));
+
+    document.title = displayTitle + ' | HelaInvest';
+
+    // Hero
+    setEl('hero-badge', industry);
+    setEl('hero-title', displayTitle);
+    setEl('hero-location', district + ', Sri Lanka');
+    setEl('hero-industry', industry);
+
+    const listedDate = listing.submittedAt ? new Date(listing.submittedAt).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '–';
+    setEl('hero-date', listedDate);
+
+    const closeDate = new Date();
+    closeDate.setDate(closeDate.getDate() + 30);
+    const closeDateStr = closeDate.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+
+    const ref = 'HLI-' + (listing.refCode || ('00' + id.slice(-6)).toUpperCase());
+    setEl('ref-no', ref);
+    setEl('closing-date', closeDateStr);
+
+    // Sidebar
+    setEl('sidebar-invest', formatLKR(listing.investmentRequired));
+
+    // Metrics
+    setEl('m-invest', formatLKR(listing.investmentRequired));
+    setEl('m-stage', stage || '–');
+    setEl('m-monthly', formatLKR(listing.monthlySales || listing.monthlysales));
+    setEl('m-percent', listing.percent ? listing.percent + '% stake' : '–');
+
+    // Description
+    const fullDesc = listing.fullDescription || listing.shortDescription || shortDesc || 'Full details will be shared with verified investors upon enquiry.';
+    setEl('m-desc', fullDesc.replace(/\n/g, '<br>'));
+
+    // ── PHOTOS ──
+    const images = listing.images || [];
+    if (images.length > 0) {
+        const heroEl = document.getElementById('ld-hero');
+        const innerEl = document.getElementById('ld-hero-inner');
+
+        // Show first image as hero background
+        const firstImg = images[0];
+        heroEl.style.position = 'relative';
+        heroEl.innerHTML = `
+            <img src="${firstImg}" class="ld-hero-img" alt="Business Photo" onerror="this.style.display='none'">
+            <div class="ld-hero-overlay"></div>
+            <div class="ld-hero-content">
+                <a href="index.html" class="ld-back-btn"><i class="fas fa-arrow-left"></i> Back to Listings</a>
+                <div class="ld-badge">${industry}</div>
+                <h1 class="ld-hero-title">${displayTitle}</h1>
+                <div class="ld-hero-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> ${district}, Sri Lanka</span>
+                    <span><i class="fas fa-industry"></i> ${industry}</span>
+                    <span><i class="fas fa-calendar-alt"></i> Listed: ${listedDate}</span>
+                </div>
+            </div>
+        `;
+
+        // Gallery card (multiple photos)
+        if (images.length >= 1) {
+            document.getElementById('gallery-card').style.display = 'block';
+            const galleryInner = document.getElementById('gallery-inner');
+            let html = `<img id="gallery-main" src="${images[0]}" class="ld-gallery-main" alt="Business photo">`;
+            if (images.length > 1) {
+                html += `<div class="ld-gallery-thumbs">`;
+                images.forEach((img, idx) => {
+                    html += `<img src="${img}" class="ld-gallery-thumb ${idx===0?'active':''}" onclick="window.selectGallery(${idx})" alt="Photo ${idx+1}" onerror="this.style.display='none'">`;
+                });
+                html += `</div>`;
+            }
+            galleryInner.innerHTML = html;
+
+            window.selectGallery = function(idx) {
+                document.getElementById('gallery-main').src = images[idx];
+                document.querySelectorAll('.ld-gallery-thumb').forEach((t,i) => t.classList.toggle('active', i===idx));
+            };
+        }
+    }
+
+    // ── Business Details Table ──
+    const safeStr = v => (v !== null && v !== undefined && String(v).trim() !== '') ? String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;') : null;
+
+    const rows = [
+        ['Type of Listing', safeStr(listing.interest)],
+        ['Your Role', safeStr(listing.role)],
+        ['Established', safeStr(listing.established)],
+        ['No. of Employees', safeStr(listing.employees)],
+        ['Legal Entity', safeStr(listing.entity || listing.entityType)],
+        ['Yearly Revenue', formatLKR(listing.yearlySales || listing.yearlysales) !== 'N/A' ? formatLKR(listing.yearlySales || listing.yearlysales) : null],
+        ['Asset Value', formatLKR(listing.assetValue || listing.assetvalue) !== 'N/A' ? formatLKR(listing.assetValue || listing.assetvalue) : null],
+        ['Products / Services', safeStr(listing.products)],
+        ['Business Highlights', safeStr(listing.highlights)],
+        ['Facility', safeStr(listing.facility)],
+        ['Assets Included', safeStr(listing.assets)],
+        ['Use of Investment Funds', safeStr(listing.funding)],
+        ['Ownership Details', safeStr(listing.additionalNotes || listing.additionalnotes)],
+    ].filter(([_, v]) => v !== null && v !== undefined);
+
+    if (rows.length > 0) {
+        const table = document.getElementById('details-table');
+        table.innerHTML = rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+    } else {
+        document.getElementById('details-card').style.display = 'none';
+    }
+
+    // ── WhatsApp share ──
+    document.getElementById('btn-whatsapp').onclick = () => {
+        const msg = `Check out this business on HelaInvest: ${displayTitle} — Investment: ${formatLKR(listing.investmentRequired)} | ${window.location.href}`;
+        window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+    };
+
+    // ── Enquiry Form ──
+    document.getElementById('btn-send-enquiry').onclick = () => {
+        const name  = document.getElementById('enq-name').value.trim();
+        const email = document.getElementById('enq-email').value.trim();
+        const phone = document.getElementById('enq-phone').value.trim();
+        const msg   = document.getElementById('enq-msg').value.trim();
+        if (!name || !email || !msg) {
+            alert('Please fill in your name, email and message.');
+            return;
+        }
+        // Show success toast
+        const toast = document.getElementById('enquiry-toast');
+        toast.style.display = 'block';
+        setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        document.getElementById('enq-name').value = '';
+        document.getElementById('enq-email').value = '';
+        document.getElementById('enq-phone').value = '';
+        document.getElementById('enq-msg').value = '';
+    };
+});
+</script>
+
 </body>
 </html>
-
-
-
-
-

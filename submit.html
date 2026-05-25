@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -475,62 +475,6 @@
             const btnNext = document.getElementById('btn-next');
             const btnPrev = document.getElementById('btn-prev');
             const btnSubmit = document.getElementById('btn-submit');
-            const stepTitle = document.getElementById('step-title');
-            const stepIndicator = document.getElementById('step-indicator');
-            const progressBar = document.getElementById('progress-bar');
-            
-            // File Upload Logic
-            let uploadedFiles = [];
-            window.handleFileUpload = function(event) {
-                const files = Array.from(event.target.files);
-                const errorEl = document.getElementById('file-error');
-                const previewContainer = document.getElementById('file-preview-container');
-                errorEl.classList.add('hidden');
-                
-                let newValidFiles = [];
-                
-                for(let file of files) {
-                    if(file.size > 1024 * 1024) {
-                        errorEl.textContent = "One or more files exceed the 1MB limit.";
-                        errorEl.classList.remove('hidden');
-                        return;
-                    }
-                    newValidFiles.push(file);
-                }
-                
-                if(uploadedFiles.length + newValidFiles.length > 5) {
-                    errorEl.textContent = "You can only upload a maximum of 5 photos.";
-                    errorEl.classList.remove('hidden');
-                    return;
-                }
-                
-                newValidFiles.forEach(file => {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const b64 = e.target.result;
-                        const fileObj = { file: file, base64: b64 };
-                        uploadedFiles.push(fileObj);
-                        
-                        const div = document.createElement('div');
-                        div.className = 'relative rounded-lg overflow-hidden border border-gray-200 aspect-square';
-                        div.innerHTML = `
-                            <img src="${b64}" class="w-full h-full object-cover">
-                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-700" onclick="this.parentElement.remove(); uploadedFiles.splice(uploadedFiles.indexOf(fileObj), 1);">Ã¢Å“â€¢</button>
-                        `;
-                        previewContainer.appendChild(div);
-                    }
-                    reader.readAsDataURL(file);
-                });
-                
-                // reset input so same file can be selected again if removed
-                event.target.value = '';
-            };
-
-            // Plan Card Selection Logic
-            const planCards = document.querySelectorAll('.plan-card');
-            planCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    // Remove selected classes from all
                     planCards.forEach(c => {
                         c.classList.remove('selected');
                         c.style.borderColor = '#e5e7eb';

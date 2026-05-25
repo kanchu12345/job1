@@ -203,6 +203,11 @@ class ListingStore {
   }
 
   async save(listing) {
+    const shortDesc = listing.shortdesc || listing.shortDescription || '';
+    const industry  = listing.industry || 'Business Opportunity';
+    const district  = listing.district || 'Sri Lanka';
+    const stage     = listing.businessStage || '';
+    
     listing.status = listing.status || 'pending';
     listing.submittedAt = listing.submittedAt || new Date().toISOString();
     
@@ -421,6 +426,57 @@ function updateGlobalAuthUI() {
   const topAuth = document.getElementById('topbar-auth');
   const headerAuth = document.getElementById('header-auth');
   
+  // Logic hook for listing page specific elements
+  if(document.getElementById('btn-send-enquiry')) {
+    document.getElementById('btn-send-enquiry').onclick = () => {
+        // Existing enquiry logic
+    };
+
+    // Image upload handling
+    const imageInput = document.getElementById('image-input');
+    const previewContainer = document.getElementById('preview-container');
+    const btnUpload = document.getElementById('btn-upload-images');
+
+    if (imageInput) {
+        imageInput.addEventListener('change', () => {
+            previewContainer.innerHTML = '';
+            Array.from(imageInput.files).forEach(file => {
+                const url = URL.createObjectURL(file);
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.style.objectFit = 'cover';
+                img.style.borderRadius = '6px';
+                previewContainer.appendChild(img);
+            });
+        });
+    }
+
+    if (btnUpload && window.currentListing) {
+        btnUpload.addEventListener('click', async () => {
+            if (!imageInput.files.length) { alert('Select images to upload'); return; }
+            const storage = firebase.storage();
+            const promises = Array.from(imageInput.files).map(file => {
+                const ref = storage.ref(`listings/${window.currentListing.id}/${file.name}`);
+                return ref.put(file).then(snap => snap.ref.getDownloadURL());
+            });
+            try {
+                const urls = await Promise.all(promises);
+                // Append URLs to listing.images and update Firestore
+                const newImages = (window.currentListing.images || []).concat(urls);
+                await store.update(window.currentListing.id, { images: newImages });
+                alert('Images uploaded successfully');
+                // Refresh page to show new images
+                window.location.reload();
+            } catch (e) {
+                console.error(e);
+                alert('Upload failed');
+            }
+        });
+    }
+  }
+
   const postAdBtn = `<a href="#" onclick="handlePostListing(event)" class="btn-register-new" style="background:#0b4cb4; color:#fff;">Post Your Ad</a>`;
   
   if (user) {
@@ -593,9 +649,23 @@ async function generateListingPDF(listingId) {
     </div>
   </div>
 
-  <div class="step-section">
-    <div class="step-title">Step 3: Additional Details</div>
-    <div class="form-grid">
+  <div id="gallery-card" class="ld-card" style="display:none;">
+    <div class="ld-card-body" style="padding:16px;">
+        <div id="gallery-inner"></div>
+    </div>
+</div>
+<!-- Image Upload Card (visible to owners) -->
+<div id="upload-card" class="ld-card" style="display:none;">
+    <div class="ld-card-header">
+        <i class="fas fa-upload"></i>
+        <h2>Upload Photos</h2>
+    </div>
+    <div class="ld-card-body">
+        <input type="file" id="image-input" accept="image/*" multiple style="margin-bottom:12px;" />
+        <div id="preview-container" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;"></div>
+        <button class="ld-btn-enquire" id="btn-upload-images"><i class="fas fa-cloud-upload-alt"></i> Upload Selected</button>
+    </div>
+</div> class="form-grid">
       <div class="full-width"><label class="form-label">Facility Details</label><div class="form-input-box" style="min-height: 80px;">${l.facility || ''}</div></div>
       <div class="full-width"><label class="form-label">Funding Details</label><div class="form-input-box" style="min-height: 80px;">${l.funding || ''}</div></div>
       <div class="full-width"><label class="form-label">Assets Details</label><div class="form-input-box" style="min-height: 80px;">${l.assets || ''}</div></div>
@@ -620,7 +690,7 @@ async function generateListingPDF(listingId) {
 }
 
 // Auto-run UI sync on DOM load if elements exist
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   try {
     updateGlobalAuthUI();
   } catch (e) {
