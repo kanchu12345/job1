@@ -676,7 +676,7 @@ a:hover {
   font-size: 0.9rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .hero h1 { font-size: 2.2rem; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -1475,7 +1475,7 @@ a:hover {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .layout-container {
         flex-direction: column;
     }
@@ -1845,7 +1845,7 @@ a:hover {
 .hela-footer-bottom a:hover {
     color: #059669;
 }
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .hela-footer-grid {
         grid-template-columns: 1fr;
         gap: 30px;
@@ -1855,7 +1855,7 @@ a:hover {
 /* ==========================================================================
    Mobile Responsive Adjustments (Android & iPhone)
    ========================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     /* Top Bar & Header */
     .top-bar-new .container > div {
         justify-content: center !important;
@@ -1998,7 +1998,7 @@ a:hover {
 }
 
 /* Mobile adjustments for Thin Footer */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .hela-footer-thin .footer-thin-links {
         flex-direction: column;
         gap: 6px;
