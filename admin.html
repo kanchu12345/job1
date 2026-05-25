@@ -604,9 +604,7 @@
                 } else if (l.status === 'published') {
                     // Published Ã¢â‚¬â€ green badge
                     statusBadge = '<span class="status-badge status-published">PUBLISHED</span>';
-                    const boostBtn = l.boosted ? 
-                        `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                        `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">Ã°Å¸Å¡â‚¬ Boost</button>`;
+                    const boostBtn = `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="alert('Boost feature coming soon!')"><i class="fas fa-rocket"></i> Boost</button>`;
                     actionBtns = `
                         ${boostBtn}
                         <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
@@ -795,9 +793,7 @@
                     <button class="btn-action" style="background:#dc3545; color:#fff;" onclick="deleteListing('${l.id}')"><i class="fas fa-trash"></i> Delete</button>
                 `;
             } else if (l.status === 'published') {
-                const boostBtn = l.boosted ? 
-                    `<button class="btn-action" style="background:#cc0000; color:#fff;" onclick="toggleBoost('${l.id}', false)">Unboost</button>` :
-                    `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="toggleBoost('${l.id}', true)">Ã°Å¸Å¡â‚¬ Boost</button>`;
+                const boostBtn = `<button class="btn-action" style="background:#f1c40f; color:#333;" onclick="alert('Boost feature coming soon!')"><i class="fas fa-rocket"></i> Boost</button>`;
                 actionBtns = `
                     ${boostBtn}
                     <button class="btn-action btn-reject" onclick="changeStatus('${l.id}', 'rejected')">Unpublish</button>
