@@ -477,7 +477,7 @@ function updateGlobalAuthUI() {
     }
   }
 
-  const postAdBtn = `<a href="#" onclick="handlePostListing(event)" class="btn-register-new" style="background:#0b4cb4; color:#fff;">Post Your Ad</a>`;
+  const postAdBtn = ``;
   
   if (user) {
       const roleLabel = user.role === 'publisher' ? '(Publisher)' : '(Client)';
