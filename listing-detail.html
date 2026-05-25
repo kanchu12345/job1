@@ -6,295 +6,406 @@
     <title>Business Listing | HelaInvest</title>
     <meta name="description" content="View business investment opportunities on HelaInvest - Sri Lanka's premier business marketplace.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css?v=10">
     <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #d97706;
+            --accent-hover: #b45309;
+            --accent-light: #fef3c7;
+            --success: #10b981;
+            --success-bg: #ecfdf5;
+            --bg-slate: #f8fafc;
+            --text-dark: #0f172a;
+            --text-slate: #475569;
+            --border-slate: #e2e8f0;
+            --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.04), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --card-shadow-hover: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #f0f4f8;
+            background: #f1f5f9;
             font-family: 'Inter', sans-serif;
-            color: #1e293b;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        /* ── Top Nav ── */
+        /* ── Glassmorphic Top Nav ── */
         .ld-topnav {
-            background: #0a3578;
-            padding: 10px 0;
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 14px 0;
+            position: sticky; top: 0; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
         .ld-topnav .container {
-            max-width: 1100px; margin: 0 auto; padding: 0 20px;
+            max-width: 1200px; margin: 0 auto; padding: 0 20px;
             display: flex; align-items: center; justify-content: space-between; gap: 12px;
         }
-        .ld-logo { color: #fff; font-size: 1.3rem; font-weight: 900; text-decoration: none; }
-        .ld-logo span { color: #cc9900; }
-        .ld-nav-links { display: flex; gap: 8px; }
+        .ld-logo {
+            font-family: 'Outfit', sans-serif;
+            color: #fff; font-size: 1.5rem; font-weight: 900; text-decoration: none;
+            letter-spacing: -0.5px;
+            display: flex; align-items: center; gap: 2px;
+        }
+        .ld-logo span { color: var(--accent); }
+        .ld-nav-links { display: flex; gap: 12px; align-items: center; }
         .ld-nav-links a {
-            color: rgba(255,255,255,0.85); font-size: 0.85rem; text-decoration: none;
-            padding: 6px 14px; border-radius: 6px; transition: background 0.2s;
+            color: rgba(255,255,255,0.8); font-size: 0.88rem; text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px; border-radius: 8px; transition: all 0.2s ease;
         }
-        .ld-nav-links a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .ld-nav-links a:hover { background: rgba(255,255,255,0.08); color: #fff; }
         .ld-nav-links .btn-primary-nav {
-            background: #cc9900; color: #fff; font-weight: 700;
+            background: var(--accent); color: #fff; font-weight: 700;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
         }
-        .ld-nav-links .btn-primary-nav:hover { background: #a37800; }
+        .ld-nav-links .btn-primary-nav:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
-        /* ── Hero Banner (Photo or Gradient) ── */
+        /* ── Hero Banner ── */
         .ld-hero {
-            background: linear-gradient(135deg, #0a3578 0%, #1565c0 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             color: #fff;
             padding: 0;
             position: relative;
             overflow: hidden;
+            border-bottom: 4px solid var(--accent);
         }
         .ld-hero-img {
             width: 100%;
-            max-height: 380px;
+            height: 420px;
             object-fit: cover;
             display: block;
-            opacity: 0.85;
+            opacity: 0.45;
+            filter: brightness(0.8) contrast(1.1);
+            transition: transform 6s ease;
+        }
+        .ld-hero:hover .ld-hero-img {
+            transform: scale(1.05);
         }
         .ld-hero-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(10,53,120,0.92) 0%, rgba(10,53,120,0.3) 60%, transparent 100%);
+            background: linear-gradient(to top, rgba(15,23,42,0.98) 0%, rgba(15,23,42,0.6) 50%, rgba(15,23,42,0.3) 100%);
         }
         .ld-hero-content {
             position: absolute; bottom: 0; left: 0; right: 0;
-            padding: 28px 32px;
+            padding: 40px 32px;
+            max-width: 1200px; margin: 0 auto;
+            z-index: 2;
         }
         .ld-hero-static {
-            padding: 48px 32px 40px;
+            max-width: 1200px; margin: 0 auto;
+            padding: 60px 24px 50px;
             position: relative;
+            z-index: 2;
         }
         .ld-badge {
             display: inline-block;
-            background: rgba(204,153,0,0.25);
-            border: 1px solid #cc9900;
-            color: #ffd84d;
-            font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-            padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+            background: rgba(217, 119, 6, 0.15);
+            border: 1px solid var(--accent);
+            color: #fbbf24;
+            font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+            padding: 6px 16px; border-radius: 30px; margin-bottom: 16px;
+            box-shadow: 0 2px 10px rgba(217, 119, 6, 0.1);
         }
         .ld-hero-title {
-            font-size: 2rem; font-weight: 800; color: #fff;
-            line-height: 1.2; margin-bottom: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.6rem; font-weight: 800; color: #fff;
+            line-height: 1.25; margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         .ld-hero-meta {
-            display: flex; flex-wrap: wrap; gap: 16px;
-            font-size: 0.88rem; color: rgba(255,255,255,0.8);
+            display: flex; flex-wrap: wrap; gap: 24px;
+            font-size: 0.95rem; color: rgba(255,255,255,0.85);
         }
-        .ld-hero-meta span { display: flex; align-items: center; gap: 6px; }
-        .ld-hero-meta i { color: #cc9900; }
+        .ld-hero-meta span { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); }
+        .ld-hero-meta i { color: #fbbf24; }
 
         /* ── Layout ── */
-        .ld-body { max-width: 1100px; margin: 0 auto; padding: 28px 20px 60px; }
+        .ld-body { max-width: 1200px; margin: 0 auto; padding: 40px 20px 80px; }
         .ld-grid {
             display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 24px;
+            grid-template-columns: 1fr 380px;
+            gap: 32px;
             align-items: start;
         }
 
         /* ── Cards ── */
         .ld-card {
             background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 28px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .ld-card:hover {
+            box-shadow: var(--card-shadow-hover);
+            transform: translateY(-2px);
         }
         .ld-card-header {
-            padding: 18px 24px;
-            border-bottom: 1px solid #e8ecf0;
-            display: flex; align-items: center; gap: 10px;
+            padding: 22px 28px;
+            border-bottom: 1px solid var(--border-slate);
+            display: flex; align-items: center; gap: 12px;
+            background: #fafbfc;
         }
         .ld-card-header h2 {
-            font-size: 1rem; font-weight: 700; color: #0a3578;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem; font-weight: 700; color: var(--primary);
+            letter-spacing: -0.2px;
         }
-        .ld-card-header i { color: #cc9900; font-size: 1rem; }
-        .ld-card-body { padding: 20px 24px; }
+        .ld-card-header i { color: var(--accent); font-size: 1.15rem; }
+        .ld-card-body { padding: 28px; }
 
-        /* ── Key Metrics ── */
+        /* ── Key Metrics Dashboard ── */
         .ld-metrics {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 16px;
         }
         .ld-metric {
-            background: #f8fafc;
-            border-radius: 10px;
-            padding: 16px;
-            border-left: 3px solid #0a3578;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid var(--primary-light);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.01);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .ld-metric::before {
+            content: '';
+            position: absolute; top: 0; right: 0;
+            width: 60px; height: 60px;
+            background: radial-gradient(circle, rgba(15, 23, 42, 0.02) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .ld-metric:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            transform: translateX(2px);
         }
         .ld-metric-label {
-            font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-            letter-spacing: 0.8px; color: #64748b; margin-bottom: 4px;
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--text-slate); margin-bottom: 6px;
         }
         .ld-metric-value {
-            font-size: 1.1rem; font-weight: 800; color: #0a3578;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem; font-weight: 800; color: var(--primary);
         }
-        .ld-metric-value.accent { color: #cc9900; }
+        .ld-metric-value.accent { color: var(--accent); }
 
         /* ── Description ── */
         .ld-desc {
-            font-size: 0.96rem; line-height: 1.8; color: #374151;
+            font-size: 1.02rem; line-height: 1.8; color: #334155;
             white-space: pre-line;
         }
 
-        /* ── Data Table ── */
+        /* ── Data Table / Premium Info List ── */
         .ld-data-table { width: 100%; border-collapse: collapse; }
-        .ld-data-table tr { border-bottom: 1px solid #f0f4f8; }
+        .ld-data-table tr { border-bottom: 1px solid #f1f5f9; transition: background 0.15s ease; }
+        .ld-data-table tr:hover { background: #fafbfc; }
         .ld-data-table tr:last-child { border-bottom: none; }
-        .ld-data-table td { padding: 11px 4px; vertical-align: top; }
+        .ld-data-table td { padding: 14px 8px; vertical-align: top; }
         .ld-data-table td:first-child {
-            font-size: 0.82rem; font-weight: 700; color: #64748b;
-            text-transform: uppercase; letter-spacing: 0.5px;
-            width: 45%; padding-right: 10px;
+            font-size: 0.85rem; font-weight: 700; color: var(--text-slate);
+            text-transform: uppercase; letter-spacing: 0.8px;
+            width: 40%; padding-right: 15px;
         }
         .ld-data-table td:last-child {
-            font-size: 0.9rem; font-weight: 600; color: #1e293b;
+            font-size: 0.95rem; font-weight: 600; color: var(--text-dark);
         }
 
-        /* ── Photo Gallery ── */
-        .ld-gallery { margin-bottom: 20px; }
+        /* ── Photo Gallery Overhaul ── */
+        .ld-gallery { margin-bottom: 24px; }
         .ld-gallery-main {
-            width: 100%; height: 300px;
-            object-fit: cover; border-radius: 10px;
+            width: 100%; height: 380px;
+            object-fit: cover; border-radius: 12px;
             background: #e2e8f0; display: block;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
         }
         .ld-gallery-thumbs {
-            display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;
+            display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap;
         }
         .ld-gallery-thumb {
-            width: 70px; height: 55px; object-fit: cover;
-            border-radius: 6px; cursor: pointer;
-            border: 2px solid transparent; transition: border-color 0.2s;
+            width: 80px; height: 60px; object-fit: cover;
+            border-radius: 8px; cursor: pointer;
+            border: 2px solid transparent; transition: all 0.2s ease;
+            opacity: 0.75;
         }
-        .ld-gallery-thumb.active { border-color: #0a3578; }
+        .ld-gallery-thumb:hover { opacity: 1; transform: scale(1.05); }
+        .ld-gallery-thumb.active { border-color: var(--accent); opacity: 1; box-shadow: 0 2px 8px rgba(217,119,6,0.3); }
 
         /* ── Sidebar ── */
         .ld-sidebar-card {
-            background: #fff; border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            overflow: hidden; margin-bottom: 20px;
-            position: sticky; top: 70px;
+            background: #fff; border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden; margin-bottom: 28px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            position: sticky; top: 90px;
+            transition: all 0.3s ease;
+        }
+        .ld-sidebar-card:hover {
+            box-shadow: var(--card-shadow-hover);
         }
         .ld-enquire-header {
-            background: linear-gradient(135deg, #0a3578, #1565c0);
-            padding: 22px 24px; color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            padding: 28px 28px 24px; color: #fff;
+            position: relative;
         }
-        .ld-enquire-header h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; }
-        .ld-enquire-header p { font-size: 0.82rem; opacity: 0.85; }
+        .ld-enquire-header::after {
+            content: '';
+            position: absolute; bottom: 0; left: 28px; right: 28px;
+            height: 1px; background: rgba(255,255,255,0.1);
+        }
+        .ld-enquire-header h3 { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.2px; }
+        .ld-enquire-header p { font-size: 0.88rem; opacity: 0.8; }
         .ld-enquire-price {
-            font-size: 1.6rem; font-weight: 900; color: #ffd84d;
-            margin-top: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.85rem; font-weight: 900; color: #fbbf24;
+            margin-top: 14px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
-        .ld-enquire-body { padding: 20px 24px; }
-        .ld-form-group { margin-bottom: 14px; }
+        .ld-enquire-body { padding: 28px; }
+        .ld-form-group { margin-bottom: 18px; }
         .ld-form-group label {
-            display: block; font-size: 0.78rem; font-weight: 700;
-            color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;
-            margin-bottom: 5px;
+            display: block; font-size: 0.75rem; font-weight: 700;
+            color: var(--text-slate); text-transform: uppercase; letter-spacing: 0.8px;
+            margin-bottom: 6px;
         }
         .ld-form-group input, .ld-form-group textarea {
-            width: 100%; padding: 10px 12px;
-            border: 1.5px solid #e2e8f0; border-radius: 8px;
-            font-family: 'Inter', sans-serif; font-size: 0.88rem;
-            transition: border-color 0.2s; outline: none;
+            width: 100%; padding: 12px 14px;
+            border: 1.5px solid #cbd5e1; border-radius: 10px;
+            font-family: 'Inter', sans-serif; font-size: 0.92rem;
+            transition: all 0.2s ease; outline: none;
+            background-color: #fff;
         }
-        .ld-form-group input:focus, .ld-form-group textarea:focus { border-color: #0a3578; }
-        .ld-form-group textarea { resize: vertical; min-height: 90px; }
+        .ld-form-group input:focus, .ld-form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.12);
+        }
+        .ld-form-group textarea { resize: vertical; min-height: 100px; }
         .ld-btn-enquire {
-            width: 100%; padding: 13px; background: #0a3578;
-            color: #fff; font-weight: 800; font-size: 0.95rem;
-            border: none; border-radius: 8px; cursor: pointer;
-            transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 14px; background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: #fff; font-weight: 800; font-size: 1rem;
+            border: none; border-radius: 10px; cursor: pointer;
+            transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
         }
-        .ld-btn-enquire:hover { background: #072a65; }
+        .ld-btn-enquire:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);
+        }
+        .ld-btn-enquire:active {
+            transform: translateY(1px);
+        }
         .ld-btn-secondary {
-            width: 100%; padding: 11px; margin-top: 10px;
-            background: #f8fafc; color: #0a3578;
-            border: 1.5px solid #0a3578; font-weight: 700; font-size: 0.88rem;
-            border-radius: 8px; cursor: pointer; transition: all 0.2s;
+            width: 100%; padding: 12px; margin-top: 10px;
+            background: #fff; color: var(--primary);
+            border: 1.5px solid var(--primary); font-weight: 700; font-size: 0.9rem;
+            border-radius: 10px; cursor: pointer; transition: all 0.2s ease;
             display: flex; align-items: center; justify-content: center; gap: 8px;
             text-decoration: none;
         }
-        .ld-btn-secondary:hover { background: #e8f0fe; }
-        .ld-divider { border: none; border-top: 1px solid #e8ecf0; margin: 14px 0; }
+        .ld-btn-secondary:hover { background: #f1f5f9; border-color: var(--primary-light); }
+        .ld-divider { border: none; border-top: 1px solid var(--border-slate); margin: 20px 0; }
 
         /* ── Trust Badges ── */
         .ld-trust {
-            display: flex; gap: 10px; flex-direction: column;
+            display: flex; gap: 12px; flex-direction: column;
         }
         .ld-trust-item {
-            display: flex; align-items: center; gap: 10px;
-            font-size: 0.82rem; color: #64748b;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 0.85rem; color: var(--text-slate);
+            font-weight: 500;
         }
-        .ld-trust-item i { color: #28a745; font-size: 0.9rem; width: 18px; }
+        .ld-trust-item i { color: var(--success); font-size: 1rem; }
 
-        /* ── Services Promo ── */
+        /* ── Services Promo (Advanced) ── */
         .ld-services {
-            background: linear-gradient(135deg, #fff8e1, #fff3cd);
-            border: 1px solid #ffe082;
-            border-radius: 10px; padding: 18px 20px;
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 1px solid #fde68a;
+            border-radius: 14px; padding: 24px;
+            box-shadow: 0 4px 15px rgba(217,119,6,0.04);
+            margin-top: 10px;
         }
         .ld-services h4 {
-            font-size: 0.95rem; font-weight: 800; color: #795500; margin-bottom: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem; font-weight: 800; color: #92400e; margin-bottom: 12px;
         }
         .ld-services ul { list-style: none; }
         .ld-services li {
-            font-size: 0.83rem; color: #5d4037; padding: 3px 0;
-            display: flex; align-items: center; gap: 8px;
+            font-size: 0.88rem; color: #78350f; padding: 5px 0;
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 500;
         }
-        .ld-services li i { color: #cc9900; }
+        .ld-services li i { color: var(--accent); }
 
         /* ── Ref & Share Bar ── */
         .ld-refbar {
-            background: #f8fafc; border-radius: 8px; padding: 10px 16px;
+            background: #fff; border-radius: 12px; padding: 14px 20px;
             display: flex; justify-content: space-between; align-items: center;
-            font-size: 0.8rem; color: #64748b; margin-bottom: 20px;
-            border: 1px solid #e2e8f0; flex-wrap: wrap; gap: 8px;
+            font-size: 0.88rem; color: var(--text-slate); margin-bottom: 28px;
+            border: 1px solid var(--border-slate); flex-wrap: wrap; gap: 12px;
+            box-shadow: var(--card-shadow);
         }
-        .ld-refbar strong { color: #1e293b; }
-        .ld-share-btns { display: flex; gap: 8px; }
+        .ld-refbar strong { color: var(--text-dark); }
+        .ld-share-btns { display: flex; gap: 10px; }
         .ld-share-btn {
-            padding: 5px 12px; border-radius: 6px; font-size: 0.78rem;
-            font-weight: 600; cursor: pointer; border: none;
-            display: flex; align-items: center; gap: 5px; transition: opacity 0.2s;
+            padding: 8px 16px; border-radius: 8px; font-size: 0.82rem;
+            font-weight: 700; cursor: pointer; border: none;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;
         }
-        .ld-share-btn:hover { opacity: 0.85; }
-        .share-print { background: #e8ecf0; color: #374151; }
-        .share-whatsapp { background: #25D366; color: #fff; }
+        .ld-share-btn:hover { transform: translateY(-1px); }
+        .share-print { background: #f1f5f9; color: var(--primary-light); }
+        .share-print:hover { background: #e2e8f0; }
+        .share-whatsapp { background: #22c55e; color: #fff; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
+        .share-whatsapp:hover { background: #16a34a; }
 
         /* ── Back button ── */
         .ld-back-btn {
             display: inline-flex; align-items: center; gap: 8px;
-            color: rgba(255,255,255,0.9); font-size: 0.85rem; font-weight: 600;
-            text-decoration: none; margin-bottom: 16px;
-            padding: 6px 0;
+            color: rgba(255,255,255,0.9); font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; margin-bottom: 20px;
+            padding: 8px 16px; background: rgba(255,255,255,0.1); border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.15); transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
         }
-        .ld-back-btn:hover { color: #fff; }
+        .ld-back-btn:hover { color: #fff; background: rgba(255,255,255,0.2); transform: translateX(-2px); }
 
-        /* ── Success toast ── */
+        /* ── Success Toast Overhaul ── */
         #enquiry-toast {
             display: none; position: fixed; bottom: 30px; right: 30px;
-            background: #28a745; color: #fff; padding: 14px 24px;
-            border-radius: 10px; font-weight: 700; z-index: 9999;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            animation: slideUp 0.3s ease;
+            background: #10b981; color: #fff; padding: 16px 28px;
+            border-radius: 12px; font-weight: 700; z-index: 10000;
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4), 0 8px 10px -6px rgba(16, 185, 129, 0.4);
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            display: flex; align-items: center; gap: 10px;
+            font-size: 0.95rem;
         }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* ── Mobile ── */
-        @media (max-width: 768px) {
-            .ld-grid { grid-template-columns: 1fr; }
+        @media (max-width: 992px) {
+            .ld-grid { grid-template-columns: 1fr; gap: 24px; }
             .ld-sidebar-card { position: static; }
-            .ld-hero-title { font-size: 1.45rem; }
+            .ld-hero-title { font-size: 2rem; }
             .ld-metrics { grid-template-columns: 1fr 1fr; }
-            .ld-hero-content { padding: 20px; }
-            .ld-hero-static { padding: 30px 20px; }
+            .ld-hero-content { padding: 30px 20px; }
+            .ld-hero-static { padding: 40px 20px; }
             .ld-nav-links .hide-mobile { display: none; }
+        }
+        @media (max-width: 576px) {
+            .ld-metrics { grid-template-columns: 1fr; }
+            .ld-hero-title { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -354,7 +465,7 @@
             <!-- Key Metrics -->
             <div class="ld-card">
                 <div class="ld-card-header">
-                    <i class="fas fa-chart-bar"></i>
+                    <i class="fas fa-chart-line"></i>
                     <h2>Key Highlights</h2>
                 </div>
                 <div class="ld-card-body">
@@ -382,7 +493,7 @@
             <!-- Description -->
             <div class="ld-card">
                 <div class="ld-card-header">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-align-left"></i>
                     <h2>About This Opportunity</h2>
                 </div>
                 <div class="ld-card-body">
@@ -393,24 +504,24 @@
             <!-- Business Details Table -->
             <div class="ld-card" id="details-card">
                 <div class="ld-card-header">
-                    <i class="fas fa-info-circle"></i>
+                    <i class="fas fa-list-check"></i>
                     <h2>Business Details</h2>
                 </div>
-                <div class="ld-card-body">
+                <div class="ld-card-body" style="padding:16px 28px;">
                     <table class="ld-data-table" id="details-table"></table>
                 </div>
             </div>
 
             <!-- Services Promo -->
             <div class="ld-services">
-                <h4><i class="fas fa-handshake" style="margin-right:6px;color:#cc9900;"></i>Need Help With Your Business Transaction?</h4>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Business Plans &amp; Investment Proposals</li>
-                    <li><i class="fas fa-check-circle"></i> Business Valuation &amp; Due Diligence Reports</li>
-                    <li><i class="fas fa-check-circle"></i> M&amp;A Advisory &amp; Legal Documentation</li>
-                    <li><i class="fas fa-check-circle"></i> Tax, Accounting &amp; Financial Modelling</li>
+                <h4><i class="fas fa-handshake" style="margin-right:8px;"></i>Need Professional Deal Support?</h4>
+                <ul class="space-y-1">
+                    <li><i class="fas fa-check-circle"></i> Business Plans &amp; Investment Memorandums</li>
+                    <li><i class="fas fa-check-circle"></i> Business Valuation &amp; Independent Due Diligence</li>
+                    <li><i class="fas fa-check-circle"></i> Transaction Advisory &amp; Legal Closings</li>
+                    <li><i class="fas fa-check-circle"></i> Financial Modeling &amp; Projections</li>
                 </ul>
-                <a href="contact.html" style="display:inline-block;margin-top:10px;font-size:0.82rem;color:#0a3578;font-weight:700;text-decoration:none;">Contact Our Advisory Team &rarr;</a>
+                <a href="contact.html" style="display:inline-block;margin-top:14px;font-size:0.88rem;color:var(--accent);font-weight:700;text-decoration:none; transition: all 0.2s ease;">Contact Our Advisory Team &rarr;</a>
             </div>
 
         </div>
@@ -445,25 +556,24 @@
                     </button>
                     <hr class="ld-divider">
                     <div class="ld-trust">
-                        <div class="ld-trust-item"><i class="fas fa-shield-alt"></i> Your details are kept confidential</div>
-                        <div class="ld-trust-item"><i class="fas fa-check-circle"></i> Listing verified by HelaInvest team</div>
-                        <div class="ld-trust-item"><i class="fas fa-lock"></i> Secure &amp; encrypted communication</div>
+                        <div class="ld-trust-item"><i class="fas fa-circle-check"></i> Listing verified by HelaInvest team</div>
+                        <div class="ld-trust-item"><i class="fas fa-shield-halved"></i> Secure &amp; confidential connection</div>
                     </div>
                 </div>
             </div>
 
             <!-- Register CTA -->
-            <div class="ld-sidebar-card" style="padding:20px 24px;">
-                <p style="font-size:0.85rem;color:#64748b;margin-bottom:12px;line-height:1.5;">Create a free HelaInvest account to save listings, track enquiries, and get matched with investors.</p>
+            <div class="ld-sidebar-card" style="padding:28px;">
+                <p style="font-size:0.9rem;color:var(--text-slate);margin-bottom:16px;line-height:1.5; font-weight: 500;">Create a free HelaInvest account to save listings, track enquiries, and get matched with investors.</p>
                 <a href="register.html" class="ld-btn-secondary"><i class="fas fa-user-plus"></i> Create Free Account</a>
-                <a href="login.html" class="ld-btn-secondary" style="margin-top:8px;"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="login.html" class="ld-btn-secondary" style="margin-top:10px;"><i class="fas fa-sign-in-alt"></i> Login</a>
             </div>
         </div>
     </div>
 </div>
 
 <!-- Success Toast -->
-<div id="enquiry-toast"><i class="fas fa-check-circle"></i> Enquiry sent successfully!</div>
+<div id="enquiry-toast" style="display:none;"><i class="fas fa-circle-check"></i> Enquiry sent successfully!</div>
 
 <!-- Footer -->
 <footer class="hela-footer-thin">
@@ -532,9 +642,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const stage     = listing.businessStage || '';
 
     // Build a meaningful display title
-    const displayTitle = shortDesc
+    let displayTitle = shortDesc
         ? shortDesc
         : (industry + (district ? ' in ' + district : ''));
+        
+    // Ensure "Confidential Business" is not displayed in the hero title
+    if (displayTitle.toLowerCase() === 'confidential business' || displayTitle.toLowerCase().includes('confidential')) {
+        displayTitle = industry + ' Opportunity';
+    }
 
     document.title = displayTitle + ' | HelaInvest';
 
