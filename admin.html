@@ -103,17 +103,21 @@
     <div id="login-screen" class="admin-login-wrapper">
         <form class="admin-login" onsubmit="event.preventDefault(); handleSecureLoginClick();">
             <h2 style="color: #003399; margin-top: 0;">System Admin</h2>
-            <p style="color: #666; margin-bottom: 30px;">Enter Admin PIN (Demo: hela2024)</p>
-            <input type="password" id="admin-pin" placeholder="Enter PIN" required>
+            <p style="color: #666; margin-bottom: 30px;">Enter Admin Email & Password</p>
+            <input type="email" id="admin-email" placeholder="Email Address" required style="margin-bottom: 10px;">
+            <input type="password" id="admin-password" placeholder="Password" required>
             <button type="submit" id="login-btn">Secure Login <i class="fas fa-lock"></i></button>
-            <p id="login-error" style="color: #dc3545; margin-top: 15px; display: none; font-weight: 600;">Invalid PIN Provided</p>
+            <p id="login-error" style="color: #dc3545; margin-top: 15px; display: none; font-weight: 600;">Invalid Credentials Provided</p>
         </form>
     </div>
     
     <!-- Self-contained resilient login handler -->
     <script>
-    function handleSecureLoginClick() {
+    async function handleSecureLoginClick() {
         var btn = document.getElementById('login-btn');
+        var err = document.getElementById('login-error');
+        if (err) err.style.display = 'none';
+
         if (btn) {
             btn.innerHTML = 'Processing... <i class="fas fa-spinner fa-spin"></i>';
             btn.style.opacity = '0.8';
@@ -121,10 +125,17 @@
         }
         
         try {
-            var pinInput = document.getElementById('admin-pin');
-            if (!pinInput) return;
-            var pinVal = pinInput.value.trim();
-            if (pinVal === 'hela2024' || pinVal === 'admin') { // added 'admin' as fallback
+            var emailInput = document.getElementById('admin-email');
+            var passInput = document.getElementById('admin-password');
+            if (!emailInput || !passInput) return;
+            
+            var email = emailInput.value.trim();
+            var password = passInput.value;
+            
+            // Login using authStore (which uses Firebase Auth)
+            const user = await authStore.login(email, password);
+            
+            if (user && user.role === 'admin') {
                 var screen = document.getElementById('login-screen');
                 if (screen) screen.style.display = 'none';
                 if (typeof loadData === 'function') {
@@ -140,17 +151,14 @@
                     setTimeout(function() { clearInterval(checkInterval); }, 10000);
                 }
             } else {
-                var err = document.getElementById('login-error');
-                if (err) err.style.display = 'block';
-                if (btn) {
-                    btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
-                    btn.style.opacity = '1';
-                    btn.disabled = false;
-                }
+                throw new Error("Unauthorized: Account does not have admin privileges.");
             }
         } catch (error) {
-            alert("Login Handler Error: " + error.message);
-            console.error(error);
+            console.error("Login Handler Error:", error);
+            if (err) {
+                err.style.display = 'block';
+                err.innerText = error.message.replace('Firebase: ', '');
+            }
             if (btn) {
                 btn.innerHTML = 'Secure Login <i class="fas fa-lock"></i>';
                 btn.style.opacity = '1';
