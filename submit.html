@@ -174,7 +174,206 @@
 
                             <div class="md:col-span-2">
                                 <label class="form-label">Where is the business located/headquartered? <span class="text-xs text-green-600 ml-2 font-normal">(Visible on homepage ad)</span></label>
-                                <input name="district" type="text" class="form-input" placeholder="City, District, or Province" required>
+                                <select name="district" class="form-input" required>
+                                    <option value="" disabled selected>Select Location (Town/District)...</option>
+                                    
+                                    <optgroup label="Colombo District">
+                                        <option value="Colombo">Colombo (General)</option>
+                                        <option value="Colombo 1 - Fort">Colombo 1 - Fort</option>
+                                        <option value="Colombo 2 - Slave Island">Colombo 2 - Slave Island</option>
+                                        <option value="Colombo 3 - Colpetty">Colombo 3 - Colpetty</option>
+                                        <option value="Colombo 4 - Bambalapitiya">Colombo 4 - Bambalapitiya</option>
+                                        <option value="Colombo 5 - Havelock Town">Colombo 5 - Havelock Town / Kirulapone</option>
+                                        <option value="Colombo 6 - Wellawatte">Colombo 6 - Wellawatte</option>
+                                        <option value="Colombo 7 - Cinnamon Gardens">Colombo 7 - Cinnamon Gardens</option>
+                                        <option value="Colombo 8 - Borella">Colombo 8 - Borella</option>
+                                        <option value="Colombo 9 - Dematagoda">Colombo 9 - Dematagoda</option>
+                                        <option value="Colombo 10 - Maradana">Colombo 10 - Maradana</option>
+                                        <option value="Colombo 11 - Pettah">Colombo 11 - Pettah</option>
+                                        <option value="Colombo 12 - Hultsdorf">Colombo 12 - Hultsdorf</option>
+                                        <option value="Colombo 13 - Kotahena">Colombo 13 - Kotahena</option>
+                                        <option value="Colombo 14 - Grandpass">Colombo 14 - Grandpass</option>
+                                        <option value="Colombo 15 - Mutwal">Colombo 15 - Mutwal</option>
+                                        <option value="Dehiwala-Mount Lavinia">Dehiwala-Mount Lavinia</option>
+                                        <option value="Moratuwa">Moratuwa</option>
+                                        <option value="Sri Jayawardenepura Kotte">Sri Jayawardenepura Kotte (Nugegoda/Rajagiriya)</option>
+                                        <option value="Battaramulla">Battaramulla</option>
+                                        <option value="Maharagama">Maharagama</option>
+                                        <option value="Kaduwela">Kaduwela</option>
+                                        <option value="Malabe">Malabe</option>
+                                        <option value="Kesbewa">Kesbewa</option>
+                                        <option value="Homagama">Homagama</option>
+                                        <option value="Boralesgamuwa">Boralesgamuwa</option>
+                                        <option value="Kolonnawa">Kolonnawa</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Gampaha District">
+                                        <option value="Gampaha">Gampaha Town</option>
+                                        <option value="Negombo">Negombo</option>
+                                        <option value="Wattala">Wattala</option>
+                                        <option value="Ja-Ela">Ja-Ela</option>
+                                        <option value="Kiribathgoda">Kiribathgoda</option>
+                                        <option value="Kadawatha">Kadawatha</option>
+                                        <option value="Kelaniya">Kelaniya</option>
+                                        <option value="Minuwangoda">Minuwangoda</option>
+                                        <option value="Ragama">Ragama</option>
+                                        <option value="Veyangoda">Veyangoda</option>
+                                        <option value="Mirigama">Mirigama</option>
+                                        <option value="Biyagama">Biyagama</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Kalutara District">
+                                        <option value="Kalutara">Kalutara</option>
+                                        <option value="Panadura">Panadura</option>
+                                        <option value="Horana">Horana</option>
+                                        <option value="Beruwala">Beruwala</option>
+                                        <option value="Aluthgama">Aluthgama</option>
+                                        <option value="Matugama">Matugama</option>
+                                        <option value="Wadduwa">Wadduwa</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Kandy District">
+                                        <option value="Kandy">Kandy City</option>
+                                        <option value="Peradeniya">Peradeniya</option>
+                                        <option value="Katugastota">Katugastota</option>
+                                        <option value="Gampola">Gampola</option>
+                                        <option value="Nawalapitiya">Nawalapitiya</option>
+                                        <option value="Kundasale">Kundasale</option>
+                                        <option value="Pilimathalawa">Pilimathalawa</option>
+                                        <option value="Digana">Digana</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Matale District">
+                                        <option value="Matale">Matale</option>
+                                        <option value="Dambulla">Dambulla</option>
+                                        <option value="Sigiriya">Sigiriya</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Nuwara Eliya District">
+                                        <option value="Nuwara Eliya">Nuwara Eliya</option>
+                                        <option value="Hatton">Hatton</option>
+                                        <option value="Ginigathena">Ginigathena</option>
+                                        <option value="Talawakele">Talawakele</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Galle District">
+                                        <option value="Galle">Galle Fort/City</option>
+                                        <option value="Hikkaduwa">Hikkaduwa</option>
+                                        <option value="Ambalangoda">Ambalangoda</option>
+                                        <option value="Elpitiya">Elpitiya</option>
+                                        <option value="Karapitiya">Karapitiya</option>
+                                        <option value="Unawatuna">Unawatuna</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Matara District">
+                                        <option value="Matara">Matara Town</option>
+                                        <option value="Weligama">Weligama</option>
+                                        <option value="Mirissa">Mirissa</option>
+                                        <option value="Akuressa">Akuressa</option>
+                                        <option value="Deniyaya">Deniyaya</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Hambantota District">
+                                        <option value="Hambantota">Hambantota</option>
+                                        <option value="Tangalle">Tangalle</option>
+                                        <option value="Beliatta">Beliatta</option>
+                                        <option value="Ambalantota">Ambalantota</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Jaffna District">
+                                        <option value="Jaffna">Jaffna Town</option>
+                                        <option value="Chavakachcheri">Chavakachcheri</option>
+                                        <option value="Point Pedro">Point Pedro</option>
+                                        <option value="Nallur">Nallur</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Mannar District">
+                                        <option value="Mannar">Mannar</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Vavuniya District">
+                                        <option value="Vavuniya">Vavuniya</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Kilinochchi District">
+                                        <option value="Kilinochchi">Kilinochchi</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Mullaitivu District">
+                                        <option value="Mullaitivu">Mullaitivu</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Trincomalee District">
+                                        <option value="Trincomalee">Trincomalee</option>
+                                        <option value="Nilaveli">Nilaveli</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Batticaloa District">
+                                        <option value="Batticaloa">Batticaloa</option>
+                                        <option value="Kalkudah">Kalkudah</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Ampara District">
+                                        <option value="Ampara">Ampara</option>
+                                        <option value="Arugam Bay">Arugam Bay</option>
+                                        <option value="Kalmunai">Kalmunai</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Kurunegala District">
+                                        <option value="Kurunegala">Kurunegala Town</option>
+                                        <option value="Kuliyapitiya">Kuliyapitiya</option>
+                                        <option value="Wariyapola">Wariyapola</option>
+                                        <option value="Ibbagamuwa">Ibbagamuwa</option>
+                                        <option value="Pannala">Pannala</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Puttalam District">
+                                        <option value="Puttalam">Puttalam</option>
+                                        <option value="Chilaw">Chilaw</option>
+                                        <option value="Marawila">Marawila</option>
+                                        <option value="Dankotuwa">Dankotuwa</option>
+                                        <option value="Wennappuwa">Wennappuwa</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Anuradhapura District">
+                                        <option value="Anuradhapura">Anuradhapura</option>
+                                        <option value="Kekirawa">Kekirawa</option>
+                                        <option value="Eppawala">Eppawala</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Polonnaruwa District">
+                                        <option value="Polonnaruwa">Polonnaruwa</option>
+                                        <option value="Kaduruwela">Kaduruwela</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Badulla District">
+                                        <option value="Badulla">Badulla</option>
+                                        <option value="Bandarawela">Bandarawela</option>
+                                        <option value="Ella">Ella</option>
+                                        <option value="Haputale">Haputale</option>
+                                        <option value="Welimada">Welimada</option>
+                                        <option value="Mahiyanganaya">Mahiyanganaya</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Moneragala District">
+                                        <option value="Moneragala">Moneragala</option>
+                                        <option value="Wellawaya">Wellawaya</option>
+                                        <option value="Kataragama">Kataragama</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Ratnapura District">
+                                        <option value="Ratnapura">Ratnapura</option>
+                                        <option value="Balangoda">Balangoda</option>
+                                        <option value="Embilipitiya">Embilipitiya</option>
+                                    </optgroup>
+                                    
+                                    <optgroup label="Kegalle District">
+                                        <option value="Kegalle">Kegalle</option>
+                                        <option value="Mawanella">Mawanella</option>
+                                        <option value="Warakapola">Warakapola</option>
+                                        <option value="Ruwanwella">Ruwanwella</option>
+                                    </optgroup>
+                                </select>
                             </div>
 
                             <div>
