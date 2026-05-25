@@ -145,21 +145,23 @@
                 <h3 style="margin-bottom:20px; color:#003399;">Track Your Advertisements</h3>
                 <p style="font-size:0.9rem; color:#666; margin-bottom:20px;">View the current status of your submitted job postings.</p>
                 
-                <table class="status-table">
-                    <thead>
-                        <tr>
-                            <th>Ref Code</th>
-                            <th>Job Title</th>
-                            <th>Date Submitted</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                            <th>PDF</th>
-                        </tr>
-                    </thead>
-                    <tbody id="posts-table-body">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
+                <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+                    <table class="status-table">
+                        <thead>
+                            <tr>
+                                <th>Ref Code</th>
+                                <th>Job Title</th>
+                                <th>Date Submitted</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                <th>PDF</th>
+                            </tr>
+                        </thead>
+                        <tbody id="posts-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- SECTION 2: NEW POST FORM (Landing Page) -->

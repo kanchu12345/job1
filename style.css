@@ -690,10 +690,11 @@ a:hover {
 .tj-table td:first-child { font-weight: 700; }
 
 /* HelaInvest custom layout adjustments for mobile */
-.layout-container { flex-direction: column !important; }
-#sidebar-container { flex: none !important; width: 100% !important; position: static !important; max-height: none !important; margin-bottom: 20px; }
+.layout-container { flex-direction: column !important; min-width: 0 !important; width: 100%; overflow: hidden; }
+#sidebar-container { flex: none !important; width: 100% !important; position: static !important; max-height: none !important; margin-bottom: 20px; box-sizing: border-box; }
+.main-listings { width: 100% !important; overflow: hidden; box-sizing: border-box; }
 .header-nav-new { flex-wrap: wrap; justify-content: center !important; gap: 10px !important; }
-.ikman-filters-container .ikman-search-row { flex-direction: column; gap: 10px; }
+.ikman-filters-container .ikman-search-row { flex-direction: column; gap: 10px; width: 100%; box-sizing: border-box; }
 .ikman-filters-bar { flex-wrap: wrap; justify-content: center; }
 .ikman-filters-bar select, .ikman-filters-bar button { width: 100%; margin: 5px 0; }
 .header-actions-new { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 10px; }
@@ -1093,7 +1094,8 @@ a:hover {
 .search-container-new {
     display: flex;
     align-items: center;
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
 }
 .search-input-new {
     flex: 1;
