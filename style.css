@@ -692,9 +692,9 @@ a:hover {
 /* Removed mobile table flex hack to allow horizontal scrolling instead */
 
 /* HelaInvest custom layout adjustments for mobile */
-.layout-container { flex-direction: column !important; min-width: 0 !important; width: 100%; overflow: hidden; }
-#sidebar-container { flex: none !important; width: 100% !important; position: static !important; max-height: none !important; margin-bottom: 20px; box-sizing: border-box; }
-.main-listings { width: 100% !important; overflow: hidden; box-sizing: border-box; }
+.layout-container { flex-direction: column !important; min-width: 0 !important; width: 100%; overflow: visible !important; }
+#sidebar-container { flex: none !important; width: 100% !important; position: relative !important; top: 0 !important; max-height: none !important; margin-bottom: 20px; box-sizing: border-box; overflow: visible !important; }
+.main-listings { width: 100% !important; overflow: visible !important; box-sizing: border-box; }
 .header-nav-new { flex-wrap: wrap; justify-content: center !important; gap: 10px !important; }
 .ikman-filters-container .ikman-search-row { flex-direction: column; gap: 10px; width: 100%; box-sizing: border-box; }
 .ikman-filters-bar { flex-wrap: wrap; justify-content: center; }
