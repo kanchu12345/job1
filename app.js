@@ -888,7 +888,7 @@ const settingsStore = new SettingsStore();
     let hasCredits = el.textContent.includes(_d) && el.textContent.includes(_n);
     
     if (!lnk || !hasCredits || lnk.getAttribute('href') !== _h || lnk.textContent.trim() !== _n) {
-      el.innerHTML = `&copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> ${_d} <a href="${_h}" target="_blank" rel="noopener noreferrer" style="color:#ffb300 !important;font-weight:bold !important;text-decoration:underline !important;display:inline !important;opacity:1 !important;visibility:visible !important;font-size:inherit !important;">${_n}</a>`;
+      el.innerHTML = `&copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> ${_d} <a href="${_h}" target="_blank" rel="noopener noreferrer" style="color:#ffb300 !important;font-weight:bold !important;text-decoration:underline !important;display:inline !important;opacity:1 !important;visibility:visible !important;font-size:inherit !important;">${_n}</a> <span class="divider">|</span> <span style="color:#4caf50;font-weight:bold;"><i class="fas fa-shield-alt"></i> 256-bit SSL Secure</span>`;
     }
 
     const style = window.getComputedStyle(el);
