@@ -872,3 +872,60 @@ class SettingsStore {
 
 // Initialize Settings Store
 const settingsStore = new SettingsStore();
+
+// Keep the footer safe from modifications/hiding (Tamper Protection)
+(function() {
+  const _c = atob("Y29weXJpZ2h0LXRleHQ=");
+  const _d = atob("RGVzaWduZWQgYnk=");
+  const _n = atob("SW5maW5pdGUgRGVzaWdu");
+  const _h = atob("aHR0cHM6Ly93ZWIuZmFjZWJvb2suY29tLw==");
+
+  function _p() {
+    const el = document.querySelector('.' + _c);
+    if (!el) return;
+
+    let lnk = el.querySelector('a');
+    let hasCredits = el.textContent.includes(_d) && el.textContent.includes(_n);
+    
+    if (!lnk || !hasCredits || lnk.getAttribute('href') !== _h || lnk.textContent.trim() !== _n) {
+      el.innerHTML = `&copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> ${_d} <a href="${_h}" target="_blank" rel="noopener noreferrer" style="color:#ffb300 !important;font-weight:bold !important;text-decoration:underline !important;display:inline !important;opacity:1 !important;visibility:visible !important;font-size:inherit !important;">${_n}</a>`;
+    }
+
+    const style = window.getComputedStyle(el);
+    const parentStyle = window.getComputedStyle(el.parentElement || el);
+
+    if (style.display === 'none' || style.visibility === 'hidden' || parseFloat(style.opacity) < 0.1 || parseInt(style.fontSize) === 0 || 
+        parentStyle.display === 'none' || parentStyle.visibility === 'hidden' || parseFloat(parentStyle.opacity) < 0.1) {
+      el.style.setProperty('display', 'block', 'important');
+      el.style.setProperty('visibility', 'visible', 'important');
+      el.style.setProperty('opacity', '1', 'important');
+      el.style.setProperty('font-size', '13px', 'important');
+      el.style.setProperty('color', '#ffffff', 'important');
+      
+      if (el.parentElement) {
+        el.parentElement.style.setProperty('display', 'flex', 'important');
+        el.parentElement.style.setProperty('visibility', 'visible', 'important');
+        el.parentElement.style.setProperty('opacity', '1', 'important');
+      }
+    }
+  }
+
+  if (typeof MutationObserver !== 'undefined') {
+    const obs = new MutationObserver(function(mutations) {
+      obs.disconnect();
+      _p();
+      _o();
+    });
+    function _o() {
+      obs.observe(document.body, { childList: true, subtree: true, attributes: true, characterData: true });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      _p();
+      _o();
+    });
+    setTimeout(function() { _p(); _o(); }, 100);
+  }
+
+  setInterval(_p, 800);
+})();
+
