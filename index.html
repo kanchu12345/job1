@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css?v=10">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* ── DESKTOP LAYOUT ── */
+        /* â”€â”€ DESKTOP LAYOUT â”€â”€ */
         html, body {
             margin: 0; padding: 0;
             height: 100vh;
@@ -42,7 +42,7 @@
         }
         .top-bar-new, .main-header-new, .hela-footer-thin { position: relative; z-index: 1010; }
 
-        /* ── MOBILE LAYOUT ── */
+        /* â”€â”€ MOBILE LAYOUT â”€â”€ */
         @media screen and (max-width: 1024px) {
             html, body {
                 height: auto !important;
@@ -293,7 +293,7 @@
         const categories = (typeof categoryStore !== 'undefined') ? categoryStore.getAll() : [];
         const sidebarContainer = document.getElementById('sidebar-container');
 
-        // ── Sidebar rendering ──
+        // â”€â”€ Sidebar rendering â”€â”€
         window.renderSidebarMain = function() {
             if (!sidebarContainer) return;
             let html = `<h3 style="font-size:1.05rem;color:#fff;margin:0;padding:14px 15px;background:#0a3578;font-weight:bold;border-bottom:3px solid #cc9900;">Business Categories</h3><ul style="list-style:none;padding:0;margin:0;">`;
@@ -325,7 +325,7 @@
 
         renderSidebarMain();
 
-        // ── Load listings ──
+        // â”€â”€ Load listings â”€â”€
         let allListings = [];
         try {
             await store.seedDummyListings();
@@ -365,7 +365,7 @@
             return 'LKR '+n.toLocaleString();
         }
 
-        // ── Render: TABLE (desktop) ──
+        // â”€â”€ Render: TABLE (desktop) â”€â”€
         function renderTable(listings) {
             tbody.innerHTML = '';
             if (!listings.length) {
@@ -381,7 +381,7 @@
                 tr.onmouseout  = function() { this.style.backgroundColor = l.boosted ? '#fffbea' : 'transparent'; };
                 
                 const desc = (l.shortdesc || l.shortDescription || l.fullDescription || 'N/A');
-                const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;">⭐</span>' : '';
+                const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;">â­</span>' : '';
                 const industry = l.industry || 'N/A';
                 const location = l.district || 'N/A';
                 
@@ -389,7 +389,7 @@
                     <td style="font-weight:700; color:#0d47a1; white-space:nowrap;">${formatLKR(l.investmentRequired)}</td>
                     <td style="font-weight:600; white-space:nowrap;"><span style="background:#e0e7ff; color:#3730a3; padding:4px 10px; border-radius:12px; font-size:0.75rem;">${l.businessStage||'N/A'}</span></td>
                     <td style="white-space:nowrap; font-weight:500; color:#475569;">${industry}</td>
-                    <td style="white-space:nowrap; font-weight:600; color:#0f172a;">📍 ${location}</td>
+                    <td style="white-space:nowrap; font-weight:600; color:#0f172a;">ðŸ“ ${location}</td>
                     <td class="biz-title" style="min-width:320px; max-width:550px; word-break:break-word; white-space:normal; line-height:1.4;">
                         ${badge}<span style="font-weight:700; color:#0f172a; display:block; margin-bottom:4px;">${l.businessName || 'Business Opportunity'}</span>
                         <span style="font-size:0.85rem; color:#475569; display:block;">${desc}</span>
@@ -399,7 +399,7 @@
             });
         }
 
-        // ── Render: CARDS (mobile) ──
+        // â”€â”€ Render: CARDS (mobile) â”€â”€
         function renderCards(listings) {
             cardsEl.innerHTML = '';
             if (!listings.length) {
@@ -413,11 +413,11 @@
                 card.style.cssText = 'background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);border-left:4px solid '+(l.boosted?'#cc9900':'#0d47a1')+';';
                 card.onclick = () => window.location.href = `listing-detail.html?id=${l.id}`;
                 card.innerHTML = `
-                    <div style="font-weight:700;color:#0d47a1;font-size:0.97rem;margin-bottom:8px;line-height:1.4;">${l.boosted?'⭐ ':''}${snippet}</div>
+                    <div style="font-weight:700;color:#0d47a1;font-size:0.97rem;margin-bottom:8px;line-height:1.4;">${l.boosted?'â­ ':''}${snippet}</div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <span style="background:#0d47a1;color:#fff;padding:4px 10px;border-radius:20px;font-size:0.76rem;font-weight:600;">${formatLKR(l.investmentRequired)}</span>
                         <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">${l.businessStage||'N/A'}</span>
-                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">📍 ${l.district||'N/A'}</span>
+                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">ðŸ“ ${l.district||'N/A'}</span>
                     </div>
                 `;
                 cardsEl.appendChild(card);
@@ -428,7 +428,7 @@
 
         renderListings(allListings);
 
-        // ── Filtering ──
+        // â”€â”€ Filtering â”€â”€
         function applyFilters() {
             const kw  = (searchInput ? searchInput.value : '').toLowerCase().trim();
             const ind = filterIndustry.value || selectedSubcategory;
@@ -521,7 +521,7 @@
     <div class="footer-thin-bottom">
         <div class="container footer-thin-bottom-inner">
             <div class="copyright-text">
-                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Infinite Design</a> <span class="divider">|</span> <span style="color:#4caf50;font-weight:bold;"><i class="fas fa-shield-alt"></i> 256-bit SSL Secure</span>
+                &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Infinite Design</a>
             </div>
             <div class="social-icons">
                 <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
