@@ -1678,7 +1678,7 @@ a:hover {
 .ikman-search-row {
     display: flex;
     gap: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     align-items: center;
 }
 
@@ -1726,11 +1726,11 @@ a:hover {
 }
 
 .pill-btn, .pill-select {
-    padding: 10px 20px;
+    padding: 5px 15px;
     border: 1px solid #e2e8f0;
     border-radius: 30px;
     background: #fff;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: #475569;
     cursor: pointer;
