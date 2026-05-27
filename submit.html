@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -248,7 +248,7 @@
                                 </div>
                                 <div>
                                     <label class="form-label">Contact Number</label>
-                                    <input name="phone" type="tel" class="form-input" placeholder="+94 77 123 4567" required>
+                                    <input name="phone" type="tel" class="form-input" placeholder="+94 77 123 4567" minlength="10" maxlength="15" pattern="[\+0-9\s\-]+" title="Please enter a valid phone number (e.g. +94 77 123 4567)" required>
                                 </div>
                                 <div class="md:col-span-2">
                                     <label class="form-label">Business Email Address</label>
@@ -361,39 +361,39 @@
                             <h4 class="text-md font-bold text-gray-800 mb-4">My services are:</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Business Registration" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Business Registration" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Business Registration</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Company Secretarial services" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Company Secretarial services" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Company Secretarial services</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Accounting & Bookkeeping" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Accounting & Bookkeeping" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Accounting & Bookkeeping</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Business Valuation" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Business Valuation" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Business Valuation</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Financial Due Diligence" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Financial Due Diligence" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Financial Due Diligence</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Business plans" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Business plans" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Business plans</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Business Proposals" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Business Proposals" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Business Proposals</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Tax advisory" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Tax advisory" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Tax advisory</span>
                                 </label>
                                 <label class="flex items-center gap-2 p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                                    <input type="radio" name="service" value="Other Business Advisory services" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
+                                    <input type="checkbox" name="services" value="Other Business Advisory services" class="text-primary focus:ring-primary w-4 h-4 border-gray-300">
                                     <span class="text-sm text-gray-700">Other Business Advisory services</span>
                                 </label>
                             </div>
@@ -636,6 +636,7 @@
                     // Collect Data
                     const formData = new FormData(form);
                     const newListing = Object.fromEntries(formData.entries());
+                    newListing.services = formData.getAll('services');
                     newListing.refCode = refCode;
                     newListing.status = 'pending';
                     newListing.images = uploadedFiles.map(f => f.base64);
