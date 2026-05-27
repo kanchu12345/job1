@@ -378,6 +378,15 @@ class AuthStore {
       
       const newUser = { name, email, role };
       await window.db.collection('users').doc(user.uid).set(newUser);
+      
+      const sessionUser = {
+          id: user.uid,
+          name: name,
+          email: email,
+          role: role
+      };
+      SafeStorage.setItem(this.sessionKey, JSON.stringify(sessionUser));
+      
       return { id: user.uid, ...newUser };
     }
     throw new Error("Firebase not initialized");
@@ -387,6 +396,15 @@ class AuthStore {
     if (window.auth) {
       const userCredential = await window.auth.signInWithEmailAndPassword(email, password);
       const role = await this.getUserRoleLocally(userCredential.user.uid);
+      
+      const sessionUser = {
+          id: userCredential.user.uid,
+          name: userCredential.user.displayName || userCredential.user.email.split('@')[0],
+          email: userCredential.user.email,
+          role: role || 'client'
+      };
+      SafeStorage.setItem(this.sessionKey, JSON.stringify(sessionUser));
+      
       return Object.assign(userCredential.user, { role: role });
     }
     throw new Error("Firebase not initialized");
@@ -398,6 +416,7 @@ class AuthStore {
       const userCredential = await window.auth.signInWithPopup(provider);
       const user = userCredential.user;
       
+      let userRole = role;
       const doc = await window.db.collection('users').doc(user.uid).get();
       if (!doc.exists) {
         await window.db.collection('users').doc(user.uid).set({
@@ -405,8 +424,19 @@ class AuthStore {
           email: user.email,
           role: role
         });
+      } else {
+        userRole = doc.data().role;
       }
-      return user;
+      
+      const sessionUser = {
+          id: user.uid,
+          name: user.displayName || user.email.split('@')[0],
+          email: user.email,
+          role: userRole
+      };
+      SafeStorage.setItem(this.sessionKey, JSON.stringify(sessionUser));
+      
+      return Object.assign(user, { role: userRole });
     }
     throw new Error("Firebase not initialized");
   }
