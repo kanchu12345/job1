@@ -238,6 +238,16 @@
             <div id="tab-proposals" class="tab-pane">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <p style="color: #666; margin: 0;">Review and verify business advertisements before they go live.</p>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <label for="filter-status" style="font-weight: 600; color: #333;">Filter Status:</label>
+                        <select id="filter-status" onchange="filterProposals()" style="padding: 8px; border-radius: 4px; border: 1px solid #ccc; background: #fff;">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="published">Published</option>
+                            <option value="expired">Expired</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <table class="adv-table">
@@ -247,6 +257,7 @@
                             <th>Business / User</th>
                             <th>Industry</th>
                             <th>Requested (LKR)</th>
+                            <th>Expiry</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -493,7 +504,12 @@
                 document.getElementById('stat-published').innerText = listings.filter(l => l.status === 'published').length;
                 document.getElementById('stat-users').innerText = users.length;
 
-                renderProposals(listings);
+                window.allListings = listings;
+                if (typeof window.filterProposals === 'function') {
+                    window.filterProposals();
+                } else {
+                    renderProposals(listings);
+                }
                 renderCategories(categories);
                 
                 // Populate Settings Form
@@ -616,6 +632,29 @@
             }
         }
 
+        window.filterProposals = function() {
+            if (!window.allListings) return;
+            const filterValue = document.getElementById('filter-status').value;
+            let filtered = window.allListings;
+            if (filterValue !== 'all') {
+                filtered = window.allListings.filter(l => {
+                    if (filterValue === 'pending') {
+                        return ['pending', 'pending_payment', 'review'].includes(l.status);
+                    }
+                    return l.status === filterValue;
+                });
+            }
+            renderProposals(filtered);
+        };
+
+        window.setExpiry = async function(id, days) {
+            if (confirm(`Set expiry date to ${days} days from now?`)) {
+                const expiryDate = Date.now() + (days * 24 * 60 * 60 * 1000);
+                await store.update(id, { expiryDate: expiryDate });
+                loadData();
+            }
+        };
+
         // --- Render Proposals (Simplified Status Workflow) ---
         function renderProposals(listings) {
             const tbody = document.getElementById('proposals-body');
@@ -672,8 +711,38 @@
                 // Add PDF button to actions
                 actionBtns += ` <button class="btn-action btn-edit" onclick="generateListingPDF('${l.id}')" title="Download PDF"><i class="fas fa-file-pdf"></i> PDF</button>`;
 
+                let expiryText = '<span style="color:#999; font-size:0.85rem;">Not set</span>';
+                let rowStyle = '';
+                
+                if (l.status === 'published' && !l.expiryDate) {
+                    expiryText += `
+                        <div style="margin-top:5px;">
+                            <button onclick="setExpiry('${l.id}', 30)" style="padding: 2px 5px; font-size: 0.7rem; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 3px;">+30d</button>
+                            <button onclick="setExpiry('${l.id}', 60)" style="padding: 2px 5px; font-size: 0.7rem; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 3px;">+60d</button>
+                        </div>
+                    `;
+                } else if (l.expiryDate) {
+                    const remaining = l.expiryDate - Date.now();
+                    const days = Math.ceil(remaining / (1000 * 60 * 60 * 24));
+                    if (days <= 0) {
+                        expiryText = '<span style="color:#dc3545; font-weight:bold;">Expired</span>';
+                        rowStyle = 'background-color: #ffe6e6;';
+                    } else {
+                        expiryText = `<span style="color:#28a745; font-weight:bold;">${days} days left</span>`;
+                    }
+                    
+                    if (l.status === 'published') {
+                        expiryText += `
+                            <div style="margin-top:5px;">
+                                <button onclick="setExpiry('${l.id}', 30)" style="padding: 2px 5px; font-size: 0.7rem; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 3px;">+30d</button>
+                                <button onclick="setExpiry('${l.id}', 60)" style="padding: 2px 5px; font-size: 0.7rem; cursor: pointer; background: #eee; border: 1px solid #ccc; border-radius: 3px;">+60d</button>
+                            </div>
+                        `;
+                    }
+                }
+
                 html += `
-                    <tr>
+                    <tr style="${rowStyle}">
                         <td style="font-weight:700; color:#cc0000;">${l.refCode || 'N/A'}</td>
                         <td>
                             <strong>${l.businessName || 'Business Proposal'}</strong><br>
@@ -682,6 +751,7 @@
                         </td>
                         <td>${l.industry || 'N/A'}</td>
                         <td style="font-weight:600;">${formatLKR(l.investmentRequired || 0)}</td>
+                        <td>${expiryText}</td>
                         <td>${statusBadge}</td>
                         <td>${actionBtns}</td>
                     </tr>
