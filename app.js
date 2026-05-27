@@ -27,6 +27,14 @@ const SafeStorage = {
   }
 };
 
+// Simple HTML Sanitizer to prevent XSS
+function sanitizeHTML(str) {
+    if (typeof str !== 'string') return str;
+    const temp = document.createElement('div');
+    temp.textContent = str;
+    return temp.innerHTML;
+}
+
 // Data model for listings
 class ListingStore {
   constructor() {
@@ -456,8 +464,30 @@ function updateGlobalAuthUI() {
     if (btnUpload && window.currentListing) {
         btnUpload.addEventListener('click', async () => {
             if (!imageInput.files.length) { alert('Select images to upload'); return; }
+            
+            // Client-side validation: Max 5MB, Image types only
+            const validFiles = [];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            for (let i = 0; i < imageInput.files.length; i++) {
+                const file = imageInput.files[i];
+                if (!file.type.startsWith('image/')) {
+                    alert(`File "${file.name}" is not an image and will be skipped.`);
+                    continue;
+                }
+                if (file.size > maxSize) {
+                    alert(`File "${file.name}" is too large (max 5MB) and will be skipped.`);
+                    continue;
+                }
+                validFiles.push(file);
+            }
+
+            if (validFiles.length === 0) {
+                alert('No valid images to upload.');
+                return;
+            }
+
             const storage = firebase.storage();
-            const promises = Array.from(imageInput.files).map(file => {
+            const promises = validFiles.map(file => {
                 const ref = storage.ref(`listings/${window.currentListing.id}/${file.name}`);
                 return ref.put(file).then(snap => snap.ref.getDownloadURL());
             });
