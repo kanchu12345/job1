@@ -1080,7 +1080,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 0;
+    padding: 0px 0;
 }
 
 .logo-new {
@@ -1252,7 +1252,7 @@ a:hover {
     background-color: #0b4cb4; /* Deep blue from image */
     color: white;
     font-size: 13px;
-    padding: 6px 0;
+    padding: 2px 0;
 }
 .top-bar-new .container {
     display: flex;
@@ -1276,7 +1276,7 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 0;
+    padding: 0px 0;
 }
 
 .logo-new {
