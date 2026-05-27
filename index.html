@@ -381,7 +381,7 @@
                 tr.onmouseout  = function() { this.style.backgroundColor = l.boosted ? '#fffbea' : 'transparent'; };
                 
                 const desc = (l.shortdesc || l.shortDescription || l.fullDescription || 'N/A');
-                const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;">â­</span>' : '';
+                const badge = l.boosted ? '<span style="color:#f59e0b;margin-right:5px;"><i class="fas fa-star"></i></span>' : '';
                 const industry = l.industry || 'N/A';
                 const location = l.district || 'N/A';
                 
@@ -389,7 +389,7 @@
                     <td style="font-weight:700; color:#0d47a1; white-space:nowrap;">${formatLKR(l.investmentRequired)}</td>
                     <td style="font-weight:600; white-space:nowrap;"><span style="background:#e0e7ff; color:#3730a3; padding:4px 10px; border-radius:12px; font-size:0.75rem;">${l.businessStage||'N/A'}</span></td>
                     <td style="white-space:nowrap; font-weight:500; color:#475569;">${industry}</td>
-                    <td style="white-space:nowrap; font-weight:600; color:#0f172a;">ðŸ“ ${location}</td>
+                    <td style="white-space:nowrap; font-weight:600; color:#0f172a;"><i class="fas fa-map-marker-alt" style="color:#ef4444; margin-right:4px;"></i> ${location}</td>
                     <td class="biz-title" style="min-width:320px; max-width:550px; word-break:break-word; white-space:normal; line-height:1.4;">
                         ${badge}<span style="font-weight:700; color:#0f172a; display:block; margin-bottom:4px;">${l.businessName || 'Business Opportunity'}</span>
                         <span style="font-size:0.85rem; color:#475569; display:block;">${desc}</span>
@@ -413,11 +413,11 @@
                 card.style.cssText = 'background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.06);border-left:4px solid '+(l.boosted?'#cc9900':'#0d47a1')+';';
                 card.onclick = () => window.location.href = `listing-detail.html?id=${l.id}`;
                 card.innerHTML = `
-                    <div style="font-weight:700;color:#0d47a1;font-size:0.97rem;margin-bottom:8px;line-height:1.4;">${l.boosted?'â­ ':''}${snippet}</div>
+                    <div style="font-weight:700;color:#0d47a1;font-size:0.97rem;margin-bottom:8px;line-height:1.4;">${l.boosted?'<i class="fas fa-star" style="color:#f59e0b; margin-right:4px;"></i> ':''}${snippet}</div>
                     <div style="display:flex;gap:8px;flex-wrap:wrap;">
                         <span style="background:#0d47a1;color:#fff;padding:4px 10px;border-radius:20px;font-size:0.76rem;font-weight:600;">${formatLKR(l.investmentRequired)}</span>
                         <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">${l.businessStage||'N/A'}</span>
-                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;">ðŸ“ ${l.district||'N/A'}</span>
+                        <span style="background:#f1f5f9;color:#475569;padding:4px 10px;border-radius:20px;font-size:0.76rem;"><i class="fas fa-map-marker-alt" style="color:#ef4444; margin-right:4px;"></i> ${l.district||'N/A'}</span>
                     </div>
                 `;
                 cardsEl.appendChild(card);
