@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { background: #f4f6f9; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body { background: #f4f6f9; font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+        .admin-flex-row { display: flex; flex: 1; overflow: hidden; width: 100%; }
         
         /* Login Screen */
         .admin-login-wrapper {
@@ -169,6 +170,7 @@
     </script>
 
     <!-- Advanced Sidebar Layout -->
+    <div class="admin-flex-row">
     <div class="sidebar">
         <div class="sidebar-header">
             HelaInvest<span style="color:#fff;">Admin</span>
@@ -334,42 +336,42 @@
             </div>
 
         </div>
-
-            <!-- Footer inside content-area so it doesn't break flex layout of body -->
-            <footer class="hela-footer-thin" style="margin-top: 30px; border-radius: 8px; overflow: hidden;">
-                <div class="container" style="max-width: 100%;">
-                    <div class="footer-thin-links">
-                        <a href="index.html">Home</a>
-                        <span class="divider">|</span>
-                        <a href="sitemap.html">Site Map</a>
-                        <span class="divider">|</span>
-                        <a href="contact.html">Contact Us</a>
-                        <span class="divider">|</span>
-                        <a href="terms.html">Terms of Service</a>
-                        <span class="divider">|</span>
-                        <a href="privacy.html">Privacy Policy</a>
-                        <span class="divider">|</span>
-                        <a href="faq.html">Help &amp; Support</a>
-                        <span class="divider">|</span>
-                        <a href="admin.html?v=5">Admin</a>
-                    </div>
-                </div>
-                <div class="footer-thin-bottom">
-                    <div class="container footer-thin-bottom-inner" style="max-width: 100%;">
-                        <div class="copyright-text">
-                            &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Infinite Design</a>
-                        </div>
-                        <div class="social-icons">
-                            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
     </div>
+    </div>
+
+    <!-- Footer outside the flex row, at the bottom of the page -->
+    <footer class="hela-footer-thin" style="z-index: 1000; position: relative;">
+        <div class="container">
+            <div class="footer-thin-links">
+                <a href="index.html">Home</a>
+                <span class="divider">|</span>
+                <a href="sitemap.html">Site Map</a>
+                <span class="divider">|</span>
+                <a href="contact.html">Contact Us</a>
+                <span class="divider">|</span>
+                <a href="terms.html">Terms of Service</a>
+                <span class="divider">|</span>
+                <a href="privacy.html">Privacy Policy</a>
+                <span class="divider">|</span>
+                <a href="faq.html">Help &amp; Support</a>
+                <span class="divider">|</span>
+                <a href="admin.html?v=5">Admin</a>
+            </div>
+        </div>
+        <div class="footer-thin-bottom">
+            <div class="container footer-thin-bottom-inner">
+                <div class="copyright-text">
+                    &copy; 2026 HelaInvest. All rights reserved. <span class="divider">|</span> Designed by <a href="https://web.facebook.com/" target="_blank" rel="noopener noreferrer">Infinite Design</a>
+                </div>
+                <div class="social-icons">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <!-- Advanced Details Modal (Proposals) -->
     <div id="detail-modal" class="modal-overlay">
