@@ -1981,10 +1981,14 @@ a:hover {
 }
 .hela-footer-thin .footer-thin-bottom-inner {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    position: relative;
     font-size: 0.8rem;
     color: #94a3b8;
+}
+.hela-footer-thin .copyright-text {
+    text-align: center;
 }
 .hela-footer-thin .footer-thin-bottom-inner a {
     color: #ffb300;
@@ -1996,6 +2000,8 @@ a:hover {
     color: #ff8f00;
 }
 .hela-footer-thin .social-icons {
+    position: absolute;
+    left: 20px;
     display: flex;
     gap: 15px;
     align-items: center;
@@ -2024,5 +2030,9 @@ a:hover {
         flex-direction: column;
         gap: 8px;
         text-align: center;
+    }
+    .hela-footer-thin .social-icons {
+        position: static;
+        justify-content: center;
     }
 }
